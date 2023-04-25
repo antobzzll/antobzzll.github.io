@@ -1,0 +1,455 @@
+---
+title: '🛒 Sales & Market Basket Analysis'
+subtitle: 'Bundled deals for an untapped market'
+abstract: 'Through the analysis of one year of sales data from an e-commerce website, I was able to identify for the firm a promising market with untapped potential, and implement a marketing strategy to target it using bundle deals tailored to the specific preferences of its consumers.'
+author: 'Antonio Buzzelli'
+date: "2023-04-02"
+jupyter: python3
+# code-fold: true
+# draft: true
+categories: [Online Retail, Market Basket Analysis]
+---
+
+The e-commerce industry has experienced significant growth in recent years, and online sales have become an increasingly important aspect of many businesses. Analyzing sales data can help businesses understand customer behavior and identify trends, which can then be used to improve their overall sales strategies and revenue. In this notebook, we will be analyzing a sales dataset from an e-commerce company to gain insights into their sales patterns and identify profitable opportunities.
+
+Our analysis will cover various aspects of the data, including temporal trends and customer geographical segmentation. We will also be performing a market basket analysis to identify relationships between products and suggest strategies for improving sales. By the end of this notebook, we aim to provide a comprehensive understanding of the sales data, which can then be used to make informed decisions and drive business growth.
+
+# Key findings and achievements
+
+* Even though the majority of the volume of sales is concentrated in the UK, the most performing region in terms of average revenue is Asia. The ANOVA analysis shows that the **mean purchase value in the Asia/Pacific region is consistently and significantly higher** than the mean purchase value in the other regions. We can infer that the Asia/Pacific region is a potentially lucrative market with higher average purchase amounts than the other regions. Therefore, the store may want to consider investing more resources in this region to take advantage of this opportunity to increase volume of sales.
+* By conducting a **market basket analysis** with a focus on the Asian market, we have identified groups of products that are commonly bought together. This has helped us uncover the specific preferences and purchasing patterns of this region. The firm could use this information to create bundled offers that combine these item sets and boost sales volume in the Asian market, ultimately leading to an increase in revenue.
+
+___
+
+
+```{python}
+import numpy as np
+import pandas as pd
+
+# dataviz
+import matplotlib.pyplot as plt
+import seaborn as sns
+# from jupyterthemes import jtplot
+# jtplot.style(theme='monokai', context='notebook', grid=False)
+
+# hypothesis testing
+from scipy.stats import ttest_ind
+from scipy.stats import f_oneway
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+
+# market basket analysis
+from itertools import permutations
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+from pandas.plotting import parallel_coordinates
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+```
+
+# Data
+
+In this first part of the notebook we will import the data and prepare it for analysis.
+
+```{python}
+df = pd.read_csv('../../_data/sales.csv')
+df.info()
+```
+
+```{python}
+df
+```
+
+Here above, a glimpse of the data at our disposal. The dataset is composed by the following original variables:
+
+* TransactionNo (categorical): a six-digit unique number that defines each transaction. The letter “C” in the code indicates a cancellation.
+* Date (numeric): the date when each transaction was generated.
+* ProductNo (categorical): a five or six-digit unique character used to identify a specific product.
+* Product (categorical): product/item name.
+* Price (numeric): the price of each product per unit in pound sterling (£).
+* Quantity (numeric): the quantity of each product per transaction. Negative values related to cancelled transactions.
+* CustomerNo (categorical): a five-digit unique number that defines each customer.
+* Country (categorical): name of the country where the customer resides.
+
+Here below, we perform some operations to validate the type of variable, create an `Amount` column, and check the presence of missing values.
+
+```{python}
+# Validating variable types
+df['Date'] = pd.to_datetime(df['Date'])
+df[['ProductNo', 'CustomerNo']] = df[['ProductNo', 'CustomerNo']].astype('object')
+
+# Splitting `Date` column
+df['Month'] = df['Date'].dt.month
+df['Weekday'] = df['Date'].dt.weekday
+df['WeekdayName'] = df['Date'].dt.day_name()
+df['Day'] = df['Date'].dt.day
+
+# Creating a `TotalPrice` colum
+df['Amount'] = df['Quantity'] * df['Price']
+```
+
+```{python}
+(df.isnull().sum() / df.shape[0]).sort_values(ascending=False)
+```
+
+```{python}
+nulls = df[df['CustomerNo'].isnull()]
+nulls.head()
+```
+
+The missing values in the dataset are only related to the `CustomerNo` column for a very small part that doesn't impact our analysis.
+
+# Sales analysis
+
+We will now be analyzing online sales data from a one-year period spanning from 2018-12-01 to 2019-11-30. The first type of analysis will focus on the **temporal aspect** of the data. This analysis aims to understand the sales evolution over time, as well as identify trends within months and weeks. The second type of analysis will center around examining the **regional spread of sales** in order to evaluate the existing market segmentation and gain insights into potential opportunities.
+
+```{python}
+# Subsetting for one exact year
+df = df[df['Date'] <= '2019-11-30']
+```
+
+## Monthly evolution
+
+```{python}
+month_evo = df.groupby(pd.Grouper(key='Date', freq='M')).agg(
+    sold=('Amount','sum'), returned=('Amount', lambda x: sum(x[x < 0])),
+    nunique=('TransactionNo', 'nunique'))
+month_evo['sold_moving_avg'] = month_evo['sold'].rolling(window=3).mean()
+month_evo['returned'] = month_evo['returned'].abs()
+month_evo.index = month_evo.index.date
+month_evo
+```
+
+```{python}
+month_evo_sum = month_evo[['sold', 'returned']].sum(axis=1)
+month_evo_pct = month_evo[['sold', 'returned']].div(month_evo_sum, axis=0)
+```
+
+```{python}
+fig, ax = plt.subplots(2, 1, figsize=(15,10))
+month_evo[['sold', 'returned']].plot.bar(ax=ax[0])
+ax[0].set_ylabel('Revenue (GBP)')
+ax[0].set_xlabel('Month')
+ax[0].set_title("Monthly evolution of sales and returns")
+ax[0].grid(axis='y')
+
+month_evo_pct.plot.bar(stacked=True, ax=ax[1])
+ax[1].set_ylabel('Percentage')
+ax[1].set_xlabel('Month')
+ax[1].set_title("Monthly relative amounts of sold and returned")
+ax[1].grid(axis='y')
+
+plt.subplots_adjust(hspace=0.5)
+plt.show()
+```
+
+```{python}
+fig, ax1 = plt.subplots(figsize=(15,5))
+ax2 = plt.twinx()
+ax1.plot(month_evo.index, month_evo['sold'], label='Revenue')
+ax1.plot(month_evo.index, month_evo['sold_moving_avg'], label='3-month revenue moving average')
+ax2.bar(month_evo.index, month_evo['nunique'], width=8, label='Volume', alpha=0.25)
+
+ax1.set_ylabel('Revenue (GBP)')
+ax2.set_ylabel('Volume')
+ax1.set_xlabel('Month')
+plt.title("Monthly evolution of sales")
+plt.grid(True)
+ax1.legend(loc=(0.025,0.85))
+ax2.legend(loc=(0.3,0.85))
+
+plt.show()
+```
+
+> An **increased volume of sales and revenue** is clearly visible **during the last months of the year**, from September to December.
+
+## Intra-month analysis
+
+```{python}
+df = df[df['Quantity'] > 0]
+
+bydate = df.groupby('Date').agg(
+    UniqueTransactions=('TransactionNo', 'nunique'),
+    UniqueProdSold=('TransactionNo', 'count'),
+    ProdSold=('Quantity', 'sum'),
+    Revenue=('Amount', 'sum')
+    ).reset_index()
+bydate['Day'] = bydate['Date'].dt.day
+bydate['Weekday'] = bydate['Date'].dt.weekday
+bydate['Month'] = bydate['Date'].dt.month
+
+bydate['WeekdayName'] = bydate['Date'].dt.day_name()
+bydate
+```
+
+```{python}
+byday = bydate.groupby('Day')[['UniqueTransactions', 'UniqueProdSold', 'ProdSold', 'Revenue']].mean()
+byday.columns = ['DailyAvgUniqueTransactions', 'DailyAvgUniqueProdSold', 'DailyAvgProdSold', 'DailyAvgRev']
+byday = byday.sort_index()
+byday.head()
+```
+
+```{python}
+rev_coefficients = np.polyfit(byday.index.values, byday['DailyAvgRev'].values, 5)
+rev_regression_line = np.poly1d(rev_coefficients)
+
+fig, ax1 = plt.subplots(figsize=(15,5))
+ax2 = plt.twinx()
+ax2.plot(byday.index, byday['DailyAvgRev'], label='Daily average revenue', alpha=0.3)
+ax1.bar(byday.index, byday['DailyAvgUniqueTransactions'], label='Daily average unique transactions', alpha=0.1)
+ax2.plot(rev_regression_line(byday.index.values), label='Regression line')
+ax2.axhline(byday['DailyAvgRev'].mean(), color='b', linestyle='dashed', linewidth=1, label='Monthly average')
+
+ax1.set_ylabel('N. transactions')
+ax2.set_ylabel('Revenue (GBP)')
+plt.title("Intra-month sales analysis")
+plt.grid(True)
+ax1.legend(loc='upper left')
+ax1.set_xlabel('Day')
+ax2.legend()
+
+plt.show()
+```
+
+> By analyzing the revenue data within a month, we can observe that the daily average revenue varies throughout the month. The revenue reaches its peak at around three-quarters of the month and dips to its lowest point just before the end of the month. However, it starts to increase again just before the last few days. The dip in revenue just before the end of the month is considered normal as it coincides with the time when people typically receive their salaries.
+
+## Intra-week analysis
+
+```{python}
+byweekday = bydate.groupby(['Weekday', 'WeekdayName'])[['UniqueTransactions', 'UniqueProdSold', 'ProdSold', 'Revenue']].mean()
+byweekday.columns = ['DailyAvgUniqueTransactions', 'DailyAvgUniqueProdSold', 'DailyAvgProdSold', 'DailyAvgRev']
+byweekday = byweekday.reset_index().set_index('Weekday')
+byweekday.index = byweekday.index + 1
+byweekday
+```
+
+```{python}
+rev_coefficients = np.polyfit(byweekday.index.values, byweekday['DailyAvgRev'].values, 2)
+rev_regression_line = np.poly1d(rev_coefficients)
+
+fig, ax1 = plt.subplots(figsize=(15,5))
+ax2 = plt.twinx()
+ax2.plot(byweekday['WeekdayName'], byweekday['DailyAvgRev'], label='Daily average revenue', alpha=0.3)
+ax1.bar(byweekday['WeekdayName'], byweekday['DailyAvgUniqueTransactions'], label='Daily average unique transactions', alpha=0.1)
+ax2.plot(rev_regression_line(byweekday.index.values), label='Regression line')
+ax2.axhline(byweekday['DailyAvgRev'].mean(), color='b', linestyle='dashed', linewidth=1, label='Weekly average')
+
+ax1.set_ylabel('N. transactions')
+ax2.set_ylabel('Revenue(GBP)')
+plt.title("Intra-week sales analysis")
+plt.grid(axis='y')
+ax1.legend(loc='lower left')
+ax1.set_xlabel('Weekday')
+ax2.legend()
+
+plt.show()
+```
+
+Similar to the analysis conducted within a month, examining sales patterns within a week can also reveal interesting insights.
+
+> By looking at the graph above, it becomes evident that the sales volume and revenue significantly increase during the latter part of the week. Specifically, revenue exceeds the weekly average starting from Thursday. On the other hand, Wednesday remains the least profitable day of the week with the lowest sales volume and revenue.
+
+## Geographical analysis
+
+When conducting a geographical analysis of sales, it is essential to consider both the average purchase value and sales volume to determine if there are any countries that offer promising opportunities. For instance, a country with a high average purchase value but low sales volume may indicate that it has untapped potential and should be targeted for further penetration. The average purchase value gives an indication of the buying power and willingness of customers to spend money, while sales volume reflects the market demand and potential for growth. A country with a high average purchase value and low sales volume could be a potential opportunity for businesses to capitalize on the untapped market potential by increasing their presence and promoting their products or services more effectively.
+
+```{python}
+# Mapping regions
+regions = {'Europe': ['Sweden', 'Denmark', 'Norway', 'Finland', 'Iceland', 'Netherlands', 'Belgium', 'France', 'Germany', 'Switzerland', 'Austria',
+                      'Italy', 'Spain', 'Greece', 'Portugal', 'Malta', 'Cyprus', 'Czech Republic', 'Lithuania', 'Poland', 'United Kingdom', 'EIRE',
+                      'Channel Islands', 'European Community'],
+           'North America': ['USA', 'Canada'],
+           'Middle East': ['Bahrain', 'United Arab Emirates', 'Israel', 'Lebanon', 'Saudi Arabia'],
+           'Asia Pacific': ['Japan', 'Australia', 'Singapore', 'Hong Kong'],
+           'RoW': ['Brazil', 'RSA'],
+           'Unspecified': ['Unspecified']}
+
+country_to_region = {}
+for region, countries in regions.items():
+    for country in countries:
+        country_to_region[country] = region
+
+df['Region'] = df['Country'].map(country_to_region)
+
+df['UKvsRoW'] = np.where(df['Country'] == 'United Kingdom', 'UK', 'RoW')
+```
+
+```{python}
+bycountry = df.groupby('Country').agg(
+    tot_amount=('Amount', 'sum'),
+    mean_amount=('Amount', 'mean')
+).sort_values('tot_amount', ascending=False)
+bycountry.head()
+```
+
+```{python}
+fig, ax = plt.subplots(2, figsize=(15,10))
+ax[0].bar(bycountry.index, bycountry['tot_amount'])
+ax[1].bar(bycountry.sort_values('mean_amount', ascending=False).index, bycountry.sort_values('mean_amount', ascending=False)['mean_amount'])
+plt.setp(ax, xticks=bycountry.index, xticklabels=bycountry.index)
+plt.setp(ax[0].get_xticklabels(), rotation=90, ha="center")
+plt.setp(ax[1].get_xticklabels(), rotation=90, ha="center")
+
+ax[0].set_ylabel("Amount (GBP)")
+ax[1].set_ylabel("Amount (GBP)")
+ax[0].set_title("Countries by total amount sold")
+ax[1].set_title("Countries by average amount sold")
+plt.suptitle("Overview on geographical market spread")
+ax[0].grid(axis='y')
+ax[1].grid(axis='y')
+plt.subplots_adjust(hspace=0.7)
+
+plt.show()
+```
+
+```{python}
+byukvsrow = df.groupby('UKvsRoW').agg(
+    tot_amount=('Amount', 'sum'),
+    mean_amount=('Amount', 'mean'),
+    n_inv=('TransactionNo', 'nunique'),
+    quantity=('Quantity', 'mean')
+).sort_values('mean_amount', ascending=False)
+byukvsrow
+```
+
+```{python}
+plt.pie(byukvsrow['tot_amount'], labels=byukvsrow.index, autopct='%1.1f%%', explode=(0.1,0), shadow=True)
+plt.title('Total revenue by UK vs other countries')
+plt.show()
+```
+
+```{python}
+row_rev = df.loc[df['UKvsRoW'] == 'RoW', 'Amount']
+uk_rev = df.loc[df['UKvsRoW'] == 'UK', 'Amount']
+
+ttest_ind(uk_rev, row_rev)
+```
+
+> Even though the volume of sales of international customers accounts only for the 17.0%, the **average revenue generated abroad is significantly higher than the one generated in the UK**. This means that international markets for this business are potentially more lucrative than the national one and need to be exploited more.
+
+```{python}
+byregion = df.groupby('Region').agg(
+    tot_amount=('Amount', 'sum'),
+    mean_amount=('Amount', 'mean'),
+    n_inv=('TransactionNo', 'nunique'),
+    quantity=('Quantity', 'mean')
+).sort_values('mean_amount', ascending=False)
+byregion.sort_values('mean_amount', ascending=False)
+```
+
+```{python}
+fig, ax1 = plt.subplots(figsize=(15,5))
+ax1 = plt.bar(byregion.index, byregion['mean_amount'])
+plt.title("Average purchase value by region")
+plt.ylabel('Amount (GBP)')
+plt.xlabel('Region')
+plt.grid(axis='y')
+plt.show()
+```
+
+```{python}
+f_value, p_value = f_oneway(
+    df.loc[df['Region'] == 'Asia Pacific', 'Amount'],
+    df.loc[df['Region'] == 'North America', 'Amount'],
+    df.loc[df['Region'] == 'Middle East', 'Amount'],
+    df.loc[df['Region'] == 'Europe', 'Amount'],
+    df.loc[df['Region'] == 'RoW', 'Amount'])
+print(f'ANOVA F-value: {f_value:.2f}')
+print(f'ANOVA p-value: {p_value:.4f}')
+tukey_df = df.filter(items=['Amount', 'Region']).dropna()
+print(pairwise_tukeyhsd(tukey_df['Amount'], tukey_df['Region']))
+```
+
+> We can observe from both the bar plot and the ANOVA analysis that the **mean purchase value in the Asia/Pacific region is consistently and significantly higher** than the mean purchase value in the other regions. Based on this important information, we can infer that the Asia/Pacific region is a potentially lucrative market with higher average purchase amounts than the other regions. Therefore, the store may want to consider investing more resources in this region to take advantage of this opportunity to increase volume of sales. The business can consider implementing targeted marketing strategies, such as advertising campaigns and promotions, that cater to the preferences and interests of the Asia/Pacific market. Additionally, it can explore expanding its product offerings to meet the specific demands of this region, or enhancing the quality of existing products to meet their higher standards. It may be useful to conduct further research and analysis to gain deeper insights into the preferences and behavior of customers in the Asia/Pacific region, and tailor sales strategies accordingly.
+
+# Market basket analysis for the Asian market
+
+Market basket analysis, specifically Apriori and association rules, can provide valuable insights into customer behavior and preferences that can be used to develop effective marketing strategies. By analyzing customer purchase patterns and identifying which products are commonly purchased together, businesses can create product bundles and promotions that cater to specific customer segments. For instance, if the analysis reveals that customers who purchase Product A are highly likely to also purchase Product B, the business can create a bundle that includes both products at a discounted price to increase sales.
+
+The Asia/Pacific region has a consistently higher average purchase value than other regions, indicating a potential opportunity to increase sales and revenue in that particular market. By conducting basket analysis on this region, the business can gain further insights into the specific product preferences and purchasing habits of customers in this market. This information can then be used to create targeted marketing strategies, such as promotions and advertising campaigns, that appeal to the unique needs and interests of customers in the Asia/Pacific region.
+
+```{python}
+# Subsetting for Asia/Pacific transactions
+asian_market = df[df['Region'] == 'Asia Pacific']
+
+# Converting transactions in a list of lists
+transactions = asian_market.groupby('TransactionNo').apply(lambda x: list(x['ProductName'])).to_list()
+encoder = TransactionEncoder().fit(transactions)
+onehot = encoder.transform(transactions)
+onehot = pd.DataFrame(onehot, columns=encoder.columns_)
+
+# Selecting frequent itemsets with apriori algorythm
+frequent_itemsets = apriori(onehot,
+                            min_support = 0.05, 
+                            max_len = 5, 
+                            use_colnames = True)
+print('Number of itemsets selected by the Apriori algorithm:', len(frequent_itemsets))
+```
+
+First, we subset the dataframe to filter for the transactions happened in the Asian market and encode them in binary features (one-hot encoding). Then, with the Apriori algorithm, we group them together according to a minimum support of 0.05 and we filter them according to a minimum confidence level of 1.
+
+```{python}
+# Computing association rules for the frequent itemsets, and filtering by confidence == 1
+rules = association_rules(frequent_itemsets, metric='confidence', min_threshold=1)
+
+# Adding number of items in the itemsets
+rules['n_antecedents'] = rules['antecedents'].apply(lambda x: len(x))
+rules['n_consequents'] = rules['consequents'].apply(lambda x: len(x))
+rules.sample(15, random_state=42)
+```
+
+The result is a dataframe containing frequently sold itemsets with a set a metrics for market basket analysis. These MBA metrics are commonly used in association rule mining, a data mining technique used to identify relationships and patterns among items in a dataset. Here's a brief explanation of each metric:
+
+* **Antecedent support**: This refers to the proportion of transactions that contain the antecedent (or the "if" part of a rule). It is calculated as the number of transactions containing the antecedent divided by the total number of transactions.
+
+* **Consequent support**: This refers to the proportion of transactions that contain the consequent (or the "then" part of a rule). It is calculated as the number of transactions containing the consequent divided by the total number of transactions.
+
+* **Support**: This refers to the proportion of transactions that contain both the antecedent and the consequent. It is calculated as the number of transactions containing both the antecedent and the consequent divided by the total number of transactions.
+
+* **Confidence**: This measures the strength of the association between the antecedent and the consequent. It is calculated as the support of the antecedent and consequent divided by the support of the antecedent. Confidence can range from 0 to 1, with higher values indicating stronger associations.
+
+* **Lift**: This measures the degree to which the presence of the antecedent affects the likelihood of the consequent. It is calculated as the support of the antecedent and consequent divided by the product of the support of the antecedent and the support of the consequent. A lift value greater than 1 indicates a positive association between the antecedent and consequent, while a value less than 1 indicates a negative association.
+
+* **Leverage**: This measures the difference between the observed frequency of the antecedent and consequent co-occurring and the frequency expected if they were independent. It is calculated as the support of the antecedent and consequent minus the product of the support of the antecedent and the support of the consequent. A positive leverage value indicates a positive association between the antecedent and consequent, while a negative value indicates a negative association.
+
+* **Conviction**: This measures the degree of implication of the rule. It is calculated as the ratio of the support of the antecedent to the complement of the confidence. Conviction can range from 0 to infinity, with higher values indicating stronger implications.
+
+> Upon examining the frequent itemsets, it becomes evident that most of them consist of identical items that are often purchased together, with only minor variations such as color or pattern. For instance, transactions may include items like Blue Polkadot Bowls and Pink Polkadot Bowls, Dolly Girl Lunch Boxes and Spaceboy Lunch Boxes, or Feltcraft Princess Lola Dolls and Feltcraft Princess Olivia Dolls.
+
+
+## Bundle offers
+
+Based on the observation that these items are frequently bought together, it could be advantageous to offer them as bundles to customers. The firm could offer convenience and value to customers while potentially increasing sales and revenue. For example, a bundle might include both the Blue Polkadot Bowl and the Pink Polkadot Bowl, or the Dolly Girl Lunch Box and the Spaceboy Lunch Box. This strategy can be an effective way to meet Asian customers needs while boosting profits for the retailer.
+
+```{python}
+# Since we want to create bundle offers for single products, we filter for single items
+rules = rules[(rules['n_antecedents'] == 1) & (rules['n_consequents'] == 1)]
+rules.sort_values('support', ascending=False)
+```
+
+```{python}
+rules['antecedent'] = rules['antecedents'].apply(lambda x: list(x)[0])
+rules['consequent'] = rules['consequents'].apply(lambda x: list(x)[0])
+rules['rule'] = rules.index
+
+coords = rules[['antecedent', 'consequent', 'rule']]
+
+parallel_coordinates(coords, 'rule', colormap='ocean')
+plt.title('Bundle offers for Asian / Pacific market')
+plt.show()
+```
+
+> The parallel coordinates plot visually highlights the bundles that were put together for the Asian market, and that the firm should offer on their e-commerce.
+
+Offering bundles of products that are already sold together as frequent itemsets can be an effective marketing strategy for several reasons:
+
+* Convenience: Bundling products that are frequently purchased together can provide customers with a convenient and streamlined shopping experience. Instead of having to search for each product individually, customers can purchase them together in a single transaction.
+
+* Value proposition: Bundling products can create a compelling value proposition for customers. By offering a discount or special deal on a bundle of products, customers may be more likely to make a purchase than if they were buying each item individually.
+
+* Increased sales: Bundling can also lead to increased sales by encouraging customers to purchase additional products that they may not have otherwise considered. For example, a customer who only intended to buy coffee may be enticed to buy a bundle that includes coffee, a mug, and a bag of coffee beans.
+
+* Upselling opportunities: Bundling can also provide opportunities for upselling by encouraging customers to purchase a higher-value bundle that includes additional products or features.
+
+In summary, while some products may already be sold together as frequent itemsets, bundling can provide additional value and convenience for customers, as well as opportunities for increased sales and upselling. By offering bundles, businesses can differentiate themselves from competitors and create a more compelling value proposition for their customers.
+

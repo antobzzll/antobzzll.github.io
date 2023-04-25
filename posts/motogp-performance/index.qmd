@@ -1,11 +1,13 @@
 ---
 title: '🏍️ Modelling Riders Performance'
+subtitle: 'Leveraging public race data to boost fans interest in motorsports'
+abstract: 'Dwelving in the world of MotoGP racing, I illustrate how making use of public race data can provide fans with a more structured and comprehensive understanding of the objective performance of race competitors.'
 author: 'Antonio Buzzelli'
 date: "2023-05-01"
 jupyter: python3
-code-fold: true
-draft: true
-categories: [MotoGP, Race, Performance]
+# code-fold: true
+# draft: true
+categories: [motogpdata, Motorsports, Public Data]
 ---
 
 Sports are being radically transformed by data collection and analysis, benefiting both professionals and fans. Soccer, baseball, and American football are some examples where player performance data is utilized to acquire talent and provide in-depth statistics for the public. In contrast, data analysis for motorsports fans is not yet widespread, despite being fundamental to the sport's operation. 
@@ -17,6 +19,9 @@ In this notebook, we will explore the realm of MotoGP racing and analyze publicl
 # Key findings and achievements
 * For the purpose of providing more technical and structured insights to fans, we demonstrate how public race data can be used to extract important information on race and rider performance.
 * We demonstrate how to **quantify the performances** of riders, teams, and constructors through **quantitative indicators** that take into account **relative speed and consistency**, the two fundamental variables in the theoretical definition of "performance."
+
+___
+
 
 ```{python}
 import motogpdata.handler as mgphandler

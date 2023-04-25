@@ -1,5 +1,5 @@
 ---
-# title: "Antonio Buzzelli – Analytics Portfolio"
+title: "Analytics Portfolio & Blog"
 listing:
   contents: posts
   sort: "date desc"
@@ -12,3 +12,8 @@ title-block-banner: false
 ---
 
 
+Welcome to my repository of *analytics* and *data science* notebooks.
+
+Here, you will find a collection of studies and analyses in which I make use of data visualization, statistical analysis, data mining, and machine learning to extract important insights from data and solve common case studies on various topics such as business, social sciences, sports, and much more.
+
+---
