@@ -1,5 +1,5 @@
 ---
-title: "antobzzll.github.io"
+title: "Antonio Buzzelli – Analytics Portfolio"
 listing:
   contents: posts
   sort: "date desc"
