@@ -6,3 +6,11 @@ freeze: true
 
 # Enable banner style title blocks
 title-block-banner: true
+
+format:
+  html:
+    code-fold: false
+    fig-responsive: true
+    fig-align: center
+    toc: true
+page-layout: full
