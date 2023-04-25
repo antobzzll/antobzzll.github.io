@@ -35,7 +35,7 @@ import shap
 After having installed and imported the necessary libraries, we begin our work by accessing the dataset containing the passengers' data.
 
 ```{python}
-df = pd.read_csv('../../_data/titanic.csv')
+df = pd.read_csv('../../data/titanic.csv')
 df
 ```
 

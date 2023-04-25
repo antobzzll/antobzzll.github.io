@@ -52,7 +52,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 In this first part of the notebook we will import the data and prepare it for analysis.
 
 ```{python}
-df = pd.read_csv('../../_data/sales.csv')
+df = pd.read_csv('../../data/sales.csv')
 df.info()
 ```
 

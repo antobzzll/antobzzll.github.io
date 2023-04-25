@@ -6,7 +6,7 @@ author: 'Antonio Buzzelli'
 date: "2023-05-01"
 jupyter: python3
 # code-fold: true
-draft: true
+# draft: true
 categories: [motogpdata, Motorsports, Public Data]
 ---
 
