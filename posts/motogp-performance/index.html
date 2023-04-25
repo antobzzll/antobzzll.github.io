@@ -9,7 +9,7 @@
 <meta name="author" content="Antonio Buzzelli">
 <meta name="dcterms.date" content="2023-05-01">
 
-<title>Antonio Buzzelli – Analytics Portfolio - 🏍️ Modelling Riders Performance</title>
+<title>Antonio Buzzelli  Business Analytics &amp; Data Science - 🏍️ Modelling Riders Performance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,7 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Antonio Buzzelli – Analytics Portfolio</span>
+    <span class="navbar-title"><b>Antonio Buzzelli</b> <br> Business Analytics &amp; Data Science</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">Antonio Buzzelli</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/antobzzll" rel="" target=""><i class="bi bi-github" role="img">
@@ -147,10 +147,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
       <h1 class="title">🏍️ Modelling Riders Performance</h1>
+            <p class="subtitle lead">Leveraging public race data to boost fans interest in motorsports</p>
                                 <div class="quarto-categories">
-                <div class="quarto-category">MotoGP</div>
-                <div class="quarto-category">Race</div>
-                <div class="quarto-category">Performance</div>
+                <div class="quarto-category">motogpdata</div>
+                <div class="quarto-category">Motorsports</div>
+                <div class="quarto-category">Public Data</div>
               </div>
                   </div>
   </div>
@@ -175,6 +176,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       
     </div>
     
+  <div>
+    <div class="abstract">
+      <div class="abstract-title">Abstract</div>
+      Dwelving in the world of MotoGP racing, I illustrate how making use of public race data can provide fans with a more structured and comprehensive understanding of the objective performance of race competitors.
+    </div>
+  </div>
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
@@ -216,14 +223,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>For the purpose of providing more technical and structured insights to fans, we demonstrate how public race data can be used to extract important information on race and rider performance.</li>
 <li>We demonstrate how to <strong>quantify the performances</strong> of riders, teams, and constructors through <strong>quantitative indicators</strong> that take into account <strong>relative speed and consistency</strong>, the two fundamental variables in the theoretical definition of “performance.”</li>
 </ul>
+<hr>
 <div class="cell" data-execution_count="1">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> motogpdata.handler <span class="im">as</span> mgphandler</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="race-results" class="level1">
@@ -231,19 +236,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For the scope of this study, we will take into account and examine two races from the 2022 MotoGP season, namely the Qatar Grand Prix and the Italian Grand Prix. Let’s first refresh our memory of the results of these races.</p>
 <p>For the Qatar Grand Prix:</p>
 <div class="cell" data-execution_count="2">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>season <span class="op">=</span> mgphandler.Season(<span class="dv">2022</span>, <span class="st">'MotoGP'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>qat2022 <span class="op">=</span> mgphandler.Event(season, <span class="st">'QAT'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ita2022 <span class="op">=</span> mgphandler.Event(season, <span class="st">'ITA'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div class="cell" data-execution_count="3">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>results_subset <span class="op">=</span> [<span class="st">'rider.full_name'</span>, <span class="st">'position'</span>, <span class="st">'average_speed'</span>, <span class="st">'total_laps'</span>, <span class="st">'time'</span>, <span class="st">'points'</span>]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>qat2022.results()[results_subset].set_index(<span class="st">'rider.full_name'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -468,10 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>For the Italian Grand Prix:</p>
 <div class="cell" data-execution_count="4">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ita2022.results()[results_subset].set_index(<span class="st">'rider.full_name'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
@@ -717,18 +713,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Laptime analysis</h1>
 <p>A statistical assessment of race performance is required to address these inquiries, which entails an evaluation based on factual data rather than subjective sentiments or judgments. To accomplish this, the data on lap times must be taken into account, scrutinizing the race’s overall progress. An illustration of such data for the Qatar race is presented below.</p>
 <div class="cell" data-execution_count="5">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract race analysis data for the Qatar Grand Prix</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>timesheetQAT, laptimes_ridersQAT, laptimes_teamsQAT, laptimes_constructorsQAT, performanceQAT <span class="op">=</span> qat2022.race_analysis(save_pdf<span class="op">=</span><span class="va">False</span>, performance<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>laptimes_ridersQAT_melted <span class="op">=</span> laptimes_ridersQAT.melt(id_vars<span class="op">=</span><span class="st">'lap'</span>, var_name<span class="op">=</span><span class="st">'rider'</span>, value_name<span class="op">=</span><span class="st">'laptime'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div class="cell" data-execution_count="6">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>laptimes_ridersQAT.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -914,8 +904,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The above table (in its comprehensive form) shows the lap times of each rider (expressed in seconds), and provides already a good starting point for deepening the understanding of the time trends and the general race progression. From such data, it is possible to generate some of the following visualizations.</p>
 <div class="cell" data-execution_count="7">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>laptimes_ridersQAT_melted[laptimes_ridersQAT_melted[<span class="st">'rider'</span>].isin(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'avg_laptime'</span>, <span class="st">'Enea Bastianini'</span>, <span class="st">'Aleix Espargaro'</span>, <span class="st">'Raul Fernandez'</span>])], </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'lap'</span>, y<span class="op">=</span><span class="st">'laptime'</span>, hue<span class="op">=</span><span class="st">'rider'</span>, kind<span class="op">=</span><span class="st">'line'</span>, </span>
@@ -925,7 +913,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Laps"</span>)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Lap times (in seconds)"</span>)</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-8-output-1.png" width="856" height="508"></p>
 </div>
@@ -933,15 +920,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>By projecting the <em>average lap time</em> (gray line), we can appreciate the general trend of the race. For example, in the case of Qatar, there is a decline in overall performance starting from the seventeenth lap. Similarly, there is a significant performance drop in the Italian Grand Prix race starting from the sixteenth lap. <strong>This analysis helps to evaluate tire performance</strong>.</p>
 <p>Regarding the personal lap times of the riders, we can notice that both Enea Bastianini (who arrived in 1st place) and Aleix Espargaro (who arrived in 4th place) performed well below the average (gray line), unlike Raul Fernandez, for example (orange line), who consistently raced above the general average of the competition. Similar considerations can also be applied to the Italian Grand Prix, as shown below.</p>
 <div class="cell" data-execution_count="8">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>timesheetITA, laptimes_ridersITA, laptimes_teamsITA, laptimes_constructorsITA, performanceITA <span class="op">=</span> ita2022.race_analysis(save_pdf<span class="op">=</span><span class="va">False</span>, performance<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>laptimes_ridersITA_melted <span class="op">=</span> laptimes_ridersITA.melt(id_vars<span class="op">=</span><span class="st">'lap'</span>, var_name<span class="op">=</span><span class="st">'rider'</span>, value_name<span class="op">=</span><span class="st">'laptime'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div class="cell" data-execution_count="9">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>laptimes_ridersITA_melted[laptimes_ridersITA_melted[<span class="st">'rider'</span>].isin(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'avg_laptime'</span>, <span class="st">'Francesco Bagnaia'</span>, <span class="st">'Fabio Quartararo'</span>, <span class="st">'Andrea Dovizioso'</span>])], </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'lap'</span>, y<span class="op">=</span><span class="st">'laptime'</span>, hue<span class="op">=</span><span class="st">'rider'</span>, kind<span class="op">=</span><span class="st">'line'</span>, </span>
@@ -951,15 +933,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Laps"</span>)</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Lap times (in seconds)"</span>)</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-10-output-1.png" width="876" height="508"></p>
 </div>
 </div>
 <p>These graphs provide a visual and intuitive way to determine if a particular rider, team, or manufacturer has performed above, below, or at an average level. (It’s important to note that the more a rider’s lap times are below the average race’s lap time, the faster they’ve gone). Using the same visualization concept for the concstructors, we can see how Yamaha and KTM consistently performed above average in the Qatar 2022 race, thus indicating that they “underperformed” compared to the other manufacturers.</p>
 <div class="cell" data-execution_count="10">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>laptimes_constructorsQAT_melted <span class="op">=</span> laptimes_constructorsQAT.melt(id_vars<span class="op">=</span><span class="st">'lap'</span>, var_name<span class="op">=</span><span class="st">'constructor'</span>, value_name<span class="op">=</span><span class="st">'laptime'</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>laptimes_constructorsQAT_melted[laptimes_constructorsQAT_melted[<span class="st">'constructor'</span>].isin(</span>
@@ -971,7 +950,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Laps"</span>)</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Lap times (in seconds)"</span>)</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-11-output-1.png" width="836" height="508"></p>
 </div>
@@ -980,14 +958,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="sector-times">Sector times</h2>
 <p>In an aggregate manner, it is also possible to determine variation indicators for each sector of the circuit, thereby appreciating the overall level of consistency of the riders in the various sections of the track. For example, we can observe that in the case of the Qatar Grand Prix, the consistency of lap times in different sectors is almost identical, while at Mugello, the sector in which the drivers were on average more consistent is T2.</p>
 <div class="cell" data-execution_count="11">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> pd.DataFrame(timesheetQAT[timesheetQAT[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>][[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].std())</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> std_race.pivot_table(columns<span class="op">=</span>std_race.index).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>std_race.index <span class="op">=</span> [<span class="st">'σ'</span>]</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🇶🇦 Qatar Grand Prix 2022</span><span class="ch">\n</span><span class="st">Sector Pace:"</span>)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>std_race</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>🇶🇦 Qatar Grand Prix 2022
 Sector Pace:</code></pre>
@@ -1021,14 +996,11 @@ Sector Pace:</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="12">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> pd.DataFrame(timesheetITA[timesheetITA[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>][[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].std())</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> std_race.pivot_table(columns<span class="op">=</span>std_race.index).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>std_race.index <span class="op">=</span> [<span class="st">'σ'</span>]</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🇮🇹 Italian Grand Prix 2022</span><span class="ch">\n</span><span class="st">Sector pace:"</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>std_race</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>🇮🇹 Italian Grand Prix 2022
 Sector pace:</code></pre>
@@ -1063,8 +1035,6 @@ Sector pace:</code></pre>
 </div>
 <p>The same principle of analysis can be applied to the fastest times set by riders in the different sectors of the track. At the Mugello Grand Prix, we can see, for example, how Yamaha, with Fabio Quartararo, was the fastest in T2 and T3. In contrast, the Ducatis of Bagnaia and Bastianini expressed the best times in the sectors with higher top speeds (T1 and T4).</p>
 <div class="cell" data-execution_count="13">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>by_rider <span class="op">=</span> timesheetITA[timesheetITA[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>].groupby([<span class="st">'constructor'</span>, <span class="st">'rider'</span>])[[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].<span class="bu">min</span>().<span class="bu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rider_with_min <span class="op">=</span> by_rider.idxmin()</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>const_t <span class="op">=</span> pd.DataFrame({</span>
@@ -1073,7 +1043,6 @@ Sector pace:</code></pre>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>const_t[[<span class="st">'constructor'</span>, <span class="st">'rider'</span>]] <span class="op">=</span> pd.DataFrame(const_t[<span class="st">'rider'</span>].tolist(), index<span class="op">=</span>const_t.index)</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🇮🇹 Italian Grand Prix 2022</span><span class="ch">\n</span><span class="st">Fastest sector times:</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(const_t[[<span class="st">'constructor'</span>, <span class="st">'rider'</span>, <span class="st">'fastest_time'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>🇮🇹 Italian Grand Prix 2022
 Fastest sector times:
@@ -1096,17 +1065,12 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <p>Motorsports performance, can be defined as “<em>how consistently fast a rider has been</em>” - relative to the number of laps completed. Therefore, at a conceptual level, the so-called “pace” can be theorized as the aggregation of two fundamental variables: consistency and speed. To achieve high positions in the rankings, a rider must in fact be both fast and consistent.</p>
 <p>Visually, the relationship between these two variables can be demonstrated with the help of a matrix - shown below - which we will call the “performance matrix”. The graph represents the ratio between the two indicators (<em>relative speed</em> on the y-axis and <em>relative consistency</em> on the x-axis) for each participant in the race, in relation to their average located at the axes <span class="math inline">\(x,y=0\)</span> (black lines). This means that the performance of the riders located in the upper-right quadrant of the graph are above average, both in terms of speed and consistency. Conversely, those located in the lower-left quadrant have “underperformed” below average (for both variables).</p>
 <div class="cell" data-execution_count="14">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>perf_cols <span class="op">=</span> [<span class="st">'rider'</span>, <span class="st">'constructor'</span>, <span class="st">'grid'</span>, <span class="st">'position'</span>, <span class="st">'pos_delta'</span>, <span class="st">'points'</span>, <span class="st">'avg_laptime'</span>, <span class="st">'avg_speed'</span>, <span class="st">'delta_avg_laptime'</span>, <span class="st">'pace_speed_index'</span>, <span class="st">'delta_std_laptime'</span>, <span class="st">'pace_consistency_index'</span>, <span class="st">'performance_index'</span>]</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>performanceQAT <span class="op">=</span> performanceQAT[perf_cols].set_index(<span class="st">'rider'</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>performanceITA <span class="op">=</span> performanceITA[perf_cols].set_index(<span class="st">'rider'</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>performanceITA.loc[performanceITA.index <span class="op">==</span> <span class="st">'Lorenzo Savadori'</span>, <span class="st">'constructor'</span>] <span class="op">=</span> <span class="st">'Aprilia'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div class="cell" data-execution_count="15">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>performanceQAT, </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'pace_consistency_index'</span>, </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>            y<span class="op">=</span><span class="st">'pace_speed_index'</span>, hue<span class="op">=</span><span class="st">'constructor'</span>, </span>
@@ -1124,15 +1088,12 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-16-output-1.png" width="807" height="508"></p>
 </div>
 </div>
 <p>In the case of Qatar, we can see how this graph helps us clearly visualize the struggle of the Ducati teams in having a consistent pace (with the exception of the winner, Bastianini). The Suzuki team had a good overall performance, both in terms of speed and consistency.</p>
 <div class="cell" data-execution_count="16">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>performanceITA[performanceITA[<span class="st">'performance_index'</span>] <span class="op">&gt;</span> <span class="op">-</span><span class="dv">3</span>], </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'pace_consistency_index'</span>, </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            y<span class="op">=</span><span class="st">'pace_speed_index'</span>, hue<span class="op">=</span><span class="st">'constructor'</span>, </span>
@@ -1150,7 +1111,6 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-17-output-1.png" width="807" height="508"></p>
 </div>
@@ -1162,14 +1122,11 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <p>The two variables that quantify the “pace” can be combined to create an index that summarizes a rider’s performance in a single value. We will call this the “performance indicator”, which is an aggregation of the speed and consistency indicators of the pace.</p>
 <p>The following table shows the results of the Qatar race along with these indicators. Specifically, from left to right, it includes the starting position, finishing position, difference in positions at the finish, points earned, speed indicator, consistency indicator, and the aggregated performance indicator. This results table, ordered by the latter variable, presents a “revisited” ranking based on the performance demonstrated by the riders regardless of the final result and events of the race.</p>
 <div class="cell" data-execution_count="17">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>perfQAT <span class="op">=</span> performanceQAT.drop(columns<span class="op">=</span>[</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'avg_speed'</span>, <span class="st">'avg_laptime'</span>, <span class="st">'delta_avg_laptime'</span>,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'delta_std_laptime'</span>]).sort_values(<span class="st">'performance_index'</span>, ascending<span class="op">=</span><span class="va">False</span>).reset_index()</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>perfQAT.index <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>perfQAT.drop(columns<span class="op">=</span><span class="st">'constructor'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
@@ -1462,13 +1419,10 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <p>In this “new” ranking (sorted by the aggregated performance indicator), it is interesting to note that the winner (Enea Bastianini), who dominated the race from the first position since the beginning, is relegated to the third position behind Brad Binder and Pol Espargaro. This is due to the fact that these two riders have shown to have a greater speed and consistency than Enea, who, apart from the victory, has equalled the performance of Marc Marquez.</p>
 <p>The same concept is applied to the race performances of the constructors in the following table.</p>
 <div class="cell" data-execution_count="18">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>perfQAT_constr <span class="op">=</span> perfQAT.groupby(<span class="st">'constructor'</span>)[[<span class="st">'pace_speed_index'</span>, <span class="st">'pace_consistency_index'</span>, <span class="st">'performance_index'</span>]].mean().sort_values(<span class="st">'performance_index'</span>, ascending<span class="op">=</span><span class="va">False</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># perfQAT_constr = perfQAT_constr.sort_values('performance_index', ascending=False).reset_index()</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># perfQAT_constr.index += 1</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>perfQAT_constr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 
@@ -1532,8 +1486,6 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>perfQAT_constr, </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'pace_consistency_index'</span>, </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>            y<span class="op">=</span><span class="st">'pace_speed_index'</span>, hue<span class="op">=</span><span class="st">'constructor'</span>, </span>
@@ -1551,7 +1503,6 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-20-output-1.png" width="808" height="508"></p>
 </div>
