@@ -7,7 +7,8 @@ date: "2023-03-15"
 jupyter: python3
 # code-fold: true
 # draft: true
-categories: [Business Personas, Machine Learning]
+image: "../../_freeze/posts/titanic/titanic/figure-html/cell-24-output-2.png"
+categories: [Business Personas, Machine Learning, Python]
 ---
 
 The Titanic disaster remains one of the most infamous shipwrecks in history, with over 1500 lives lost. In this notebook, we will explore and analyze a dataset containing information on passengers who were aboard the ship and build a machine learning model to predict which passengers are likely to have survived the tragedy.

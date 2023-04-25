@@ -7,7 +7,8 @@ date: "2023-04-02"
 jupyter: python3
 # code-fold: true
 # draft: true
-categories: [Online Retail, Market Basket Analysis]
+image: "../../_freeze/posts/online-retail-mba/index/figure-html/cell-30-output-1.png"
+categories: [Online Retail, Market Basket Analysis, Python]
 ---
 
 The e-commerce industry has experienced significant growth in recent years, and online sales have become an increasingly important aspect of many businesses. Analyzing sales data can help businesses understand customer behavior and identify trends, which can then be used to improve their overall sales strategies and revenue. In this notebook, we will be analyzing a sales dataset from an e-commerce company to gain insights into their sales patterns and identify profitable opportunities.

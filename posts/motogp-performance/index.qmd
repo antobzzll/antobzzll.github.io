@@ -7,7 +7,8 @@ date: "2023-05-01"
 jupyter: python3
 # code-fold: true
 # draft: true
-categories: [motogpdata, Motorsports, Public Data]
+image: "../../_freeze/posts/motogp-performance/performance/figure-html/cell-16-output-1.png"
+categories: [motogpdata, Motorsports, Public Data, Python]
 ---
 
 Sports are being radically transformed by data collection and analysis, benefiting both professionals and fans. Soccer, baseball, and American football are some examples where player performance data is utilized to acquire talent and provide in-depth statistics for the public. In contrast, data analysis for motorsports fans is not yet widespread, despite being fundamental to the sport's operation. 

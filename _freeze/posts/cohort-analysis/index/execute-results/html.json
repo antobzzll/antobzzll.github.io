@@ -1,0 +1,14 @@
+{
+  "hash": "5033cad64af30ac22c2de108526d4e5a",
+  "result": {
+    "markdown": "---\ntitle: '🎟️ Cohort Analysis'\nsubtitle: 'Leveraging public race data to boost fans interest in motorsports'\nabstract: 'Dwelving in the world of MotoGP racing, I illustrate how making use of public race data can provide fans with a more structured and comprehensive understanding of the objective performance of race competitors.'\nauthor: 'Antonio Buzzelli'\ndate: \"2023-05-30\"\n# code-fold: true\ndraft: true\ncategories: [Online Retail, Cohort Analysis, R]\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(arrow)\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

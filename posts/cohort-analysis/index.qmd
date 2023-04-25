@@ -1,0 +1,16 @@
+---
+title: '🎟️ Cohort Analysis'
+subtitle: 'Leveraging public race data to boost fans interest in motorsports'
+abstract: 'Dwelving in the world of MotoGP racing, I illustrate how making use of public race data can provide fans with a more structured and comprehensive understanding of the objective performance of race competitors.'
+author: 'Antonio Buzzelli'
+date: "2023-05-30"
+# code-fold: true
+# draft: true
+categories: [Online Retail, Cohort Analysis, R]
+---
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(arrow)
+```
