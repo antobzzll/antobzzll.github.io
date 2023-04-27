@@ -9,7 +9,7 @@
 <meta name="author" content="Antonio Buzzelli">
 <meta name="dcterms.date" content="2023-03-15">
 
-<title>Antonio Buzzelli  Business Analytics &amp; Data Science - 🚢 Understanding Survival on the Titanic</title>
+<title>Antonio Buzzelli  [ Analytics &amp; Data Science for Businesses ] - 🚢 Understanding Survival on the Titanic</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title"><b>Antonio Buzzelli</b> <br> Business Analytics &amp; Data Science</span>
+    <span class="navbar-title"><b>Antonio Buzzelli</b> <br> [ Analytics &amp; Data Science for Businesses ]</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
       <h1 class="title">🚢 Understanding Survival on the Titanic</h1>
-            <p class="subtitle lead">Using machine learning to explain phenomena and develop business personas</p>
+            <p class="subtitle lead">Using machine learning to explain phenomena and define business personas</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Business Personas</div>
                 <div class="quarto-category">Machine Learning</div>
@@ -177,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div>
     <div class="abstract">
       <div class="abstract-title">Abstract</div>
-      Businesses can utilize machine learning not only to make predictions but also to unveil valuable insights that are deeply embedded in their data. Using one of the most commonly used datasets in the study of data science – the Titanic dataset –, I demonstrate how supervised learning can serve as a data mining technique to achieve a deep understanding of phenomena and generate Personas.
+      Businesses can utilize machine learning not only to make predictions but also to unveil valuable insights that are deeply embedded in their data. Using one of the most commonly used datasets in the study of data science – the Titanic dataset –, I demonstrate how <strong>supervised learning can serve as a data mining technique to achieve a deep understanding of phenomena and generate Personas</strong>.
     </div>
   </div>
   
@@ -189,8 +189,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
+  <li><a href="#key-findings-and-achievements" id="toc-key-findings-and-achievements" class="nav-link active" data-scroll-target="#key-findings-and-achievements">Key findings and achievements</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
   <li><a href="#transformations-feature-engineering-preprocessing" id="toc-transformations-feature-engineering-preprocessing" class="nav-link" data-scroll-target="#transformations-feature-engineering-preprocessing">Transformations, feature engineering, preprocessing</a></li>
+  </ul></li>
   <li><a href="#exploratory-analysis" id="toc-exploratory-analysis" class="nav-link" data-scroll-target="#exploratory-analysis">Exploratory analysis</a></li>
   <li><a href="#model-development" id="toc-model-development" class="nav-link" data-scroll-target="#model-development">Model development</a>
   <ul class="collapse">
@@ -207,8 +211,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>The Titanic disaster remains one of the most infamous shipwrecks in history, with over 1500 lives lost. In this notebook, we will explore and analyze a dataset containing information on passengers who were aboard the ship and build a machine learning model to predict which passengers are likely to have survived the tragedy.</p>
-<div class="cell" data-execution_count="1">
+<section id="key-findings-and-achievements" class="level1">
+<h1>Key findings and achievements</h1>
+<ul>
+<li>Using a machine learning model to predict the probability of a passenger’s survival on the Titanic, a <strong>Persona has been defined to characterize those who survived</strong>.</li>
+</ul>
+<hr>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The Titanic disaster remains one of the most infamous shipwrecks in history, with over 1500 lives lost. In this notebook, we will explore and analyze a dataset containing information on passengers who were aboard the ship and build a machine learning model to predict which passengers were likely to have survived the tragedy.</p>
+<div class="cell" data-execution_count="58">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -224,14 +239,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay, classification_report</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>After having installed and imported the necessary libraries, we begin our work by accessing the dataset containing the passengers’ data.</p>
-<div class="cell" data-execution_count="2">
+</section>
+<section id="data" class="level1">
+<h1>Data</h1>
+<p>The variables included in the dataset are:</p>
+<ul>
+<li><strong>PassengerId</strong>: An integer value representing the unique ID of each passenger on board.</li>
+<li><strong>Survived</strong>: A binary variable indicating whether the passenger survived the sinking of the Titanic or not, with “True” indicating survival and “False” indicating death.</li>
+<li><strong>Pclass</strong>: An integer variable representing the class of the passenger’s ticket, with values 1, 2, or 3 (1 being the highest class).</li>
+<li><strong>Name</strong>: A string variable representing the name of the passenger.</li>
+<li><strong>Sex</strong>: A string variable representing the gender of the passenger.</li>
+<li><strong>Age</strong>: A float variable representing the age of the passenger in years.</li>
+<li><strong>SibSp</strong>: An integer variable representing the number of siblings or spouses the passenger had on board.</li>
+<li><strong>Parch</strong>: An integer variable representing the number of parents or children the passenger had on board.</li>
+<li><strong>Ticket</strong>: A string variable representing the ticket number of the passenger.</li>
+<li><strong>Fare</strong>: A float variable representing the fare paid by the passenger for their ticket.</li>
+<li><strong>Cabin</strong>: A string variable representing the cabin number of the passenger, if applicable.</li>
+<li><strong>Embarked</strong>: A string variable representing the port of embarkation for the passenger, with possible values “S” (Southampton), “C” (Cherbourg), or “Q” (Queenstown).</li>
+</ul>
+<p>Here below a glimpse of the dataset:</p>
+<div class="cell" data-execution_count="59">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/titanic.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
+</details>
+<div class="cell-output cell-output-display" data-execution_count="59">
 <div>
 
 
@@ -426,16 +461,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The variables included in the dataset are: * <strong>PassengerId</strong>: An integer value representing the unique ID of each passenger on board. * <strong>Survived</strong>: A binary variable indicating whether the passenger survived the sinking of the Titanic or not, with “True” indicating survival and “False” indicating death. * <strong>Pclass</strong>: An integer variable representing the class of the passenger’s ticket, with values 1, 2, or 3 (1 being the highest class). * <strong>Name</strong>: A string variable representing the name of the passenger. * <strong>Sex</strong>: A string variable representing the gender of the passenger. * <strong>Age</strong>: A float variable representing the age of the passenger in years. * <strong>SibSp</strong>: An integer variable representing the number of siblings or spouses the passenger had on board. * <strong>Parch</strong>: An integer variable representing the number of parents or children the passenger had on board. * <strong>Ticket</strong>: A string variable representing the ticket number of the passenger. * <strong>Fare</strong>: A float variable representing the fare paid by the passenger for their ticket. * <strong>Cabin</strong>: A string variable representing the cabin number of the passenger, if applicable. * <strong>Embarked</strong>: A string variable representing the port of embarkation for the passenger, with possible values “S” (Southampton), “C” (Cherbourg), or “Q” (Queenstown).</p>
-<!-- ## Exploratory analysis
-
-In order to predict the survival of Titanic's passengers, we will focus our work on the **target variable `Survived`**. Let's begin with an exploratory analysis of the dataset (focused on the target variable) that will provide insights on the need of potential data cleaning and preprocessing operations, and potential interesting correlations. -->
-</section>
 <section id="transformations-feature-engineering-preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="transformations-feature-engineering-preprocessing">Transformations, feature engineering, preprocessing</h2>
-<p>In this first section we are going to explore and process the given dataset and prepare it for modeling. Let’s first take a general look at the variables from the structural point-of-view.</p>
-<div class="cell" data-execution_count="3">
+<p>In this first section we are going to explore and process the given dataset and prepare it for modeling. Let’s first take a general look at the variables from a structural point-of-view.</p>
+<div class="cell" data-execution_count="60">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 891 entries, 0 to 890
@@ -458,20 +491,23 @@ dtypes: float64(2), int64(5), object(5)
 memory usage: 83.7+ KB</code></pre>
 </div>
 </div>
-<p><code>PassengerId</code> column is a useless variable in terms of prediction capabilities. We can set it as dataframe index (or drop it) to keep it out of the scope.</p>
-<div class="cell" data-execution_count="4">
+<p><code>PassengerId</code> column is a useless variable in terms of prediction capabilities. We can set it as dataframe index (or drop it) to keep it out of scope.</p>
+<div class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.set_index(<span class="st">'PassengerId'</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># df = df.drop(columns=['PassengerId'])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To give more weight to first class (and vice-versa) <code>Pclass</code> values must be inverted.</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conditions <span class="op">=</span> [df[<span class="st">'Pclass'</span>] <span class="op">==</span> <span class="dv">1</span>, df[<span class="st">'Pclass'</span>] <span class="op">==</span> <span class="dv">3</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>choices <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">1</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Pclass'</span>] <span class="op">=</span> np.select(conditions, choices, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s assess now the presence of <strong>null values</strong>. Percentage of null values per variable:</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="63">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>display((df.isnull().<span class="bu">sum</span>() <span class="op">/</span> df.shape[<span class="dv">0</span>]).<span class="bu">round</span>(<span class="dv">3</span>).sort_values(ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <pre><code>Cabin       0.771
 Age         0.199
@@ -488,9 +524,12 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>A part from a negligeable presence of null values in the <code>Embarked</code> variable, we can see that important columns such as <code>Cabin</code> and <code>Age</code> are full of empty observations. Before proceeding with the model development, we’ll have to deal with these inconsistencies.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="64">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Cabin'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
+</details>
+<div class="cell-output cell-output-display" data-execution_count="64">
 <pre><code>array([nan, 'C85', 'C123', 'E46', 'G6', 'C103', 'D56', 'A6',
        'C23 C25 C27', 'B78', 'D33', 'B30', 'C52', 'B28', 'C83', 'F33',
        'F G73', 'E31', 'A5', 'D10 D12', 'D26', 'C110', 'B58 B60', 'E101',
@@ -511,8 +550,11 @@ dtype: float64</code></pre>
        'C148'], dtype=object)</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="65">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>display(df[<span class="st">'Cabin'</span>].value_counts().head(<span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <pre><code>Cabin
 B96 B98            4
@@ -548,38 +590,33 @@ F4                 2
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<p>The majority of the cabins in the dataset seem to follow a pattern of a letter followed by a two or three digit number, suggesting that the letter represents the section or deck where the cabin is situated and the number represents the room number. It is reasonable to assume that knowing the section where a passenger’s cabin is located would provide valuable information about their likelihood of survival. Therefore, it would be beneficial to clean up the column containing cabin information to extract useful insights.</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>trans_df <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting Cabin variable into Deck and Room variables</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'CabinData'</span>] <span class="op">=</span> trans_df[<span class="st">'Cabin'</span>].isnull().<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="kw">not</span> x)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'Deck'</span>] <span class="op">=</span> trans_df[<span class="st">'Cabin'</span>].<span class="bu">str</span>.<span class="bu">slice</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'Room'</span>] <span class="op">=</span> trans_df[<span class="st">'Cabin'</span>].<span class="bu">str</span>.<span class="bu">slice</span>(<span class="dv">1</span>,<span class="dv">5</span>).<span class="bu">str</span>.extract(<span class="st">"([0-9]+)"</span>, expand<span class="op">=</span><span class="va">False</span>).astype(<span class="st">"float"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>trans_df[[<span class="st">'Survived'</span>, <span class="st">'CabinData'</span>]] <span class="op">=</span> trans_df[[<span class="st">'Survived'</span>, <span class="st">'CabinData'</span>]].astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Label-encoding target variable</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'Female'</span>] <span class="op">=</span> np.where(trans_df[<span class="st">'Sex'</span>] <span class="op">==</span> <span class="st">'female'</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop useless variables for modeling</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>trans_df <span class="op">=</span> trans_df.drop(columns<span class="op">=</span>[<span class="st">'Name'</span>, <span class="st">'Ticket'</span>, <span class="st">'Cabin'</span>, <span class="st">'Sex'</span>, <span class="st">'Room'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create one-hot encoding of the categorical variable</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_encoded <span class="op">=</span> pd.get_dummies(trans_df, columns<span class="op">=</span>[<span class="st">'Deck'</span>, <span class="st">'Embarked'</span>])</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Impute missing values with KNN imputer</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>imputer <span class="op">=</span> KNNImputer(n_neighbors<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>imputed_df <span class="op">=</span> imputer.fit_transform(df_encoded)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>imputed_df <span class="op">=</span> pd.DataFrame(imputed_df, columns<span class="op">=</span>df_encoded.columns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>imputed_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="37">
+<p>We can see that the majority of the cabins in the dataset seem to follow a pattern of a letter followed by a two or three digit number, suggesting that the letter represents the section or deck where the cabin is situated and the number represents the room number. It is reasonable to assume that knowing the section where a passenger’s cabin is located would provide valuable information about their likelihood of survival. Therefore, it would be beneficial to clean up the column containing cabin information to extract useful insights.</p>
+<div class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>trans_df <span class="op">=</span> df.copy()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting Cabin variable into Deck and Room variables</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'CabinData'</span>] <span class="op">=</span> trans_df[<span class="st">'Cabin'</span>].isnull().<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="kw">not</span> x)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'Deck'</span>] <span class="op">=</span> trans_df[<span class="st">'Cabin'</span>].<span class="bu">str</span>.<span class="bu">slice</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'Room'</span>] <span class="op">=</span> trans_df[<span class="st">'Cabin'</span>].<span class="bu">str</span>.<span class="bu">slice</span>(<span class="dv">1</span>,<span class="dv">5</span>).<span class="bu">str</span>.extract(<span class="st">"([0-9]+)"</span>, expand<span class="op">=</span><span class="va">False</span>).astype(<span class="st">"float"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>trans_df[[<span class="st">'Survived'</span>, <span class="st">'CabinData'</span>]] <span class="op">=</span> trans_df[[<span class="st">'Survived'</span>, <span class="st">'CabinData'</span>]].astype(<span class="bu">int</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Label-encoding target variable</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>trans_df[<span class="st">'Female'</span>] <span class="op">=</span> np.where(trans_df[<span class="st">'Sex'</span>] <span class="op">==</span> <span class="st">'female'</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop useless variables for modeling</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>trans_df <span class="op">=</span> trans_df.drop(columns<span class="op">=</span>[<span class="st">'Name'</span>, <span class="st">'Ticket'</span>, <span class="st">'Cabin'</span>, <span class="st">'Sex'</span>, <span class="st">'Room'</span>])</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create one-hot encoding of the categorical variable</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>df_encoded <span class="op">=</span> pd.get_dummies(trans_df, columns<span class="op">=</span>[<span class="st">'Deck'</span>, <span class="st">'Embarked'</span>])</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Impute missing values with KNN imputer</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>imputer <span class="op">=</span> KNNImputer(n_neighbors<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>imputed_df <span class="op">=</span> imputer.fit_transform(df_encoded)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>imputed_df <span class="op">=</span> pd.DataFrame(imputed_df, columns<span class="op">=</span>df_encoded.columns)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>imputed_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="66">
 <div>
 
 
@@ -859,72 +896,85 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </section>
-<section id="exploratory-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-analysis">Exploratory analysis</h2>
-<p>We have transformed our dataframe by imputing missing values with a KNNImputer algorythm and one-hot encoded categorical variables. Let’s now perform an exploratory analysis to look for potential correlations between our target variable and the others.</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Pclass"</span>, data<span class="op">=</span>imputed_df, hue<span class="op">=</span><span class="st">'Survived'</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> p.get_height()</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    percentage <span class="op">=</span> <span class="st">'</span><span class="sc">{:.1f}</span><span class="st">%'</span>.<span class="bu">format</span>(<span class="dv">100</span> <span class="op">*</span> count <span class="op">/</span> <span class="bu">len</span>(imputed_df))</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> p.get_y() <span class="op">+</span> p.get_height()</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f'</span><span class="sc">{</span>count<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>percentage<span class="sc">}</span><span class="ss">'</span>, (x, y), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">'Third class'</span>, <span class="st">'Second class'</span>, <span class="st">'First class'</span>])</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Perished / Survived per `Pclass`"</span>)</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Count"</span>)</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="exploratory-analysis" class="level1">
+<h1>Exploratory analysis</h1>
+<p>We have transformed our dataframe by <strong>imputing missing values with a KNNImputer algorythm</strong> and <strong>one-hot encoded categorical variables</strong>. Let’s now perform an exploratory analysis to look for potential correlations between our target variable and the others.</p>
+<div class="cell" data-execution_count="67">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Pclass"</span>, data<span class="op">=</span>imputed_df, hue<span class="op">=</span><span class="st">'Survived'</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> p.get_height()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    percentage <span class="op">=</span> <span class="st">'</span><span class="sc">{:.1f}</span><span class="st">%'</span>.<span class="bu">format</span>(<span class="dv">100</span> <span class="op">*</span> count <span class="op">/</span> <span class="bu">len</span>(imputed_df))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> p.get_y() <span class="op">+</span> p.get_height()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f'</span><span class="sc">{</span>count<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>percentage<span class="sc">}</span><span class="ss">'</span>, (x, y), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">'Third class'</span>, <span class="st">'Second class'</span>, <span class="st">'First class'</span>])</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Perished / Survived per `Pclass`"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-16-output-1.png" width="593" height="432"></p>
+<p><img src="index_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>42% of perished people is coming from the third class.</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Female"</span>, data<span class="op">=</span>imputed_df, hue<span class="op">=</span><span class="st">'Survived'</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> p.get_height()</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    percentage <span class="op">=</span> <span class="st">'</span><span class="sc">{:.1f}</span><span class="st">%'</span>.<span class="bu">format</span>(<span class="dv">100</span> <span class="op">*</span> count <span class="op">/</span> <span class="bu">len</span>(imputed_df))</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> p.get_y() <span class="op">+</span> p.get_height()</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f'</span><span class="sc">{</span>count<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>percentage<span class="sc">}</span><span class="ss">'</span>, (x, y), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="st">'Men'</span>, <span class="st">'Women'</span>])</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Perished / Survived per sex"</span>)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Count"</span>)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="68">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Female"</span>, data<span class="op">=</span>imputed_df, hue<span class="op">=</span><span class="st">'Survived'</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> p.get_height()</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    percentage <span class="op">=</span> <span class="st">'</span><span class="sc">{:.1f}</span><span class="st">%'</span>.<span class="bu">format</span>(<span class="dv">100</span> <span class="op">*</span> count <span class="op">/</span> <span class="bu">len</span>(imputed_df))</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> p.get_y() <span class="op">+</span> p.get_height()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f'</span><span class="sc">{</span>count<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>percentage<span class="sc">}</span><span class="ss">'</span>, (x, y), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="st">'Men'</span>, <span class="st">'Women'</span>])</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Perished / Survived per sex"</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-17-output-1.png" width="593" height="431"></p>
+<p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>The majority of perished people are men, while the majority of survived are women.</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>catplot <span class="op">=</span> sns.catplot(data<span class="op">=</span>imputed_df, y<span class="op">=</span><span class="st">"Age"</span>, x<span class="op">=</span><span class="st">"Pclass"</span>, hue<span class="op">=</span><span class="st">'Survived'</span>, col<span class="op">=</span><span class="st">'Female'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>catplot.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">'Third class'</span>, <span class="st">'Second class'</span>, <span class="st">'First class'</span>])</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>catplot.fig.suptitle(<span class="st">'Distribution of "Survival" per `Age` and `Pclass`'</span>, y<span class="op">=</span><span class="fl">1.05</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>catplot <span class="op">=</span> sns.catplot(data<span class="op">=</span>imputed_df, y<span class="op">=</span><span class="st">"Fare"</span>, x<span class="op">=</span><span class="st">"Pclass"</span>, hue<span class="op">=</span><span class="st">'Survived'</span>, col<span class="op">=</span><span class="st">'Female'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>catplot.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">'Third class'</span>, <span class="st">'Second class'</span>, <span class="st">'First class'</span>])</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>catplot.fig.suptitle(<span class="st">'Distribution of "Survival" per `Fare` and `Pclass`'</span>, y<span class="op">=</span><span class="fl">1.05</span>)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="69">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>catplot <span class="op">=</span> sns.catplot(data<span class="op">=</span>imputed_df, y<span class="op">=</span><span class="st">"Age"</span>, x<span class="op">=</span><span class="st">"Pclass"</span>, hue<span class="op">=</span><span class="st">'Survived'</span>, col<span class="op">=</span><span class="st">'Female'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>catplot.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">'Third class'</span>, <span class="st">'Second class'</span>, <span class="st">'First class'</span>])</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>catplot.fig.suptitle(<span class="st">'Distribution of "Survival" per `Age` and `Pclass`'</span>, y<span class="op">=</span><span class="fl">1.05</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>catplot <span class="op">=</span> sns.catplot(data<span class="op">=</span>imputed_df, y<span class="op">=</span><span class="st">"Fare"</span>, x<span class="op">=</span><span class="st">"Pclass"</span>, hue<span class="op">=</span><span class="st">'Survived'</span>, col<span class="op">=</span><span class="st">'Female'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>catplot.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">'Third class'</span>, <span class="st">'Second class'</span>, <span class="st">'First class'</span>])</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>catplot.fig.suptitle(<span class="st">'Distribution of "Survival" per `Fare` and `Pclass`'</span>, y<span class="op">=</span><span class="fl">1.05</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-18-output-1.png" width="1023" height="490"></p>
+<p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-18-output-2.png" width="1023" height="490"></p>
+<p><img src="index_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Already from these exploratory visualizations, we can easily see that the majority of survived people are women and people from the top classes. Will this be confirmed by the model?</p>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>survived_corr <span class="op">=</span> imputed_df.corr()[<span class="st">'Survived'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>)[<span class="dv">1</span>:]</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>display(survived_corr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="70">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>survived_corr <span class="op">=</span> imputed_df.corr()[<span class="st">'Survived'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>)[<span class="dv">1</span>:]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>display(survived_corr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <pre><code>Female        0.543351
 Pclass        0.338481
@@ -947,71 +997,74 @@ Embarked_S   -0.155660
 Name: Survived, dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(survived_corr.index), <span class="dv">6</span>):</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    chunk <span class="op">=</span> survived_corr.index[i:i<span class="op">+</span><span class="dv">6</span>]</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    sns.pairplot(imputed_df, y_vars<span class="op">=</span>[<span class="st">'Survived'</span>], x_vars<span class="op">=</span>chunk, kind<span class="op">=</span><span class="st">'reg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="71">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(survived_corr.index), <span class="dv">6</span>):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    chunk <span class="op">=</span> survived_corr.index[i:i<span class="op">+</span><span class="dv">6</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    sns.pairplot(imputed_df, y_vars<span class="op">=</span>[<span class="st">'Survived'</span>], x_vars<span class="op">=</span>chunk, kind<span class="op">=</span><span class="st">'reg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-20-output-1.png" width="1420" height="241"></p>
+<p><img src="index_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-20-output-2.png" width="1420" height="241"></p>
+<p><img src="index_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-20-output-3.png" width="1420" height="241"></p>
+<p><img src="index_files/figure-html/cell-15-output-3.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
-<section id="model-development" class="level2">
-<h2 class="anchored" data-anchor-id="model-development">Model development</h2>
+<section id="model-development" class="level1">
+<h1>Model development</h1>
 <p>We begin by splitting the dataset into train and test sets and instantiate a KFold object for cross validation to avoid overfitting. Several trial and errors suggested to set the test size to 0.4, giving the best balance between cross validation score and test set accuracy score for the models.</p>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and test sets</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>model_df <span class="op">=</span> imputed_df.drop(columns<span class="op">=</span>[<span class="st">'CabinData'</span>])</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> model_df.drop(columns<span class="op">=</span>[<span class="st">'Survived'</span>])</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> model_df[<span class="st">'Survived'</span>]</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.4</span>, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># instantiate a KFold object for cross validation</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and test sets</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model_df <span class="op">=</span> imputed_df.drop(columns<span class="op">=</span>[<span class="st">'CabinData'</span>])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> model_df.drop(columns<span class="op">=</span>[<span class="st">'Survived'</span>])</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> model_df[<span class="st">'Survived'</span>]</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.4</span>, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># instantiate a KFold object for cross validation</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="model-selection" class="level3">
-<h3 class="anchored" data-anchor-id="model-selection">Model selection</h3>
+<section id="model-selection" class="level2">
+<h2 class="anchored" data-anchor-id="model-selection">Model selection</h2>
 <p>Then we compare three classifiers and choose the best one in terms of accuracy.</p>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define sklearn pipelines for classifier comparison</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>logistic_pipeline <span class="op">=</span> Pipeline([</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     ('scaler', StandardScaler()),</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'logistic'</span>, LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>))</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>rf_pipeline <span class="op">=</span> Pipeline([</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     ('scaler', StandardScaler()),</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'rf'</span>, RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>))</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>svm_pipeline <span class="op">=</span> Pipeline([</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     ('scaler', StandardScaler()),</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'svm'</span>, SVC())</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>pipelines <span class="op">=</span> [logistic_pipeline, rf_pipeline, svm_pipeline]</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pipeline <span class="kw">in</span> pipelines:</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> cross_val_score(pipeline, X_train, y_train, cv<span class="op">=</span>kf)</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Pipeline: </span><span class="sc">{</span>pipeline<span class="sc">.</span>named_steps<span class="sc">.</span>keys()<span class="sc">}</span><span class="ss"> Mean Cross-Validation Score: </span><span class="sc">{</span>scores<span class="sc">.</span>mean()<span class="sc">.</span><span class="bu">round</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    pipeline.fit(X_train, y_train)</span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> pipeline.predict(X_test)</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Test accuracy score: </span><span class="sc">{</span><span class="bu">round</span>(accuracy_score(y_pred, y_test), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the confusion matrix</span></span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    cmd <span class="op">=</span> ConfusionMatrixDisplay(cm)</span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>    cmd.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span>plt.cm.Blues)</span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Confusion Matrix</span><span class="ch">\n</span><span class="sc">{</span>pipeline[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="73">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define sklearn pipelines for classifier comparison</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>logistic_pipeline <span class="op">=</span> Pipeline([</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     ('scaler', StandardScaler()),</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'logistic'</span>, LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>rf_pipeline <span class="op">=</span> Pipeline([</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     ('scaler', StandardScaler()),</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'rf'</span>, RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>))</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>svm_pipeline <span class="op">=</span> Pipeline([</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     ('scaler', StandardScaler()),</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'svm'</span>, SVC())</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>pipelines <span class="op">=</span> [logistic_pipeline, rf_pipeline, svm_pipeline]</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pipeline <span class="kw">in</span> pipelines:</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> cross_val_score(pipeline, X_train, y_train, cv<span class="op">=</span>kf)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Pipeline: </span><span class="sc">{</span>pipeline<span class="sc">.</span>named_steps<span class="sc">.</span>keys()<span class="sc">}</span><span class="ss"> Mean Cross-Validation Score: </span><span class="sc">{</span>scores<span class="sc">.</span>mean()<span class="sc">.</span><span class="bu">round</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    pipeline.fit(X_train, y_train)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> pipeline.predict(X_test)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Test accuracy score: </span><span class="sc">{</span><span class="bu">round</span>(accuracy_score(y_pred, y_test), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the confusion matrix</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    cmd <span class="op">=</span> ConfusionMatrixDisplay(cm)</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    cmd.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span>plt.cm.Blues)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Confusion Matrix</span><span class="ch">\n</span><span class="sc">{</span>pipeline[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Pipeline: dict_keys(['logistic']) Mean Cross-Validation Score: 0.792
 Test accuracy score: 0.821
@@ -1021,65 +1074,65 @@ Pipeline: dict_keys(['svm']) Mean Cross-Validation Score: 0.695
 Test accuracy score: 0.65</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-22-output-2.png" width="504" height="467"></p>
+<p><img src="index_files/figure-html/cell-17-output-2.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-22-output-3.png" width="504" height="467"></p>
+<p><img src="index_files/figure-html/cell-17-output-3.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-22-output-4.png" width="504" height="467"></p>
+<p><img src="index_files/figure-html/cell-17-output-4.png" class="img-fluid"></p>
 </div>
 </div>
 <p>As we can see, the classification model with the highest accuracy score (mean cross-validation score) is the <strong>Random Forest Classifier</strong>. We are going to use this specific model to predict survival on the Titanic.</p>
 </section>
-<section id="prediction-with-random-forest-classifier" class="level3">
-<h3 class="anchored" data-anchor-id="prediction-with-random-forest-classifier">Prediction with Random Forest Classifier</h3>
+<section id="prediction-with-random-forest-classifier" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-with-random-forest-classifier">Prediction with Random Forest Classifier</h2>
 <p>After having chosen the right classifier for the job, we train it on the train set with GridSearchCV, that performs an exhaustive search over a specified hyperparameter space for an estimator. It takes as input an estimator, a dictionary of hyperparameters, and a cross-validation strategy. It then fits the estimator on all possible combinations of hyperparameters and evaluates the performance of each combination using cross-validation.</p>
 <p>The GridSearchCV class is useful for finding the best hyperparameters for a machine learning model. By testing all possible combinations of hyperparameters, it can help to identify the combination that results in the best performance on a given dataset.</p>
-<div class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__n_estimators'</span>: [<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>],</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__max_depth'</span>: [<span class="va">None</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>rf_pipeline, param_grid<span class="op">=</span>param_grid, cv<span class="op">=</span>kf)</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best parameters:"</span>, grid_search.best_params_)</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best score:"</span>, grid_search.best_score_)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> grid_search.predict(X_test)</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test set accuracy:"</span>, grid_search.score(X_test, y_test))</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>estimator <span class="op">=</span> grid_search.best_estimator_.named_steps[<span class="st">'rf'</span>]</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a> <span class="co"># Calculate the confusion matrix</span></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>cmd <span class="op">=</span> ConfusionMatrixDisplay(cm)</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>cmd.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span>plt.cm.Blues)</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Confusion Matrix</span><span class="ch">\n</span><span class="sc">{</span>estimator<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="74">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__n_estimators'</span>: [<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>],</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__max_depth'</span>: [<span class="va">None</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>rf_pipeline, param_grid<span class="op">=</span>param_grid, cv<span class="op">=</span>kf)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best parameters:"</span>, grid_search.best_params_)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best score:"</span>, grid_search.best_score_)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> grid_search.predict(X_test)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test set accuracy:"</span>, grid_search.score(X_test, y_test))</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>estimator <span class="op">=</span> grid_search.best_estimator_.named_steps[<span class="st">'rf'</span>]</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a> <span class="co"># Calculate the confusion matrix</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>cmd <span class="op">=</span> ConfusionMatrixDisplay(cm)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>cmd.plot(ax<span class="op">=</span>ax, cmap<span class="op">=</span>plt.cm.Blues)</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Confusion Matrix</span><span class="ch">\n</span><span class="sc">{</span>estimator<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best parameters: {'rf__max_depth': None, 'rf__min_samples_leaf': 2, 'rf__min_samples_split': 2, 'rf__n_estimators': 50}
 Best score: 0.8294657026979368
 Test set accuracy: 0.8207282913165266</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-23-output-2.png" width="688" height="467"></p>
+<p><img src="index_files/figure-html/cell-18-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>We have taken the best performing algorithm and trained it on our dataset with a GridSearchCV and KFold cross validation. The perfomance on the test set suggests that the chosen classification model is able to predict Survival with an 82% of accuracy. As a final step, we are going to explain the variables which have been taken into consideration by the classifier in the prediction, and draw conclusions on the “Survived Persona”.</p>
-<div class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>shap_values <span class="op">=</span> shap.TreeExplainer(estimator).shap_values(X_test)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>shap.summary_plot(shap_values[<span class="dv">1</span>], X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="75">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>shap_values <span class="op">=</span> shap.TreeExplainer(estimator).shap_values(X_test)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>shap.summary_plot(shap_values[<span class="dv">1</span>], X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>No data for colormapping provided via 'c'. Parameters 'vmin', 'vmax' will be ignored</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-24-output-2.png" width="730" height="785"></p>
+<p><img src="index_files/figure-html/cell-19-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>The SHAP (SHapley Additive exPlanations) summary plot is a powerful tool for interpreting the output of a tree-based model, such as a Random Forest Classifier, using a TreeExplainer. The plot displays the features in order of their importance, as measured by their mean absolute SHAP values. Here’s how to interpret the SHAP summary plot for a TreeExplainer:</p>
@@ -1091,9 +1144,15 @@ Test set accuracy: 0.8207282913165266</code></pre>
 </ul>
 </section>
 </section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>The Random Forest Classifier trained on our dataset was capable of predicting Survival on the Titanic with a 82% of accuracy. The best predictors identified by the SHAP Tree Explainer are: * <code>Female</code>: whether the person was female or not. The red dots (representing female persons) are all gathered on the right side of the plot, meaning that they have a strong positive impact on survival. * <code>Pclass</code>: passenger class. 1st class passengers (red dots) are located in the right size of the graph. Being a 1st class passenger would have meant sure survival. * <code>Age</code>: older persons, represented by red dots are all gathered in the left (death) side of the plot, inversely, younger people were more prone to be saved. * <code>Fare</code>: similar situation for fare. Higher fares (red dots) are all located in the right side, meaning that people who paid for more expensive tickets had better chances to survive.</p>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>The Random Forest Classifier trained on our dataset was capable of predicting Survival on the Titanic with a 82% of accuracy. The best predictors identified by the SHAP Tree Explainer are:</p>
+<ul>
+<li><p><code>Female</code>: whether the person was female or not. The red dots (representing female persons) are all gathered on the right side of the plot, meaning that they have a strong positive impact on survival.</p></li>
+<li><p><code>Pclass</code>: passenger class. 1st class passengers (red dots) are located in the right size of the graph. Being a 1st class passenger would have meant sure survival.</p></li>
+<li><p><code>Age</code>: older persons, represented by red dots are all gathered in the left (death) side of the plot, inversely, younger people were more prone to be saved.</p></li>
+<li><p><code>Fare</code>: similar situation for fare. Higher fares (red dots) are all located in the right side, meaning that people who paid for more expensive tickets had better chances to survive.</p></li>
+</ul>
 <p>An interesting insights that SHAP gives us is regarding the <code>Embarked_S</code>. This dummy variable tells us if the passenger was embarked in Southampton. We can see that these passengers (red dots) had practically no chance of being saved. Maybe because they were all 3rd class?</p>
 <p>To conclude, we can say that the <strong>Survived Persona</strong> was a young girl, coming from the top classes (having paid a higher fare) and not embarked in Southampton.</p>
 
