@@ -212,20 +212,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="key-findings-and-achievements" class="level1">
-<h1>Key findings and achievements</h1>
+<section id="key-findings-and-achievements" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
+<blockquote class="blockquote">
 <ul>
 <li>Even though the majority of the volume of sales is concentrated in the UK, the most performing region in terms of average revenue is Asia. The ANOVA analysis shows that the <strong>mean purchase value in the Asia/Pacific region is consistently and significantly higher</strong> than the mean purchase value in the other regions. We can infer that the Asia/Pacific region is a potentially lucrative market with higher average purchase amounts than the other regions. Therefore, the store may want to consider investing more resources in this region to take advantage of this opportunity to increase volume of sales.</li>
 <li>By conducting a <strong>market basket analysis</strong> with a focus on the Asian market, we have identified groups of products that are commonly bought together. This has helped us uncover the specific preferences and purchasing patterns of this region. The firm could use this information to create bundled offers that combine these item sets and boost sales volume in the Asian market, ultimately leading to an increase in revenue.</li>
 </ul>
+</blockquote>
 <hr>
 </section>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>The e-commerce industry has experienced significant growth in recent years, and online sales have become an increasingly important aspect of many businesses. Analyzing sales data can help businesses understand customer behavior and identify trends, which can then be used to improve their overall sales strategies and revenue. In this notebook, we will be analyzing a sales dataset from an e-commerce company to gain insights into their sales patterns and identify profitable opportunities.</p>
 <p>Firstly, we will delve into analyzing the regional distribution of sales to evaluate the existence of untapped markets. By assessing the sales data across different regions, we will determine the areas where our products are in high demand and identify potential opportunities for expanding our market presence.</p>
 <p>Secondly, we will conduct a market basket analysis to uncover correlations between products and provide recommendations for boosting sales. This will involve examining the patterns of product combinations that are frequently purchased together by customers. By identifying these relationships, we can optimize our marketing strategies to better meet the needs of our customers and ultimately increase revenue.</p>
-<div class="cell" data-execution_count="46">
+<div class="cell" data-execution_count="1">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataframes</span></span>
@@ -254,8 +256,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="data" class="level1">
-<h1>Data</h1>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>Let’s begin by taking a look at the data at our disposal. The dataset is composed by the following original variables:</p>
 <ul>
 <li><strong>TransactionNo</strong> (categorical): a six-digit unique number that defines each transaction. The letter “C” in the code indicates a cancellation.</li>
@@ -267,7 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>CustomerNo</strong> (categorical): a five-digit unique number that defines each customer.</li>
 <li><strong>Country</strong> (categorical): name of the country where the customer resides.</li>
 </ul>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:35.128988Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:32.893242Z&quot;}" data-execution_count="47">
+<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:35.128988Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:32.893242Z&quot;}" data-execution_count="2">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/sales.csv'</span>)</span>
@@ -466,13 +468,13 @@ memory usage: 38.4+ MB</code></pre>
 </div>
 </div>
 </section>
-<section id="geographical-sales-analysis" class="level1">
-<h1>Geographical sales analysis</h1>
+<section id="geographical-sales-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="geographical-sales-analysis">Geographical sales analysis</h2>
 <p>When conducting a geographical analysis of sales, it is essential to consider both the average purchase value and sales volume to determine if there are any countries that offer promising opportunities. For instance, a country with a high average purchase value but low sales volume may indicate that it has untapped potential and should be targeted for further penetration. The average purchase value gives an indication of the buying power and willingness of customers to spend money, while sales volume reflects the market demand and potential for growth. A country with a high average purchase value and low sales volume could be a potential opportunity for businesses to capitalize on the untapped market potential by increasing their presence and promoting their products or services more effectively.</p>
 <p>The analysis of the geographical spread of sales will be carried out at country level, national vs.&nbsp;international level, and finally regional level.</p>
-<section id="country-level" class="level2">
-<h2 class="anchored" data-anchor-id="country-level">Country level</h2>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:40.824045Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.088723Z&quot;}" data-execution_count="48">
+<section id="country-level" class="level3">
+<h3 class="anchored" data-anchor-id="country-level">Country level</h3>
+<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:40.824045Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.088723Z&quot;}" data-execution_count="3">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bycountry <span class="op">=</span> df.groupby(<span class="st">'Country'</span>).agg(</span>
@@ -505,9 +507,9 @@ memory usage: 38.4+ MB</code></pre>
 </div>
 </div>
 </section>
-<section id="national-vs.-international-level" class="level2">
-<h2 class="anchored" data-anchor-id="national-vs.-international-level">National vs.&nbsp;international level</h2>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.180659Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089242Z&quot;}" data-execution_count="49">
+<section id="national-vs.-international-level" class="level3">
+<h3 class="anchored" data-anchor-id="national-vs.-international-level">National vs.&nbsp;international level</h3>
+<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.180659Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089242Z&quot;}" data-execution_count="4">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a column to differentiation between national vs. international sales</span></span>
@@ -571,7 +573,7 @@ memory usage: 38.4+ MB</code></pre>
 <p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.475006Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089420Z&quot;}" data-execution_count="50">
+<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.475006Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089420Z&quot;}" data-execution_count="5">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>row_rev <span class="op">=</span> df.loc[df[<span class="st">'UKvsRoW'</span>] <span class="op">==</span> <span class="st">'RoW'</span>, <span class="st">'Amount'</span>]</span>
@@ -580,7 +582,7 @@ memory usage: 38.4+ MB</code></pre>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We perform a two-sample ttest to check for statistically significant difference in average sales between national and international markets</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ttest_ind(uk_rev, row_rev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="50">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>Ttest_indResult(statistic=-16.7279858606087, pvalue=8.524026769071223e-63)</code></pre>
 </div>
 </div>
@@ -588,9 +590,9 @@ memory usage: 38.4+ MB</code></pre>
 <p>Even though the volume of sales of international customers accounts only for the 17.0%, a two-sample <em>ttest</em> demonstrates that the <strong>average revenue generated abroad is significantly higher than the one generated in the UK</strong>. This means that international markets for this business are potentially more lucrative than the national one and need to be exploited more.</p>
 </blockquote>
 </section>
-<section id="regional-level" class="level2">
-<h2 class="anchored" data-anchor-id="regional-level">Regional level</h2>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.613739Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106391Z&quot;}" data-execution_count="51">
+<section id="regional-level" class="level3">
+<h3 class="anchored" data-anchor-id="regional-level">Regional level</h3>
+<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.613739Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106391Z&quot;}" data-execution_count="6">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping regions</span></span>
@@ -700,7 +702,7 @@ memory usage: 38.4+ MB</code></pre>
 <p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:44.456895Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106638Z&quot;}" data-execution_count="52">
+<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:44.456895Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106638Z&quot;}" data-execution_count="7">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f_value, p_value <span class="op">=</span> f_oneway(</span>
@@ -744,8 +746,8 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 </blockquote>
 </section>
 </section>
-<section id="market-basket-analysis-for-the-asian-market" class="level1">
-<h1>Market basket analysis for the Asian market</h1>
+<section id="market-basket-analysis-for-the-asian-market" class="level2">
+<h2 class="anchored" data-anchor-id="market-basket-analysis-for-the-asian-market">Market basket analysis for the Asian market</h2>
 <p>Market basket analysis, specifically Apriori and association rules, can provide valuable insights into customer behavior and preferences that can be used to develop effective marketing strategies. By analyzing customer purchase patterns and identifying which products are commonly purchased together, businesses can create product bundles and promotions that cater to specific customer segments. For instance, if the analysis reveals that customers who purchase Product A are highly likely to also purchase Product B, the business can create a bundle that includes both products at a discounted price to increase sales.</p>
 <p>The Asia/Pacific region has a consistently higher average purchase value than other regions, indicating a potential opportunity to increase sales and revenue in that particular market. By conducting basket analysis on this region, the business can gain further insights into the specific product preferences and purchasing habits of customers in this market. This information can then be used to create targeted marketing strategies, such as promotions and advertising campaigns, that appeal to the unique needs and interests of customers in the Asia/Pacific region.</p>
 <p>First, we subset the dataframe to filter for the transactions happened in the Asian market and encode them in binary features (one-hot encoding). Then, with the Apriori algorithm, we group them together according to a minimum support of 0.05 and we filter them according to a minimum confidence level of 1.</p>
@@ -759,7 +761,7 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <li><p><strong>Leverage</strong>: This measures the difference between the observed frequency of the antecedent and consequent co-occurring and the frequency expected if they were independent. It is calculated as the support of the antecedent and consequent minus the product of the support of the antecedent and the support of the consequent. A positive leverage value indicates a positive association between the antecedent and consequent, while a negative value indicates a negative association.</p></li>
 <li><p><strong>Conviction</strong>: This measures the degree of implication of the rule. It is calculated as the ratio of the support of the antecedent to the complement of the confidence. Conviction can range from 0 to infinity, with higher values indicating stronger implications.</p></li>
 </ul>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:31:00.989793Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.170680Z&quot;}" data-tags="[]" data-execution_count="53">
+<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:31:00.989793Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.170680Z&quot;}" data-tags="[]" data-execution_count="8">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsetting for Asia/Pacific transactions</span></span>
@@ -790,7 +792,7 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of itemsets selected by the Apriori algorithm: 163</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -814,7 +816,63 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">37</td>
-<td>(Dolly Girl Lunch Box, Regency Cakestand 3 Tie...</td>
+<td>(Roses Regency Teacup And Saucer, Regency Cake...</td>
+<td>(Spaceboy Lunch Box)</td>
+<td>0.054348</td>
+<td>0.108696</td>
+<td>0.054348</td>
+<td>1.0</td>
+<td>9.200000</td>
+<td>0.048440</td>
+<td>inf</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">24</td>
+<td>(Spaceboy Lunch Box, Roses Regency Teacup And ...</td>
+<td>(Dolly Girl Lunch Box)</td>
+<td>0.054348</td>
+<td>0.097826</td>
+<td>0.054348</td>
+<td>1.0</td>
+<td>10.222222</td>
+<td>0.049031</td>
+<td>inf</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25</td>
+<td>(Roses Regency Teacup And Saucer, Dolly Girl L...</td>
+<td>(Spaceboy Lunch Box)</td>
+<td>0.054348</td>
+<td>0.108696</td>
+<td>0.054348</td>
+<td>1.0</td>
+<td>9.200000</td>
+<td>0.048440</td>
+<td>inf</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">36</td>
+<td>(Spaceboy Lunch Box, Roses Regency Teacup And ...</td>
+<td>(Regency Cakestand 3 Tier)</td>
+<td>0.054348</td>
+<td>0.086957</td>
+<td>0.054348</td>
+<td>1.0</td>
+<td>11.500000</td>
+<td>0.049622</td>
+<td>inf</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>(Spaceboy Lunch Box, Regency Cakestand 3 Tier,...</td>
 <td>(Roses Regency Teacup And Saucer)</td>
 <td>0.054348</td>
 <td>0.097826</td>
@@ -827,65 +885,9 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <td>1</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">24</td>
-<td>(Roses Regency Teacup And Saucer, Dolly Girl L...</td>
-<td>(Spaceboy Lunch Box)</td>
-<td>0.054348</td>
-<td>0.108696</td>
-<td>0.054348</td>
-<td>1.0</td>
-<td>9.200000</td>
-<td>0.048440</td>
-<td>inf</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">25</td>
-<td>(Roses Regency Teacup And Saucer, Spaceboy Lun...</td>
-<td>(Dolly Girl Lunch Box)</td>
-<td>0.054348</td>
-<td>0.097826</td>
-<td>0.054348</td>
-<td>1.0</td>
-<td>10.222222</td>
-<td>0.049031</td>
-<td>inf</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">36</td>
-<td>(Roses Regency Teacup And Saucer, Dolly Girl L...</td>
-<td>(Spaceboy Lunch Box)</td>
-<td>0.054348</td>
-<td>0.108696</td>
-<td>0.054348</td>
-<td>1.0</td>
-<td>9.200000</td>
-<td>0.048440</td>
-<td>inf</td>
-<td>3</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">34</td>
-<td>(Roses Regency Teacup And Saucer, Dolly Girl L...</td>
-<td>(Regency Cakestand 3 Tier)</td>
-<td>0.054348</td>
-<td>0.086957</td>
-<td>0.054348</td>
-<td>1.0</td>
-<td>11.500000</td>
-<td>0.049622</td>
-<td>inf</td>
-<td>3</td>
-<td>1</td>
-</tr>
-<tr class="even">
 <td data-quarto-table-cell-role="th">39</td>
-<td>(Roses Regency Teacup And Saucer, Dolly Girl L...</td>
-<td>(Regency Cakestand 3 Tier, Spaceboy Lunch Box)</td>
+<td>(Spaceboy Lunch Box, Roses Regency Teacup And ...</td>
+<td>(Regency Cakestand 3 Tier, Dolly Girl Lunch Box)</td>
 <td>0.054348</td>
 <td>0.054348</td>
 <td>0.054348</td>
@@ -968,7 +970,7 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">27</td>
-<td>(Lunch Bag Dolly Girl Design, Set 3 Retrospot ...</td>
+<td>(Set 3 Retrospot Tea/Coffee/Sugar, Lunch Bag D...</td>
 <td>(Red Spotty Biscuit Tin)</td>
 <td>0.054348</td>
 <td>0.076087</td>
@@ -982,42 +984,42 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">31</td>
-<td>(Roses Regency Teacup And Saucer, Regency Cake...</td>
-<td>(Spaceboy Lunch Box)</td>
+<td>(Spaceboy Lunch Box, Regency Cakestand 3 Tier)</td>
+<td>(Roses Regency Teacup And Saucer)</td>
 <td>0.054348</td>
-<td>0.108696</td>
+<td>0.097826</td>
 <td>0.054348</td>
 <td>1.0</td>
-<td>9.200000</td>
-<td>0.048440</td>
+<td>10.222222</td>
+<td>0.049031</td>
 <td>inf</td>
 <td>2</td>
 <td>1</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">19</td>
-<td>(Roses Regency Teacup And Saucer, Dolly Girl L...</td>
-<td>(Regency Cakestand 3 Tier)</td>
+<td>(Roses Regency Teacup And Saucer, Regency Cake...</td>
+<td>(Dolly Girl Lunch Box)</td>
 <td>0.054348</td>
-<td>0.086957</td>
+<td>0.097826</td>
 <td>0.054348</td>
 <td>1.0</td>
-<td>11.500000</td>
-<td>0.049622</td>
+<td>10.222222</td>
+<td>0.049031</td>
 <td>inf</td>
 <td>2</td>
 <td>1</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">17</td>
-<td>(Lunch Bag Dolly Girl Design, Spaceboy Lunch Box)</td>
-<td>(Dolly Girl Lunch Box)</td>
+<td>(Dolly Girl Lunch Box, Lunch Bag Dolly Girl De...</td>
+<td>(Spaceboy Lunch Box)</td>
 <td>0.065217</td>
-<td>0.097826</td>
+<td>0.108696</td>
 <td>0.065217</td>
 <td>1.0</td>
-<td>10.222222</td>
-<td>0.058837</td>
+<td>9.200000</td>
+<td>0.058129</td>
 <td>inf</td>
 <td>2</td>
 <td>1</td>
@@ -1031,10 +1033,10 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <blockquote class="blockquote">
 <p>Upon examining the frequent itemsets, it becomes evident that most of them consist of identical items that are often purchased together, with only minor variations such as color or pattern. For instance, transactions may include items like Blue Polkadot Bowls and Pink Polkadot Bowls, Dolly Girl Lunch Boxes and Spaceboy Lunch Boxes, or Feltcraft Princess Lola Dolls and Feltcraft Princess Olivia Dolls.</p>
 </blockquote>
-<section id="bundle-offers" class="level2">
-<h2 class="anchored" data-anchor-id="bundle-offers">Bundle offers</h2>
+<section id="bundle-offers" class="level3">
+<h3 class="anchored" data-anchor-id="bundle-offers">Bundle offers</h3>
 <p>Based on the observation that these items are frequently bought together, <strong>it could be advantageous to offer them as bundles to customers</strong>. The firm could offer convenience and value to customers while potentially increasing sales and revenue. For example, a bundle might include both the Blue Polkadot Bowl and the Pink Polkadot Bowl, or the Dolly Girl Lunch Box and the Spaceboy Lunch Box. This strategy can be an effective way to meet Asian customers needs while boosting profits for the retailer.</p>
-<div class="cell" data-tags="[]" data-execution_count="54">
+<div class="cell" data-tags="[]" data-execution_count="9">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Since we want to create bundle offers for single products, we filter for single items</span></span>

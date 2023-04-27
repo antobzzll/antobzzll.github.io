@@ -194,7 +194,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#key-findings-and-achievements" id="toc-key-findings-and-achievements" class="nav-link active" data-scroll-target="#key-findings-and-achievements">Key findings and achievements</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#race-results" id="toc-race-results" class="nav-link" data-scroll-target="#race-results">Race Results</a></li>
+  <li><a href="#race-results" id="toc-race-results" class="nav-link" data-scroll-target="#race-results">Race Results</a>
+  <ul class="collapse">
   <li><a href="#laptime-analysis" id="toc-laptime-analysis" class="nav-link" data-scroll-target="#laptime-analysis">Laptime analysis</a>
   <ul class="collapse">
   <li><a href="#sector-times" id="toc-sector-times" class="nav-link" data-scroll-target="#sector-times">Sector times</a></li>
@@ -205,6 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-performance-based-ranking" id="toc-a-performance-based-ranking" class="nav-link" data-scroll-target="#a-performance-based-ranking">A performance-based ranking</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -214,22 +216,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="key-findings-and-achievements" class="level1">
-<h1>Key findings and achievements</h1>
+<section id="key-findings-and-achievements" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
+<blockquote class="blockquote">
 <ul>
 <li>For the purpose of providing more technical and structured insights to fans, we demonstrate how public race data can be used to extract important information on race and rider performance.</li>
 <li>We demonstrate how to <strong>quantify the performances</strong> of riders, teams, and constructors through <strong>quantitative indicators</strong> that take into account <strong>relative speed and consistency</strong>, the two fundamental variables in the theoretical definition of “performance.”</li>
 </ul>
+</blockquote>
 <hr>
 </section>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Sports are being radically transformed by data collection and analysis, benefiting both professionals and fans. Soccer, baseball, and American football are some examples where player performance data is utilized to acquire talent and provide in-depth statistics for the public. In contrast, data analysis for motorsports fans is not yet widespread, despite being fundamental to the sport’s operation.</p>
 <p>In this notebook, we will explore the realm of MotoGP racing and analyze publicly available race data with the aim of comprehending how it can be used to provide fans with essential <strong>insights on riders’ performance</strong>. By employing statistical methodologies, we will extract as much insights as possible from the openly accessible data, contending that it is possible to gauge the riders’ objective performances within a race and across the championship. At the same time, we will propose potential data analyses – presented as a “post-GP” information product – that can be used by the media to interpret Grand Prix outcomes and which can spark engaging discussions on the competitors’ performance levels and progress.</p>
 <blockquote class="blockquote">
 <p><em>Data is provided thanks to the <a href="https://github.com/antobzzll/motogpdata">motogpdata</a> project.</em></p>
 </blockquote>
-<div class="cell" data-execution_count="39">
+<div class="cell" data-execution_count="1">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> motogpdata.handler <span class="im">as</span> mgphandler</span>
@@ -243,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Race Results</h1>
 <p>For the scope of this study, we will take into account and examine two races from the 2022 MotoGP season, namely the Qatar Grand Prix and the Italian Grand Prix. Let’s first refresh our memory of the results of these races.</p>
 <p>For the Qatar Grand Prix:</p>
-<div class="cell" data-execution_count="40">
+<div class="cell" data-execution_count="2">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>season <span class="op">=</span> mgphandler.Season(<span class="dv">2022</span>, <span class="st">'MotoGP'</span>)</span>
@@ -253,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>results_subset <span class="op">=</span> [<span class="st">'rider.full_name'</span>, <span class="st">'position'</span>, <span class="st">'average_speed'</span>, <span class="st">'total_laps'</span>, <span class="st">'time'</span>, <span class="st">'points'</span>]</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>qat2022.results()[results_subset].set_index(<span class="st">'rider.full_name'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="40">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -476,12 +480,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>For the Italian Grand Prix:</p>
-<div class="cell" data-execution_count="41">
+<div class="cell" data-execution_count="3">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ita2022.results()[results_subset].set_index(<span class="st">'rider.full_name'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="41">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -721,11 +725,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The traditional race classification tables (which represent the only type of data considered by most of the media when reporting on races) do not provide many analytical insights nor objective indicators of riders performances. They merely offer a snapshot of the race outcome; and the final result does not provide a comprehensive evaluation of the competitors’ achievements in the race.</p>
 <p>It is in fact possible for a rider to finish a race in a certain position thanks to the mistakes of others, even if he has maintained an anonymous performance throughout the race. In such situations, the most common question that arises is whether or not the rider “deserved” or not the position he achieved at the end of the race. In other words, we ask: what was the rider’s performance after accounting for the race events? How can we measure and evaluate he’s performance regardless of the result obtained?</p>
-</section>
-<section id="laptime-analysis" class="level1">
-<h1>Laptime analysis</h1>
+<section id="laptime-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="laptime-analysis">Laptime analysis</h2>
 <p>A statistical assessment of race performance is required to address these inquiries, which entails an evaluation based on factual data rather than subjective sentiments or judgments. To accomplish this, the data on lap times must be taken into account, scrutinizing the race’s overall progress. An illustration of such data for the Qatar race is presented below.</p>
-<div class="cell" data-execution_count="42">
+<div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract race analysis data for the Qatar Grand Prix</span></span>
@@ -734,7 +737,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>laptimes_ridersQAT.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="42">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -918,7 +921,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The above table (in its comprehensive form) shows the lap times of each rider (expressed in seconds), and provides already a good starting point for deepening the understanding of the time trends and the general race progression. From such data, it is possible to generate some of the following visualizations.</p>
-<div class="cell" data-execution_count="43">
+<div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>laptimes_ridersQAT_melted[laptimes_ridersQAT_melted[<span class="st">'rider'</span>].isin(</span>
@@ -937,7 +940,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>By projecting the <em>average lap time</em> (gray line), we can appreciate the general trend of the race. For example, in the case of Qatar, there is a decline in overall performance starting from the seventeenth lap. Similarly, there is a significant performance drop in the Italian Grand Prix race starting from the sixteenth lap. <strong>This analysis helps to evaluate tire performance</strong>.</p>
 <p>Regarding the personal lap times of the riders, we can notice that both Enea Bastianini (who arrived in 1st place) and Aleix Espargaro (who arrived in 4th place) performed well below the average (gray line), unlike Raul Fernandez, for example (orange line), who consistently raced above the general average of the competition. Similar considerations can also be applied to the Italian Grand Prix, as shown below.</p>
-<div class="cell" data-execution_count="44">
+<div class="cell" data-execution_count="6">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>timesheetITA, laptimes_ridersITA, laptimes_teamsITA, laptimes_constructorsITA, performanceITA <span class="op">=</span> ita2022.race_analysis(save_pdf<span class="op">=</span><span class="va">False</span>, performance<span class="op">=</span><span class="va">True</span>)</span>
@@ -958,7 +961,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>These graphs provide a visual and intuitive way to determine if a particular rider, team, or manufacturer has performed above, below, or at an average level. (It’s important to note that the more a rider’s lap times are below the average race’s lap time, the faster they’ve gone). Using the same visualization concept for the concstructors, we can see how Yamaha and KTM consistently performed above average in the Qatar 2022 race, thus indicating that they “underperformed” compared to the other manufacturers.</p>
-<div class="cell" data-execution_count="45">
+<div class="cell" data-execution_count="7">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>laptimes_constructorsQAT_melted <span class="op">=</span> laptimes_constructorsQAT.melt(id_vars<span class="op">=</span><span class="st">'lap'</span>, var_name<span class="op">=</span><span class="st">'constructor'</span>, value_name<span class="op">=</span><span class="st">'laptime'</span>)</span>
@@ -977,10 +980,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<section id="sector-times" class="level2">
-<h2 class="anchored" data-anchor-id="sector-times">Sector times</h2>
+<section id="sector-times" class="level3">
+<h3 class="anchored" data-anchor-id="sector-times">Sector times</h3>
 <p>In an aggregate manner, it is also possible to determine variation indicators for each sector of the circuit, thereby appreciating the overall level of consistency of the riders in the various sections of the track. For example, we can observe that in the case of the Qatar Grand Prix, the consistency of lap times in different sectors is almost identical, while at Mugello, the sector in which the drivers were on average more consistent is T2.</p>
-<div class="cell" data-execution_count="46">
+<div class="cell" data-execution_count="8">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> pd.DataFrame(timesheetQAT[timesheetQAT[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>][[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].std())</span>
@@ -993,7 +996,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>🇶🇦 Qatar Grand Prix 2022
 Sector Pace:</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="46">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -1021,7 +1024,7 @@ Sector Pace:</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="47">
+<div class="cell" data-execution_count="9">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> pd.DataFrame(timesheetITA[timesheetITA[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>][[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].std())</span>
@@ -1034,7 +1037,7 @@ Sector Pace:</code></pre>
 <pre><code>🇮🇹 Italian Grand Prix 2022
 Sector pace:</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="47">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -1063,7 +1066,7 @@ Sector pace:</code></pre>
 </div>
 </div>
 <p>The same principle of analysis can be applied to the fastest times set by riders in the different sectors of the track. At the Mugello Grand Prix, we can see, for example, how Yamaha, with Fabio Quartararo, was the fastest in T2 and T3. In contrast, the Ducatis of Bagnaia and Bastianini expressed the best times in the sectors with higher top speeds (T1 and T4).</p>
-<div class="cell" data-execution_count="48">
+<div class="cell" data-execution_count="10">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>by_rider <span class="op">=</span> timesheetITA[timesheetITA[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>].groupby([<span class="st">'constructor'</span>, <span class="st">'rider'</span>])[[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].<span class="bu">min</span>().<span class="bu">round</span>(<span class="dv">3</span>)</span>
@@ -1089,14 +1092,14 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <p>In general, analyzing sector times under different measures of aggregation (average time, minimum, maximum, consistency in terms of standard deviation, etc.) can reveal interesting points of comparison to evaluate the adaptation to the track of riders, teams, and constructors.</p>
 </section>
 </section>
-<section id="performance-analysis" class="level1">
-<h1>Performance analysis</h1>
+<section id="performance-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="performance-analysis">Performance analysis</h2>
 <p>Although an analysis of times like this already gives a clear idea of the general trend of the race, it alone cannot provide an answer to our initial question. In fact, to quantify riders’ performances, it is necessary to deepen the analysis and develop quantitative indicators.</p>
-<section id="the-performance-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="the-performance-matrix">The Performance Matrix</h2>
+<section id="the-performance-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="the-performance-matrix">The Performance Matrix</h3>
 <p>Motorsports performance, can be defined as “<em>how consistently fast a rider has been</em>” - relative to the number of laps completed. Therefore, at a conceptual level, the so-called “pace” can be theorized as the aggregation of two fundamental variables: consistency and speed. To achieve high positions in the rankings, a rider must in fact be both fast and consistent.</p>
 <p>Visually, the relationship between these two variables can be demonstrated with the help of a matrix - shown below - which we will call the “performance matrix”. The graph represents the ratio between the two indicators (<em>relative speed</em> on the y-axis and <em>relative consistency</em> on the x-axis) for each participant in the race, in relation to their average located at the axes <span class="math inline">\(x,y=0\)</span> (black lines). This means that the performance of the riders located in the upper-right quadrant of the graph are above average, both in terms of speed and consistency. Conversely, those located in the lower-left quadrant have “underperformed” below average (for both variables).</p>
-<div class="cell" data-execution_count="49">
+<div class="cell" data-execution_count="11">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>perf_cols <span class="op">=</span> [<span class="st">'rider'</span>, <span class="st">'constructor'</span>, <span class="st">'grid'</span>, <span class="st">'position'</span>, <span class="st">'pos_delta'</span>, <span class="st">'points'</span>, <span class="st">'avg_laptime'</span>, <span class="st">'avg_speed'</span>, <span class="st">'delta_avg_laptime'</span>, <span class="st">'pace_speed_index'</span>, <span class="st">'delta_std_laptime'</span>, <span class="st">'pace_consistency_index'</span>, <span class="st">'performance_index'</span>]</span>
@@ -1127,7 +1130,7 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 </div>
 </div>
 <p>In the case of Qatar, we can see how this graph helps us clearly visualize the struggle of the Ducati teams in having a consistent pace (with the exception of the winner, Bastianini). The Suzuki team had a good overall performance, both in terms of speed and consistency.</p>
-<div class="cell" data-execution_count="50">
+<div class="cell" data-execution_count="12">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>performanceITA[performanceITA[<span class="st">'performance_index'</span>] <span class="op">&gt;</span> <span class="op">-</span><span class="dv">3</span>], </span>
@@ -1154,11 +1157,11 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 </div>
 <p>At Mugello, it’s interesting to note how the riders who scored points are all grouped in the upper-right quadrant, which means their values for speed and consistency were above average (confirming the demonstrated relationship between the two variables). Only Quartararo (who finished second) demonstrated both consistency and speed among the Yamaha riders, while the other three Yamahas suffered from a noticeable lack of speed that prevented them from scoring points. The Ducati team had a good overall performance, with most of their riders largely confirming their high performance usually demonstrated at their home circuit.</p>
 </section>
-<section id="a-performance-based-ranking" class="level2">
-<h2 class="anchored" data-anchor-id="a-performance-based-ranking">A performance-based ranking</h2>
+<section id="a-performance-based-ranking" class="level3">
+<h3 class="anchored" data-anchor-id="a-performance-based-ranking">A performance-based ranking</h3>
 <p>The two variables that quantify the “pace” can be combined to create an index that summarizes a rider’s performance in a single value. We will call this the “performance indicator”, which is an aggregation of the speed and consistency indicators of the pace.</p>
 <p>The following table shows the results of the Qatar race along with these indicators. Specifically, from left to right, it includes the starting position, finishing position, difference in positions at the finish, points earned, speed indicator, consistency indicator, and the aggregated performance indicator. This results table, ordered by the latter variable, presents a “revisited” ranking based on the performance demonstrated by the riders regardless of the final result and events of the race.</p>
-<div class="cell" data-execution_count="51">
+<div class="cell" data-execution_count="13">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>perfQAT <span class="op">=</span> performanceQAT.drop(columns<span class="op">=</span>[</span>
@@ -1167,7 +1170,7 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>perfQAT.index <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>perfQAT.drop(columns<span class="op">=</span><span class="st">'constructor'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -1458,7 +1461,7 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 </div>
 <p>In this “new” ranking (sorted by the aggregated performance indicator), it is interesting to note that the winner (Enea Bastianini), who dominated the race from the first position since the beginning, is relegated to the third position behind Brad Binder and Pol Espargaro. This is due to the fact that these two riders have shown to have a greater speed and consistency than Enea, who, apart from the victory, has equalled the performance of Marc Marquez.</p>
 <p>The same concept is applied to the race performances of the constructors in the following table.</p>
-<div class="cell" data-execution_count="52">
+<div class="cell" data-execution_count="14">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>perfQAT_constr <span class="op">=</span> perfQAT.groupby(<span class="st">'constructor'</span>)[[<span class="st">'pace_speed_index'</span>, <span class="st">'pace_consistency_index'</span>, <span class="st">'performance_index'</span>]].mean().sort_values(<span class="st">'performance_index'</span>, ascending<span class="op">=</span><span class="va">False</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
@@ -1552,8 +1555,8 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <p>As we can see, thanks in part to the performance matrix applied to the constructors, Suzuki was the most “performant” motorcycle in Qatar 2022, along with Honda and Aprilia. Ducati, Yamaha, and KTM had subpar performances.</p>
 </section>
 </section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>For the purpose of providing more technical and structured motorsports information to fans, we have demonstrated in this article how public data can be used to extract important information on race and rider performance. While the race results remain undoubtedly the reference for assigning race points, it is still crucial to be able to objectively measure and evaluate the “pace” of the riders, regardless of the checkered flag and race events. By examining two MotoGP races in the 2022 season, we first established the <strong>importance of visually analyzing the race progression</strong> in terms of lap times in order to:</p>
 <ul>
 <li>Examine the overall <strong>evolution of tire performance and degradation</strong>;</li>
@@ -1564,6 +1567,7 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <p>In conclusion, the research findings confirm the validity of the initial hypothesis and provide a satisfying answer to the questions that were posed at the beginning of the investigation. It is also believed that this study constitutes an important starting point for the creation of an engaging technical information format for motor racing. The ultimate goal is to promote a constructive and informed debate among industry experts and enthusiasts, providing objective information that allows for statistical evaluation of the performances of riders and vehicles. In this way, we could contribute to fostering a more aware and informed motor racing culture, capable of fully appreciating the technical complexity of this type of sport, especially for those more demanding fans.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

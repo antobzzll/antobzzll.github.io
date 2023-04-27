@@ -211,17 +211,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="key-findings-and-achievements" class="level1">
-<h1>Key findings and achievements</h1>
+<section id="key-findings-and-achievements" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
+<blockquote class="blockquote">
 <ul>
 <li>Using a machine learning model to predict the probability of a passenger’s survival on the Titanic, a <strong>Persona has been defined to characterize those who survived</strong>.</li>
 </ul>
+</blockquote>
 <hr>
 </section>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>The Titanic disaster remains one of the most infamous shipwrecks in history, with over 1500 lives lost. In this notebook, we will explore and analyze a dataset containing information on passengers who were aboard the ship and build a machine learning model to predict which passengers were likely to have survived the tragedy.</p>
-<div class="cell" data-execution_count="58">
+<div class="cell" data-execution_count="1">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -242,8 +244,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="data" class="level1">
-<h1>Data</h1>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>The variables included in the dataset are:</p>
 <ul>
 <li><strong>PassengerId</strong>: An integer value representing the unique ID of each passenger on board.</li>
@@ -260,13 +262,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Embarked</strong>: A string variable representing the port of embarkation for the passenger, with possible values “S” (Southampton), “C” (Cherbourg), or “Q” (Queenstown).</li>
 </ul>
 <p>Here below a glimpse of the dataset:</p>
-<div class="cell" data-execution_count="59">
+<div class="cell" data-execution_count="2">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/titanic.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="59">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -461,10 +463,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<section id="transformations-feature-engineering-preprocessing" class="level2">
-<h2 class="anchored" data-anchor-id="transformations-feature-engineering-preprocessing">Transformations, feature engineering, preprocessing</h2>
+<section id="transformations-feature-engineering-preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="transformations-feature-engineering-preprocessing">Transformations, feature engineering, preprocessing</h3>
 <p>In this first section we are going to explore and process the given dataset and prepare it for modeling. Let’s first take a general look at the variables from a structural point-of-view.</p>
-<div class="cell" data-execution_count="60">
+<div class="cell" data-execution_count="3">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -492,18 +494,18 @@ memory usage: 83.7+ KB</code></pre>
 </div>
 </div>
 <p><code>PassengerId</code> column is a useless variable in terms of prediction capabilities. We can set it as dataframe index (or drop it) to keep it out of scope.</p>
-<div class="cell" data-execution_count="61">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.set_index(<span class="st">'PassengerId'</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># df = df.drop(columns=['PassengerId'])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To give more weight to first class (and vice-versa) <code>Pclass</code> values must be inverted.</p>
-<div class="cell" data-execution_count="62">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conditions <span class="op">=</span> [df[<span class="st">'Pclass'</span>] <span class="op">==</span> <span class="dv">1</span>, df[<span class="st">'Pclass'</span>] <span class="op">==</span> <span class="dv">3</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>choices <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">1</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Pclass'</span>] <span class="op">=</span> np.select(conditions, choices, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s assess now the presence of <strong>null values</strong>. Percentage of null values per variable:</p>
-<div class="cell" data-execution_count="63">
+<div class="cell" data-execution_count="6">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>display((df.isnull().<span class="bu">sum</span>() <span class="op">/</span> df.shape[<span class="dv">0</span>]).<span class="bu">round</span>(<span class="dv">3</span>).sort_values(ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -524,12 +526,12 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>A part from a negligeable presence of null values in the <code>Embarked</code> variable, we can see that important columns such as <code>Cabin</code> and <code>Age</code> are full of empty observations. Before proceeding with the model development, we’ll have to deal with these inconsistencies.</p>
-<div class="cell" data-execution_count="64">
+<div class="cell" data-execution_count="7">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Cabin'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="64">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>array([nan, 'C85', 'C123', 'E46', 'G6', 'C103', 'D56', 'A6',
        'C23 C25 C27', 'B78', 'D33', 'B30', 'C52', 'B28', 'C83', 'F33',
        'F G73', 'E31', 'A5', 'D10 D12', 'D26', 'C110', 'B58 B60', 'E101',
@@ -550,7 +552,7 @@ dtype: float64</code></pre>
        'C148'], dtype=object)</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="65">
+<div class="cell" data-execution_count="8">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>display(df[<span class="st">'Cabin'</span>].value_counts().head(<span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -591,7 +593,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>We can see that the majority of the cabins in the dataset seem to follow a pattern of a letter followed by a two or three digit number, suggesting that the letter represents the section or deck where the cabin is situated and the number represents the room number. It is reasonable to assume that knowing the section where a passenger’s cabin is located would provide valuable information about their likelihood of survival. Therefore, it would be beneficial to clean up the column containing cabin information to extract useful insights.</p>
-<div class="cell" data-execution_count="66">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>trans_df <span class="op">=</span> df.copy()</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting Cabin variable into Deck and Room variables</span></span>
@@ -616,7 +618,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>imputed_df <span class="op">=</span> pd.DataFrame(imputed_df, columns<span class="op">=</span>df_encoded.columns)</span>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>imputed_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="66">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -897,10 +899,10 @@ Name: count, dtype: int64</code></pre>
 </div>
 </section>
 </section>
-<section id="exploratory-analysis" class="level1">
-<h1>Exploratory analysis</h1>
+<section id="exploratory-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-analysis">Exploratory analysis</h2>
 <p>We have transformed our dataframe by <strong>imputing missing values with a KNNImputer algorythm</strong> and <strong>one-hot encoded categorical variables</strong>. Let’s now perform an exploratory analysis to look for potential correlations between our target variable and the others.</p>
-<div class="cell" data-execution_count="67">
+<div class="cell" data-execution_count="10">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Pclass"</span>, data<span class="op">=</span>imputed_df, hue<span class="op">=</span><span class="st">'Survived'</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
@@ -923,7 +925,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>42% of perished people is coming from the third class.</p>
-<div class="cell" data-execution_count="68">
+<div class="cell" data-execution_count="11">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Female"</span>, data<span class="op">=</span>imputed_df, hue<span class="op">=</span><span class="st">'Survived'</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
@@ -946,7 +948,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>The majority of perished people are men, while the majority of survived are women.</p>
-<div class="cell" data-execution_count="69">
+<div class="cell" data-execution_count="12">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>catplot <span class="op">=</span> sns.catplot(data<span class="op">=</span>imputed_df, y<span class="op">=</span><span class="st">"Age"</span>, x<span class="op">=</span><span class="st">"Pclass"</span>, hue<span class="op">=</span><span class="st">'Survived'</span>, col<span class="op">=</span><span class="st">'Female'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>])</span>
@@ -969,7 +971,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Already from these exploratory visualizations, we can easily see that the majority of survived people are women and people from the top classes. Will this be confirmed by the model?</p>
-<div class="cell" data-execution_count="70">
+<div class="cell" data-execution_count="13">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>survived_corr <span class="op">=</span> imputed_df.corr()[<span class="st">'Survived'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>)[<span class="dv">1</span>:]</span>
@@ -997,7 +999,7 @@ Embarked_S   -0.155660
 Name: Survived, dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="71">
+<div class="cell" data-execution_count="14">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(survived_corr.index), <span class="dv">6</span>):</span>
@@ -1015,10 +1017,10 @@ Name: Survived, dtype: float64</code></pre>
 </div>
 </div>
 </section>
-<section id="model-development" class="level1">
-<h1>Model development</h1>
+<section id="model-development" class="level2">
+<h2 class="anchored" data-anchor-id="model-development">Model development</h2>
 <p>We begin by splitting the dataset into train and test sets and instantiate a KFold object for cross validation to avoid overfitting. Several trial and errors suggested to set the test size to 0.4, giving the best balance between cross validation score and test set accuracy score for the models.</p>
-<div class="cell" data-execution_count="72">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and test sets</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model_df <span class="op">=</span> imputed_df.drop(columns<span class="op">=</span>[<span class="st">'CabinData'</span>])</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> model_df.drop(columns<span class="op">=</span>[<span class="st">'Survived'</span>])</span>
@@ -1028,10 +1030,10 @@ Name: Survived, dtype: float64</code></pre>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># instantiate a KFold object for cross validation</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="model-selection" class="level2">
-<h2 class="anchored" data-anchor-id="model-selection">Model selection</h2>
+<section id="model-selection" class="level3">
+<h3 class="anchored" data-anchor-id="model-selection">Model selection</h3>
 <p>Then we compare three classifiers and choose the best one in terms of accuracy.</p>
-<div class="cell" data-execution_count="73">
+<div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define sklearn pipelines for classifier comparison</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>logistic_pipeline <span class="op">=</span> Pipeline([</span>
@@ -1085,11 +1087,11 @@ Test accuracy score: 0.65</code></pre>
 </div>
 <p>As we can see, the classification model with the highest accuracy score (mean cross-validation score) is the <strong>Random Forest Classifier</strong>. We are going to use this specific model to predict survival on the Titanic.</p>
 </section>
-<section id="prediction-with-random-forest-classifier" class="level2">
-<h2 class="anchored" data-anchor-id="prediction-with-random-forest-classifier">Prediction with Random Forest Classifier</h2>
+<section id="prediction-with-random-forest-classifier" class="level3">
+<h3 class="anchored" data-anchor-id="prediction-with-random-forest-classifier">Prediction with Random Forest Classifier</h3>
 <p>After having chosen the right classifier for the job, we train it on the train set with GridSearchCV, that performs an exhaustive search over a specified hyperparameter space for an estimator. It takes as input an estimator, a dictionary of hyperparameters, and a cross-validation strategy. It then fits the estimator on all possible combinations of hyperparameters and evaluates the performance of each combination using cross-validation.</p>
 <p>The GridSearchCV class is useful for finding the best hyperparameters for a machine learning model. By testing all possible combinations of hyperparameters, it can help to identify the combination that results in the best performance on a given dataset.</p>
-<div class="cell" data-execution_count="74">
+<div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__n_estimators'</span>: [<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>],</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rf__max_depth'</span>: [<span class="va">None</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
@@ -1125,7 +1127,7 @@ Test set accuracy: 0.8207282913165266</code></pre>
 </div>
 </div>
 <p>We have taken the best performing algorithm and trained it on our dataset with a GridSearchCV and KFold cross validation. The perfomance on the test set suggests that the chosen classification model is able to predict Survival with an 82% of accuracy. As a final step, we are going to explain the variables which have been taken into consideration by the classifier in the prediction, and draw conclusions on the “Survived Persona”.</p>
-<div class="cell" data-execution_count="75">
+<div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>shap_values <span class="op">=</span> shap.TreeExplainer(estimator).shap_values(X_test)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>shap.summary_plot(shap_values[<span class="dv">1</span>], X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1144,8 +1146,8 @@ Test set accuracy: 0.8207282913165266</code></pre>
 </ul>
 </section>
 </section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>The Random Forest Classifier trained on our dataset was capable of predicting Survival on the Titanic with a 82% of accuracy. The best predictors identified by the SHAP Tree Explainer are:</p>
 <ul>
 <li><p><code>Female</code>: whether the person was female or not. The red dots (representing female persons) are all gathered on the right side of the plot, meaning that they have a strong positive impact on survival.</p></li>

@@ -189,13 +189,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#key-findings-and-achievements" id="toc-key-findings-and-achievements" class="nav-link active" data-scroll-target="#key-findings-and-achievements">Key findings and achievements</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   <li><a href="#retention" id="toc-retention" class="nav-link" data-scroll-target="#retention">Retention</a>
   <ul class="collapse">
-  <li><a href="#monthly-cohorts" id="toc-monthly-cohorts" class="nav-link" data-scroll-target="#monthly-cohorts">Monthly Cohorts</a></li>
-  <li><a href="#regional-cohorts" id="toc-regional-cohorts" class="nav-link" data-scroll-target="#regional-cohorts">Regional Cohorts</a></li>
-  <li><a href="#aggregate" id="toc-aggregate" class="nav-link" data-scroll-target="#aggregate">Aggregate</a></li>
+  <li><a href="#time-based-cohorts" id="toc-time-based-cohorts" class="nav-link" data-scroll-target="#time-based-cohorts">Time-based Cohorts</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -208,17 +208,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="key-findings-and-achievements" class="level2">
 <h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
-<blockquote class="blockquote">
 <ul>
 <li></li>
 <li></li>
 </ul>
-</blockquote>
 <hr>
 </section>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<div class="cell" data-execution_count="81">
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}" data-execution_count="60">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -226,11 +224,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>Our dataset is composed by two-year sales data from an online store based in the UK. We first import the data and provide a glimpse of it.</p>
-<div class="cell" data-execution_count="82">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}" data-execution_count="61">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_parquet(<span class="st">'../../data/concatenated_online_retail_II.parquet'</span>)</span>
@@ -240,32 +237,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'CustomerSince'</span>] <span class="op">=</span> df.groupby(<span class="st">'CustomerID'</span>)[[<span class="st">'InvoiceDate'</span>]].transform(<span class="bu">min</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan'</span>] <span class="op">=</span>  df[<span class="st">'InvoiceDate'</span>] <span class="op">-</span> df[<span class="st">'CustomerSince'</span>]</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan_M'</span>] <span class="op">=</span> (df[<span class="st">'Lifespan'</span>].dt.days <span class="op">/</span> <span class="fl">30.44</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'MonthlyCohort'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'CustomerSince'</span>]).dt.to_period(<span class="st">'M'</span>) <span class="co">#.dt.to_timestamp()</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Amount'</span>] <span class="op">=</span> df[<span class="st">'Price'</span>] <span class="op">*</span> df[<span class="st">'Quantity'</span>]</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping regions</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>regions <span class="op">=</span> {<span class="st">'Europe'</span>: [<span class="st">'Sweden'</span>, <span class="st">'Denmark'</span>, <span class="st">'Norway'</span>, <span class="st">'Finland'</span>, <span class="st">'Iceland'</span>, <span class="st">'Netherlands'</span>, <span class="st">'Belgium'</span>, <span class="st">'France'</span>, <span class="st">'Germany'</span>, <span class="st">'Switzerland'</span>, <span class="st">'Austria'</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'Italy'</span>, <span class="st">'Spain'</span>, <span class="st">'Greece'</span>, <span class="st">'Portugal'</span>, <span class="st">'Malta'</span>, <span class="st">'Cyprus'</span>, <span class="st">'Czech Republic'</span>, <span class="st">'Lithuania'</span>, <span class="st">'Poland'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'EIRE'</span>,</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'Channel Islands'</span>, <span class="st">'European Community'</span>],</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>           <span class="st">'North America'</span>: [<span class="st">'USA'</span>, <span class="st">'Canada'</span>],</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Middle East'</span>: [<span class="st">'Bahrain'</span>, <span class="st">'United Arab Emirates'</span>, <span class="st">'Israel'</span>, <span class="st">'Lebanon'</span>, <span class="st">'Saudi Arabia'</span>],</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Asia Pacific'</span>: [<span class="st">'Japan'</span>, <span class="st">'Australia'</span>, <span class="st">'Singapore'</span>, <span class="st">'Hong Kong'</span>],</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>           <span class="st">'RoW'</span>: [<span class="st">'Brazil'</span>, <span class="st">'RSA'</span>],</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Unspecified'</span>: [<span class="st">'Unspecified'</span>]}</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>country_to_region <span class="op">=</span> {}</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> region, countries <span class="kw">in</span> regions.items():</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> country <span class="kw">in</span> countries:</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        country_to_region[country] <span class="op">=</span> region</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Region'</span>] <span class="op">=</span> df[<span class="st">'Country'</span>].<span class="bu">map</span>(country_to_region)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'Amount'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Cohort'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'CustomerSince'</span>]).dt.to_period(<span class="st">'M'</span>) <span class="co">#.dt.to_timestamp()</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="82">
+<div class="cell-output cell-output-display" data-execution_count="61">
 <div>
 
 
@@ -285,9 +261,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">CustomerSince</th>
 <th data-quarto-table-cell-role="th">Lifespan</th>
 <th data-quarto-table-cell-role="th">Lifespan_M</th>
-<th data-quarto-table-cell-role="th">MonthlyCohort</th>
-<th data-quarto-table-cell-role="th">Amount</th>
-<th data-quarto-table-cell-role="th">Region</th>
+<th data-quarto-table-cell-role="th">Cohort</th>
 </tr>
 </thead>
 <tbody>
@@ -306,8 +280,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0 days</td>
 <td>0</td>
 <td>2009-12</td>
-<td>83.4</td>
-<td>Europe</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
@@ -324,8 +296,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0 days</td>
 <td>0</td>
 <td>2009-12</td>
-<td>81.0</td>
-<td>Europe</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
@@ -342,8 +312,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0 days</td>
 <td>0</td>
 <td>2009-12</td>
-<td>81.0</td>
-<td>Europe</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
@@ -360,8 +328,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0 days</td>
 <td>0</td>
 <td>2009-12</td>
-<td>100.8</td>
-<td>Europe</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
@@ -378,8 +344,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0 days</td>
 <td>0</td>
 <td>2009-12</td>
-<td>30.0</td>
-<td>Europe</td>
 </tr>
 </tbody>
 </table>
@@ -387,80 +351,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}" data-execution_count="62">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Percentage of null values:"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>() <span class="op">/</span> df.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Percentage of null values:</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="62">
+<pre><code>Invoice          0.000000
+StockCode        0.000000
+Description      0.004105
+Quantity         0.000000
+InvoiceDate      0.000000
+Price            0.000000
+CustomerID       0.000000
+Country          0.000000
+Year             0.000000
+CustomerSince    0.000000
+Lifespan         0.000000
+Lifespan_M       0.000000
+Cohort           0.000000
+dtype: float64</code></pre>
+</div>
+</div>
 </section>
 <section id="retention" class="level2">
 <h2 class="anchored" data-anchor-id="retention">Retention</h2>
-<p>Implementing a cohort analysis is useful for a business to evaluate clients’ retention over time. The most common practice is to divide customers according to the period in which they were first acquired (Monthly Cohorts). Based on the available data, we can also divide them by Region.</p>
-<section id="monthly-cohorts" class="level3">
-<h3 class="anchored" data-anchor-id="monthly-cohorts">Monthly Cohorts</h3>
-<div class="cell" data-execution_count="83">
+<section id="time-based-cohorts" class="level3">
+<h3 class="anchored" data-anchor-id="time-based-cohorts">Time-based Cohorts</h3>
+<p>Implementing a cohort analysis is useful for a business to evaluate clients’ retention over time.</p>
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}" data-execution_count="63">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grouped_n <span class="op">=</span> df.groupby([<span class="st">'MonthlyCohort'</span>, <span class="st">'Lifespan_M'</span>]).agg(n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>)).reset_index()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_n.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'MonthlyCohort'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'n'</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>retention <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sns.heatmap(retention, cmap<span class="op">=</span><span class="st">'BuGn'</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monthly Cohort Analysis – Retention"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Monthly Cohorts'</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>grouped_n <span class="op">=</span> df.groupby([<span class="st">'Cohort'</span>, <span class="st">'Lifespan_M'</span>]).agg(n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>)).reset_index()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_n.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'Cohort'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>retention <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>sns.heatmap(retention, cmap<span class="op">=</span><span class="st">'BuGn'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Cohort Analysis – Retention"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+<p><img src="cohort_analysis_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-</section>
-<section id="regional-cohorts" class="level3">
-<h3 class="anchored" data-anchor-id="regional-cohorts">Regional Cohorts</h3>
-<div class="cell" data-execution_count="84">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}" data-execution_count="64">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grouped_n <span class="op">=</span> df.groupby([<span class="st">'Region'</span>, <span class="st">'Lifespan_M'</span>]).agg(n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>)).reset_index()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_n.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'Region'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'n'</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>retention <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sns.heatmap(retention, cmap<span class="op">=</span><span class="st">'BuGn'</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Regional Cohort Analysis – Retention"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Regional Cohorts'</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>retention_agg <span class="op">=</span> pd.DataFrame(retention.mean()).reset_index()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sns.barplot(retention_agg, x<span class="op">=</span><span class="st">'Lifespan_M'</span>, y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'darkgreen'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Cohort Analysis – Aggregate Retention"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-</section>
-<section id="aggregate" class="level3">
-<h3 class="anchored" data-anchor-id="aggregate">Aggregate</h3>
-<p>In an aggregate manner, we can then calculate the average retention rate per lifespan period, to get a general idea of how retention is expected during the lifespan of a client.</p>
-<div class="cell" data-execution_count="85">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>retention_agg <span class="op">=</span> pd.DataFrame(retention.mean()).reset_index()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.barplot(retention_agg, x<span class="op">=</span><span class="st">'Lifespan_M'</span>, y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'darkgreen'</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> p.get_height().<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> p.get_y() <span class="op">+</span> p.get_height()</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f'</span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">%'</span>, (x, y), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Cohort Analysis – Aggregate Retention"</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Retention (%)'</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+<p><img src="cohort_analysis_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
 
+</section>
 </section>
 </section>
 
