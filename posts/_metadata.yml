@@ -9,7 +9,6 @@ title-block-banner: true
 
 format:
   html:
-    code-fold: false
     fig-responsive: true
     fig-align: center
     toc: true

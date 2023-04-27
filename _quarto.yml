@@ -2,8 +2,8 @@ project:
   type: website
 
 website:
-  title: "<b>Antonio Buzzelli</b> <br> Business Analytics & Data Science"
-  description: "Business Analytics & Data Science"
+  title: "<b>Antonio Buzzelli</b> <br> [ Analytics & Data Science for Businesses ]"
+  description: "Analytics & Data Science for Businesses"
   navbar:
     right:
       - about.qmd
