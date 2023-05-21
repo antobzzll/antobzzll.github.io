@@ -147,7 +147,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <h1 class="title">🎟️ Customer Segmentation for Online Retail Businesses</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Online Retail</div>
-                <div class="quarto-category">Cohort Analysis</div>
+                <div class="quarto-category">Marketing</div>
+                <div class="quarto-category">Customer Segmentation</div>
+                <div class="quarto-category">Business Personas</div>
+                <div class="quarto-category">Machine Learning</div>
                 <div class="quarto-category">Python</div>
               </div>
                   </div>
@@ -191,17 +194,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#key-findings-and-achievements" id="toc-key-findings-and-achievements" class="nav-link active" data-scroll-target="#key-findings-and-achievements">Key findings and achievements</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#monthly-cohorts" id="toc-monthly-cohorts" class="nav-link" data-scroll-target="#monthly-cohorts">Monthly Cohorts</a>
+  <li><a href="#cohort-analysis" id="toc-cohort-analysis" class="nav-link" data-scroll-target="#cohort-analysis">Cohort Analysis</a>
   <ul class="collapse">
-  <li><a href="#retention" id="toc-retention" class="nav-link" data-scroll-target="#retention">Retention</a></li>
-  <li><a href="#revenue" id="toc-revenue" class="nav-link" data-scroll-target="#revenue">Revenue</a></li>
-  </ul></li>
+  <li><a href="#monthly-cohorts" id="toc-monthly-cohorts" class="nav-link" data-scroll-target="#monthly-cohorts">Monthly Cohorts</a></li>
   <li><a href="#regional-cohorts" id="toc-regional-cohorts" class="nav-link" data-scroll-target="#regional-cohorts">Regional Cohorts</a></li>
+  </ul></li>
   <li><a href="#recency-frequency-and-monetary-value" id="toc-recency-frequency-and-monetary-value" class="nav-link" data-scroll-target="#recency-frequency-and-monetary-value">Recency, Frequency and Monetary Value</a></li>
   <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">K-means clustering</a>
   <ul class="collapse">
   <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data preprocessing</a></li>
   <li><a href="#model-development" id="toc-model-development" class="nav-link" data-scroll-target="#model-development">Model development</a></li>
+  <li><a href="#model-interpretation" id="toc-model-interpretation" class="nav-link" data-scroll-target="#model-interpretation">Model interpretation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -216,30 +219,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
 <blockquote class="blockquote">
 <ul>
-<li></li>
-<li></li>
+<li>dsadsa</li>
+<li>dsadsa</li>
 </ul>
 </blockquote>
 <hr>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Group customers into cohorts and analyze their behaviour over time.</p>
-<div class="cell" data-execution_count="101">
+<p>Welcome to this comprehensive notebook on customer segmentation for online retail businesses! In today’s highly competitive market, understanding customers and tailoring marketing strategies to their specific needs and preferences is crucial for success. Customer segmentation allows to divide the customer base into distinct groups, enabling the company to target each segment with personalized approaches, optimize customer acquisition and retention, and ultimately drive business growth.</p>
+<p>In this notebook, we will explore various techniques and methodologies to perform customer segmentation specifically tailored for online retail businesses. We will cover both traditional and advanced approaches, leveraging the power of data analysis and machine learning algorithms to uncover valuable insights about our customers.</p>
+<div class="cell" data-execution_count="29">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataframes and transformations</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># data visualization</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocessing and clustering</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>Our dataset is composed by two-year sales data from an online store based in the UK. We first import the data and provide a glimpse of it.</p>
-<div class="cell" data-execution_count="102">
+<p>Our dataset (<a href="&quot;https://archive-beta.ics.uci.edu/dataset/502/online+retail+ii&quot;">UCI Retail II</a>) is composed by two-year sales data from an online store based in the UK. Here below, a glimpse of it.</p>
+<div class="cell" data-execution_count="30">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_parquet(<span class="st">'../../data/concatenated_online_retail_II.parquet'</span>)</span>
@@ -248,33 +260,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna(subset<span class="op">=</span><span class="st">'CustomerID'</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'CustomerSince'</span>] <span class="op">=</span> df.groupby(<span class="st">'CustomerID'</span>)[[<span class="st">'InvoiceDate'</span>]].transform(<span class="bu">min</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan'</span>] <span class="op">=</span>  df[<span class="st">'InvoiceDate'</span>] <span class="op">-</span> df[<span class="st">'CustomerSince'</span>]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan_M'</span>] <span class="op">=</span> (df[<span class="st">'Lifespan'</span>].dt.days <span class="op">/</span> <span class="fl">30.44</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'MonthlyCohort'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'CustomerSince'</span>]).dt.to_period(<span class="st">'M'</span>) <span class="co">#.dt.to_timestamp()</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Amount'</span>] <span class="op">=</span> df[<span class="st">'Price'</span>] <span class="op">*</span> df[<span class="st">'Quantity'</span>]</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping regions</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>regions <span class="op">=</span> {<span class="st">'Europe'</span>: [<span class="st">'Sweden'</span>, <span class="st">'Denmark'</span>, <span class="st">'Norway'</span>, <span class="st">'Finland'</span>, <span class="st">'Iceland'</span>, <span class="st">'Netherlands'</span>, <span class="st">'Belgium'</span>, <span class="st">'France'</span>, <span class="st">'Germany'</span>, <span class="st">'Switzerland'</span>, <span class="st">'Austria'</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'Italy'</span>, <span class="st">'Spain'</span>, <span class="st">'Greece'</span>, <span class="st">'Portugal'</span>, <span class="st">'Malta'</span>, <span class="st">'Cyprus'</span>, <span class="st">'Czech Republic'</span>, <span class="st">'Lithuania'</span>, <span class="st">'Poland'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'EIRE'</span>,</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'Channel Islands'</span>, <span class="st">'European Community'</span>],</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>           <span class="st">'North America'</span>: [<span class="st">'USA'</span>, <span class="st">'Canada'</span>],</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Middle East'</span>: [<span class="st">'Bahrain'</span>, <span class="st">'United Arab Emirates'</span>, <span class="st">'Israel'</span>, <span class="st">'Lebanon'</span>, <span class="st">'Saudi Arabia'</span>],</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Asia Pacific'</span>: [<span class="st">'Japan'</span>, <span class="st">'Australia'</span>, <span class="st">'Singapore'</span>, <span class="st">'Hong Kong'</span>, <span class="st">'Korea'</span>, <span class="st">'Thailand'</span>],</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>           <span class="st">'RoW'</span>: [<span class="st">'Brazil'</span>, <span class="st">'RSA'</span>, <span class="st">'West Indies'</span>, <span class="st">'Nigeria'</span>, <span class="st">'Bermuda'</span>],</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Unspecified'</span>: [<span class="st">'Unspecified'</span>]}</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>country_to_region <span class="op">=</span> {}</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> region, countries <span class="kw">in</span> regions.items():</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> country <span class="kw">in</span> countries:</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        country_to_region[country] <span class="op">=</span> region</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Region'</span>] <span class="op">=</span> df[<span class="st">'Country'</span>].<span class="bu">map</span>(country_to_region)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'Amount'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan'</span>] <span class="op">=</span> df[<span class="st">'InvoiceDate'</span>] <span class="op">-</span> df[<span class="st">'CustomerSince'</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan_D'</span>] <span class="op">=</span> df[<span class="st">'Lifespan'</span>].dt.days</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan_M'</span>] <span class="op">=</span> (df[<span class="st">'Lifespan_D'</span>] <span class="op">/</span> <span class="fl">30.44</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'MonthlyCohort'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'CustomerSince'</span>]).dt.to_period(<span class="st">'M'</span>) <span class="co">#.dt.to_timestamp()</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Amount'</span>] <span class="op">=</span> df[<span class="st">'Price'</span>] <span class="op">*</span> df[<span class="st">'Quantity'</span>]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping regions</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>regions <span class="op">=</span> {<span class="st">'Europe'</span>: [<span class="st">'Sweden'</span>, <span class="st">'Denmark'</span>, <span class="st">'Norway'</span>, <span class="st">'Finland'</span>, <span class="st">'Iceland'</span>, <span class="st">'Netherlands'</span>, <span class="st">'Belgium'</span>, <span class="st">'France'</span>, <span class="st">'Germany'</span>, <span class="st">'Switzerland'</span>, <span class="st">'Austria'</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'Italy'</span>, <span class="st">'Spain'</span>, <span class="st">'Greece'</span>, <span class="st">'Portugal'</span>, <span class="st">'Malta'</span>, <span class="st">'Cyprus'</span>, <span class="st">'Czech Republic'</span>, <span class="st">'Lithuania'</span>, <span class="st">'Poland'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'EIRE'</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                      <span class="st">'Channel Islands'</span>, <span class="st">'European Community'</span>],</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">'North America'</span>: [<span class="st">'USA'</span>, <span class="st">'Canada'</span>],</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Middle East'</span>: [<span class="st">'Bahrain'</span>, <span class="st">'United Arab Emirates'</span>, <span class="st">'Israel'</span>, <span class="st">'Lebanon'</span>, <span class="st">'Saudi Arabia'</span>],</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Asia Pacific'</span>: [<span class="st">'Japan'</span>, <span class="st">'Australia'</span>, <span class="st">'Singapore'</span>, <span class="st">'Hong Kong'</span>, <span class="st">'Korea'</span>, <span class="st">'Thailand'</span>],</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>           <span class="st">'RoW'</span>: [<span class="st">'Brazil'</span>, <span class="st">'RSA'</span>, <span class="st">'West Indies'</span>, <span class="st">'Nigeria'</span>, <span class="st">'Bermuda'</span>],</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Unspecified'</span>: [<span class="st">'Unspecified'</span>]}</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>country_to_region <span class="op">=</span> {}</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> region, countries <span class="kw">in</span> regions.items():</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> country <span class="kw">in</span> countries:</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        country_to_region[country] <span class="op">=</span> region</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Region'</span>] <span class="op">=</span> df[<span class="st">'Country'</span>].<span class="bu">map</span>(country_to_region)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsetting</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">'Amount'</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span> (df[<span class="st">'InvoiceDate'</span>] <span class="op">&lt;</span> <span class="st">"2011-12-01"</span>)]</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>display(df.head())</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Timeframe: </span><span class="sc">{</span>df[<span class="st">'InvoiceDate'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">.</span>date()<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>df[<span class="st">'InvoiceDate'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">.</span>date()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="102">
+<div class="cell-output cell-output-display">
 <div>
 
 
@@ -293,6 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">Year</th>
 <th data-quarto-table-cell-role="th">CustomerSince</th>
 <th data-quarto-table-cell-role="th">Lifespan</th>
+<th data-quarto-table-cell-role="th">Lifespan_D</th>
 <th data-quarto-table-cell-role="th">Lifespan_M</th>
 <th data-quarto-table-cell-role="th">MonthlyCohort</th>
 <th data-quarto-table-cell-role="th">Amount</th>
@@ -314,6 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>2009-12-01 07:45:00</td>
 <td>0 days</td>
 <td>0</td>
+<td>0</td>
 <td>2009-12</td>
 <td>83.4</td>
 <td>Europe</td>
@@ -331,6 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>1</td>
 <td>2009-12-01 07:45:00</td>
 <td>0 days</td>
+<td>0</td>
 <td>0</td>
 <td>2009-12</td>
 <td>81.0</td>
@@ -350,6 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>2009-12-01 07:45:00</td>
 <td>0 days</td>
 <td>0</td>
+<td>0</td>
 <td>2009-12</td>
 <td>81.0</td>
 <td>Europe</td>
@@ -367,6 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>1</td>
 <td>2009-12-01 07:45:00</td>
 <td>0 days</td>
+<td>0</td>
 <td>0</td>
 <td>2009-12</td>
 <td>100.8</td>
@@ -386,6 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>2009-12-01 07:45:00</td>
 <td>0 days</td>
 <td>0</td>
+<td>0</td>
 <td>2009-12</td>
 <td>30.0</td>
 <td>Europe</td>
@@ -395,19 +416,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Timeframe: 2009-12-01 - 2011-11-30</code></pre>
+</div>
 </div>
 </section>
-<section id="monthly-cohorts" class="level2">
-<h2 class="anchored" data-anchor-id="monthly-cohorts">Monthly Cohorts</h2>
-<div class="cell" data-execution_count="103">
+<section id="cohort-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="cohort-analysis">Cohort Analysis</h2>
+<p>In the first section of this notebook we will focus on Cohort Analysis: a powerful technique that allows to group customers based on their shared characteristics and behaviors over time. By dividing the customer base into cohorts based on the customers acquisition date, it is possible to analyze and compare their subsequent behavior, purchase patterns, and overall customer lifetime value. Cohort analysis can answer questions such as:</p>
+<ul>
+<li>How do customers from different cohorts differ in terms of their purchasing behavior?</li>
+<li>Do customers who were acquired during a specific time period exhibit different levels of loyalty?</li>
+<li>How do different cohorts respond to marketing campaigns and promotions?</li>
+<li>Are there any trends or patterns in customer retention and churn rates across cohorts?</li>
+</ul>
+<section id="monthly-cohorts" class="level3">
+<h3 class="anchored" data-anchor-id="monthly-cohorts">Monthly Cohorts</h3>
+<p>The first step is to group customers by their <strong>first acquisition date</strong> (month) and their <strong>tenure</strong> (lifespan in number of months), and compute each cohort’s size and total revenue.</p>
+<div class="cell" data-execution_count="31">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grouped_m <span class="op">=</span> df.groupby([<span class="st">'MonthlyCohort'</span>, <span class="st">'Lifespan_M'</span>]).agg(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    TotalRevenue<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>)).reset_index()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>grouped_m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grouped_m <span class="op">=</span> df.groupby([<span class="st">'MonthlyCohort'</span>, <span class="st">'Lifespan_M'</span>]).agg(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    TotalAmount<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    AvgAmount<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'mean'</span>)).reset_index()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>grouped_m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="103">
+<div class="cell-output cell-output-display" data-execution_count="31">
 <div>
 
 
@@ -418,7 +453,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">MonthlyCohort</th>
 <th data-quarto-table-cell-role="th">Lifespan_M</th>
 <th data-quarto-table-cell-role="th">n</th>
-<th data-quarto-table-cell-role="th">TotalRevenue</th>
+<th data-quarto-table-cell-role="th">TotalAmount</th>
+<th data-quarto-table-cell-role="th">AvgAmount</th>
 </tr>
 </thead>
 <tbody>
@@ -428,6 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0</td>
 <td>32111</td>
 <td>730976.720</td>
+<td>22.764060</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
@@ -435,6 +472,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>1</td>
 <td>13433</td>
 <td>403375.071</td>
+<td>30.028666</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
@@ -442,6 +480,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>2</td>
 <td>13449</td>
 <td>353813.642</td>
+<td>26.307803</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
@@ -449,6 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>3</td>
 <td>13279</td>
 <td>352853.150</td>
+<td>26.572268</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
@@ -456,6 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>4</td>
 <td>14197</td>
 <td>337613.590</td>
+<td>23.780629</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -463,251 +504,264 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>...</td>
 <td>...</td>
 <td>...</td>
+<td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">314</td>
-<td>2011-10</td>
+<td data-quarto-table-cell-role="th">295</td>
+<td>2011-09</td>
 <td>1</td>
-<td>2107</td>
-<td>26349.110</td>
+<td>1958</td>
+<td>25230.280</td>
+<td>12.885741</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">315</td>
-<td>2011-10</td>
+<td data-quarto-table-cell-role="th">296</td>
+<td>2011-09</td>
 <td>2</td>
-<td>69</td>
-<td>737.210</td>
+<td>1059</td>
+<td>14487.250</td>
+<td>13.680123</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">316</td>
-<td>2011-11</td>
+<td data-quarto-table-cell-role="th">297</td>
+<td>2011-10</td>
 <td>0</td>
-<td>7014</td>
-<td>89903.810</td>
+<td>9413</td>
+<td>126462.600</td>
+<td>13.434888</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">317</td>
-<td>2011-11</td>
+<td data-quarto-table-cell-role="th">298</td>
+<td>2011-10</td>
 <td>1</td>
-<td>89</td>
-<td>4225.350</td>
+<td>1348</td>
+<td>16033.750</td>
+<td>11.894473</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">318</td>
-<td>2011-12</td>
+<td data-quarto-table-cell-role="th">299</td>
+<td>2011-11</td>
 <td>0</td>
-<td>642</td>
-<td>23844.090</td>
+<td>6251</td>
+<td>81260.190</td>
+<td>12.999550</td>
 </tr>
 </tbody>
 </table>
 
-<p>319 rows × 4 columns</p>
+<p>300 rows × 5 columns</p>
 </div>
 </div>
 </div>
-<section id="retention" class="level3">
-<h3 class="anchored" data-anchor-id="retention">Retention</h3>
-<p>Implementing a cohort analysis is useful for a business to evaluate clients’ retention over time. The most common practice is to divide customers according to the period in which they were first acquired (Monthly Cohorts). Based on the available data, we can also divide them by Region.</p>
-<div class="cell" data-execution_count="104">
+<section id="new-clients-acquisition" class="level4">
+<h4 class="anchored" data-anchor-id="new-clients-acquisition">New clients acquisition</h4>
+<div class="cell" data-execution_count="32">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grouped_life_count <span class="op">=</span> df.groupby(<span class="st">'Lifespan_M'</span>)[[<span class="st">'CustomerID'</span>]].count()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>grouped_life_count <span class="op">=</span> grouped_life_count.divide(grouped_life_count.iloc[<span class="dv">0</span>].item(), axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>grouped_life_count <span class="op">=</span> grouped_life_count.rename(columns<span class="op">=</span>{<span class="st">'CustomerID'</span>: <span class="st">'Retention'</span>})</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>grouped_life_count.plot(kind<span class="op">=</span><span class="st">'bar'</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> p.get_height().<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> p.get_y() <span class="op">+</span> p.get_height() <span class="op">+</span> <span class="fl">0.02</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f'</span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">%'</span>, (x, y), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Cohort Analysis – Aggregate Retention"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Retention (%)'</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bym <span class="op">=</span> df.groupby(<span class="st">'MonthlyCohort'</span>).agg(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    TotalAmount<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    Volume<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>bym[<span class="st">'TotalAmount'</span>].plot(ax<span class="op">=</span>ax)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> plt.twiny()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>ax2.set_xticks([])</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> plt.twinx()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>bym[<span class="st">'Volume'</span>].plot(ax<span class="op">=</span>ax3, kind<span class="op">=</span><span class="st">'bar'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>ax3.set_xticks([])</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add trendline</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(bym))</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> bym[<span class="st">'TotalAmount'</span>].values</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>coefficients <span class="op">=</span> np.polyfit(x, y, deg<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>trendline <span class="op">=</span> np.poly1d(coefficients)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>ax2.plot(x, trendline(x), color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'Regression'</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>h1, l1 <span class="op">=</span> ax.get_legend_handles_labels()</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>h2, l2 <span class="op">=</span> ax2.get_legend_handles_labels()</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>h3, l3 <span class="op">=</span> ax3.get_legend_handles_labels()</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>ax.legend(h1<span class="op">+</span>h2<span class="op">+</span>h3, l1<span class="op">+</span>l2<span class="op">+</span>l3)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Evolution of the acquisition of new clients"</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="105">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_m.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'MonthlyCohort'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'n'</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>retention <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(retention, cmap<span class="op">=</span><span class="st">'BuGn'</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monthly Cohort Analysis – Retention"</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Monthly Cohorts'</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
-</div>
-</div>
 </section>
-<section id="revenue" class="level3">
-<h3 class="anchored" data-anchor-id="revenue">Revenue</h3>
-<p>The same principle could be applied to revenue and average purchase value.</p>
-<div class="cell" data-execution_count="106">
+<section id="retention" class="level4">
+<h4 class="anchored" data-anchor-id="retention">Retention</h4>
+<p>First of all, implementing a cohort analysis is useful for a business to evaluate clients’ retention over time.</p>
+<div class="cell" data-execution_count="33">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_m.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'MonthlyCohort'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'TotalRevenue'</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>retention <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(retention, cmap<span class="op">=</span><span class="st">'BuGn'</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monthly Cohort Analysis – Total Revenue"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Monthly Cohorts'</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Lifespan_M'</span>].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>count    788244.000000
+mean          7.674870
+std           7.016554
+min           0.000000
+25%           1.000000
+50%           6.000000
+75%          13.000000
+max          23.000000
+Name: Lifespan_M, dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="34">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>grouped_life_count <span class="op">=</span> df.groupby(<span class="st">'Lifespan_M'</span>)[[<span class="st">'CustomerID'</span>]].count()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>grouped_life_count <span class="op">=</span> grouped_life_count.divide(grouped_life_count.iloc[<span class="dv">0</span>].item(), axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>grouped_life_count <span class="op">=</span> grouped_life_count.rename(columns<span class="op">=</span>{<span class="st">'CustomerID'</span>: <span class="st">'Retention'</span>})</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>grouped_life_count.plot(kind<span class="op">=</span><span class="st">'bar'</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> p.get_height().<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> p.get_y() <span class="op">+</span> p.get_height() <span class="op">+</span> <span class="fl">0.02</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f'</span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">%'</span>, (x, y), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Cohort Analysis – Aggregate Retention"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Retention (%)'</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-</section>
-</section>
-<section id="regional-cohorts" class="level2">
-<h2 class="anchored" data-anchor-id="regional-cohorts">Regional Cohorts</h2>
-<div class="cell" data-execution_count="107">
+<div class="cell" data-execution_count="35">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>grouped_r <span class="op">=</span> df.groupby([<span class="st">'Region'</span>, <span class="st">'Lifespan_M'</span>]).agg(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    TotalRevenue<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>)).reset_index()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>grouped_r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_m.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'MonthlyCohort'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(heatmap.iloc[:, <span class="dv">1</span>:], cmap<span class="op">=</span><span class="st">'Blues'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monthly Cohort Analysis – Retention"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Monthly Cohorts'</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="107">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Region</th>
-<th data-quarto-table-cell-role="th">Lifespan_M</th>
-<th data-quarto-table-cell-role="th">n</th>
-<th data-quarto-table-cell-role="th">TotalRevenue</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>Asia Pacific</td>
-<td>0</td>
-<td>606</td>
-<td>17983.78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>Asia Pacific</td>
-<td>1</td>
-<td>120</td>
-<td>7324.13</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>Asia Pacific</td>
-<td>2</td>
-<td>54</td>
-<td>3396.66</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>Asia Pacific</td>
-<td>3</td>
-<td>103</td>
-<td>5327.51</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>Asia Pacific</td>
-<td>4</td>
-<td>236</td>
-<td>21895.21</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">64</td>
-<td>Unspecified</td>
-<td>4</td>
-<td>41</td>
-<td>843.55</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">65</td>
-<td>Unspecified</td>
-<td>5</td>
-<td>68</td>
-<td>2379.88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">66</td>
-<td>Unspecified</td>
-<td>7</td>
-<td>76</td>
-<td>1387.50</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">67</td>
-<td>Unspecified</td>
-<td>15</td>
-<td>62</td>
-<td>1104.73</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">68</td>
-<td>Unspecified</td>
-<td>16</td>
-<td>25</td>
-<td>463.91</td>
-</tr>
-</tbody>
-</table>
-
-<p>69 rows × 4 columns</p>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+</section>
+<section id="revenue" class="level4">
+<h4 class="anchored" data-anchor-id="revenue">Revenue</h4>
+<p>The same principle could be applied to revenue and average purchase value.</p>
+<div class="cell" data-execution_count="36">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_m.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'MonthlyCohort'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'TotalAmount'</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(heatmap.iloc[:, <span class="dv">1</span>:], cmap<span class="op">=</span><span class="st">'Greens'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monthly Cohort Analysis – Total Revenue"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Monthly Cohorts'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
+</div>
+<div class="cell" data-execution_count="37">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_m.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'MonthlyCohort'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'AvgAmount'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(heatmap.iloc[:, <span class="dv">1</span>:], cmap<span class="op">=</span><span class="st">'BuGn'</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monthly Cohort Analysis – Average Revenue"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Monthly Cohorts'</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="regional-cohorts" class="level3">
+<h3 class="anchored" data-anchor-id="regional-cohorts">Regional Cohorts</h3>
+<p>The cohort analysis can be extended to the geographical level by incorporating the “region” variable in the analysis. This can provide insights into the behaviors of customers across different regions.</p>
+<div class="cell" data-execution_count="38">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>grouped_r <span class="op">=</span> df.groupby([<span class="st">'Region'</span>, <span class="st">'Lifespan_M'</span>]).agg(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    TotalRevenue<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    AvgRevenue<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'mean'</span>)).reset_index()</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_r.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'Region'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'AvgRevenue'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>sns.heatmap(heatmap.iloc[:, <span class="dv">1</span>:], cmap<span class="op">=</span><span class="st">'Purples'</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Regional Cohort Analysis – Average Revenue"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Regional Cohorts'</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="39">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cohorts <span class="op">=</span> grouped_r.reset_index(drop<span class="op">=</span><span class="va">True</span>).pivot(index<span class="op">=</span><span class="st">'Region'</span>, columns<span class="op">=</span><span class="st">'Lifespan_M'</span>, values<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> cohorts.divide(cohorts.iloc[:, <span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(heatmap.iloc[:, <span class="dv">1</span>:], cmap<span class="op">=</span><span class="st">'Oranges'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Regional Cohort Analysis – Retention"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lifespan (months)'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Regional Cohorts'</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
 </section>
 <section id="recency-frequency-and-monetary-value" class="level2">
 <h2 class="anchored" data-anchor-id="recency-frequency-and-monetary-value">Recency, Frequency and Monetary Value</h2>
-<div class="cell" data-execution_count="108">
+<div class="cell" data-execution_count="40">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>snapshot_date <span class="op">=</span> df[<span class="st">'InvoiceDate'</span>].<span class="bu">max</span>() <span class="op">+</span> datetime.timedelta(days<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>datamart <span class="op">=</span> df.groupby(<span class="st">'CustomerID'</span>).agg(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    Recency<span class="op">=</span>(<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (snapshot_date <span class="op">-</span> x.<span class="bu">max</span>()).days),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    Frequency<span class="op">=</span>(<span class="st">'Invoice'</span>, <span class="st">'count'</span>),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    MonetaryValue<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'R'</span>] <span class="op">=</span> pd.qcut(datamart[<span class="st">'Recency'</span>], q<span class="op">=</span><span class="dv">4</span>, labels<span class="op">=</span><span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>))</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'F'</span>] <span class="op">=</span> pd.qcut(datamart[<span class="st">'Frequency'</span>], q<span class="op">=</span><span class="dv">4</span>, labels<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">5</span>))</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'M'</span>] <span class="op">=</span> pd.qcut(datamart[<span class="st">'MonetaryValue'</span>], q<span class="op">=</span><span class="dv">4</span>, labels<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">5</span>))</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'RFM_Segment'</span>] <span class="op">=</span> datamart.<span class="bu">apply</span>(</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: </span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">str</span>(row[<span class="st">'R'</span>].astype(<span class="bu">int</span>)) <span class="op">+</span> </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">str</span>(row[<span class="st">'F'</span>].astype(<span class="bu">int</span>)) <span class="op">+</span> </span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">str</span>(row[<span class="st">'M'</span>].astype(<span class="bu">int</span>)), </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'RFM_Score'</span>] <span class="op">=</span> datamart[[<span class="st">'R'</span>, <span class="st">'F'</span>, <span class="st">'M'</span>]].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>datamart</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>snapshot_date <span class="op">=</span> df[<span class="st">'InvoiceDate'</span>].<span class="bu">max</span>() <span class="op">+</span> datetime.timedelta(days<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>datamart <span class="op">=</span> df.groupby(<span class="st">'CustomerID'</span>) <span class="op">\</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    .agg(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        Recency<span class="op">=</span>(<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (snapshot_date <span class="op">-</span> x.<span class="bu">max</span>()).days),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        Frequency<span class="op">=</span>(<span class="st">'Invoice'</span>, <span class="st">'count'</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        MonetaryValue<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        ).reset_index()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'R'</span>] <span class="op">=</span> pd.qcut(datamart[<span class="st">'Recency'</span>], q<span class="op">=</span><span class="dv">4</span>, labels<span class="op">=</span><span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'F'</span>] <span class="op">=</span> pd.qcut(datamart[<span class="st">'Frequency'</span>], q<span class="op">=</span><span class="dv">4</span>, labels<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">5</span>))</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'M'</span>] <span class="op">=</span> pd.qcut(datamart[<span class="st">'MonetaryValue'</span>], q<span class="op">=</span><span class="dv">4</span>, labels<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">5</span>))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'RFM_Segment'</span>] <span class="op">=</span> datamart.<span class="bu">apply</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">str</span>(row[<span class="st">'R'</span>].astype(<span class="bu">int</span>)) <span class="op">+</span> </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">str</span>(row[<span class="st">'F'</span>].astype(<span class="bu">int</span>)) <span class="op">+</span> </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">str</span>(row[<span class="st">'M'</span>].astype(<span class="bu">int</span>)), </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>datamart[<span class="st">'RFM_Score'</span>] <span class="op">=</span> datamart[[<span class="st">'R'</span>, <span class="st">'F'</span>, <span class="st">'M'</span>]].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>datamart</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="108">
+<div class="cell-output cell-output-display" data-execution_count="40">
 <div>
 
 
@@ -730,7 +784,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>12346.0</td>
-<td>326</td>
+<td>317</td>
 <td>34</td>
 <td>77556.46</td>
 <td>2</td>
@@ -742,19 +796,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>12347.0</td>
-<td>2</td>
-<td>253</td>
-<td>5633.32</td>
+<td>31</td>
+<td>242</td>
+<td>5408.50</td>
+<td>3</td>
 <td>4</td>
 <td>4</td>
-<td>4</td>
-<td>444</td>
-<td>12</td>
+<td>344</td>
+<td>11</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>12348.0</td>
-<td>75</td>
+<td>67</td>
 <td>51</td>
 <td>2019.40</td>
 <td>3</td>
@@ -766,7 +820,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>12349.0</td>
-<td>19</td>
+<td>10</td>
 <td>175</td>
 <td>4428.69</td>
 <td>4</td>
@@ -778,7 +832,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>12350.0</td>
-<td>310</td>
+<td>302</td>
 <td>17</td>
 <td>334.40</td>
 <td>2</td>
@@ -800,11 +854,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">5873</td>
+<td data-quarto-table-cell-role="th">5845</td>
 <td>18283.0</td>
-<td>4</td>
-<td>986</td>
-<td>2736.65</td>
+<td>1</td>
+<td>936</td>
+<td>2528.65</td>
 <td>4</td>
 <td>4</td>
 <td>4</td>
@@ -812,9 +866,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>12</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">5874</td>
+<td data-quarto-table-cell-role="th">5846</td>
 <td>18284.0</td>
-<td>432</td>
+<td>423</td>
 <td>28</td>
 <td>461.68</td>
 <td>1</td>
@@ -824,9 +878,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>5</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">5875</td>
+<td data-quarto-table-cell-role="th">5847</td>
 <td>18285.0</td>
-<td>661</td>
+<td>652</td>
 <td>12</td>
 <td>427.00</td>
 <td>1</td>
@@ -836,9 +890,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>4</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">5876</td>
+<td data-quarto-table-cell-role="th">5848</td>
 <td>18286.0</td>
-<td>477</td>
+<td>468</td>
 <td>67</td>
 <td>1296.43</td>
 <td>1</td>
@@ -848,9 +902,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>7</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">5877</td>
+<td data-quarto-table-cell-role="th">5849</td>
 <td>18287.0</td>
-<td>43</td>
+<td>34</td>
 <td>155</td>
 <td>4182.99</td>
 <td>3</td>
@@ -862,43 +916,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 
-<p>5878 rows × 9 columns</p>
+<p>5850 rows × 9 columns</p>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="109">
+<div class="cell" data-execution_count="41">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>datamart.groupby(<span class="st">'RFM_Segment'</span>)<span class="op">\</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    .size()<span class="op">\</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        .sort_values(ascending<span class="op">=</span><span class="va">False</span>)[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>datamart_byscore <span class="op">=</span> datamart.groupby(<span class="st">'RFM_Score'</span>).agg(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    AvgRecency<span class="op">=</span>(<span class="st">'Recency'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    AvgFrequency<span class="op">=</span>(<span class="st">'Frequency'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    AvgMonetaryValue<span class="op">=</span>(<span class="st">'MonetaryValue'</span>, <span class="st">'mean'</span>)).<span class="bu">round</span>(<span class="dv">1</span>).sort_index(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>datamart_byscore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="109">
-<pre><code>RFM_Segment
-444    628
-111    564
-344    332
-211    290
-333    246
-233    243
-122    241
-222    234
-433    196
-322    184
-dtype: int64</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="110">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>datamart_byscore <span class="op">=</span> datamart.groupby(<span class="st">'RFM_Score'</span>).agg(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    AvgRecency<span class="op">=</span>(<span class="st">'Recency'</span>, <span class="st">'mean'</span>),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    AvgFrequency<span class="op">=</span>(<span class="st">'Frequency'</span>, <span class="st">'mean'</span>),</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    AvgMonetaryValue<span class="op">=</span>(<span class="st">'MonetaryValue'</span>, <span class="st">'mean'</span>)).<span class="bu">round</span>(<span class="dv">1</span>).sort_index(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>datamart_byscore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="110">
+<div class="cell-output cell-output-display" data-execution_count="41">
 <div>
 
 
@@ -922,73 +954,73 @@ dtype: int64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">12</td>
-<td>628</td>
-<td>10.4</td>
-<td>579.9</td>
-<td>14892.4</td>
+<td>604</td>
+<td>10.6</td>
+<td>568.6</td>
+<td>14876.4</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">11</td>
-<td>542</td>
-<td>35.9</td>
-<td>275.5</td>
-<td>5029.5</td>
+<td>546</td>
+<td>36.0</td>
+<td>280.6</td>
+<td>5147.7</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">10</td>
-<td>548</td>
-<td>70.1</td>
-<td>177.9</td>
-<td>3139.0</td>
+<td>554</td>
+<td>71.3</td>
+<td>179.4</td>
+<td>3179.1</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
-<td>563</td>
-<td>97.7</td>
-<td>112.7</td>
-<td>2464.3</td>
+<td>544</td>
+<td>98.5</td>
+<td>112.9</td>
+<td>2043.8</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
-<td>622</td>
-<td>147.5</td>
-<td>74.7</td>
-<td>1473.1</td>
+<td>623</td>
+<td>149.5</td>
+<td>74.6</td>
+<td>1493.3</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
-<td>631</td>
-<td>198.5</td>
-<td>52.5</td>
-<td>1119.0</td>
+<td>634</td>
+<td>191.0</td>
+<td>52.1</td>
+<td>1095.0</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
-<td>603</td>
-<td>224.8</td>
+<td>607</td>
+<td>225.3</td>
 <td>34.2</td>
-<td>698.9</td>
+<td>703.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
-<td>620</td>
-<td>311.3</td>
-<td>25.2</td>
-<td>438.7</td>
+<td>632</td>
+<td>303.1</td>
+<td>24.7</td>
+<td>426.7</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>557</td>
-<td>377.3</td>
-<td>17.5</td>
-<td>255.3</td>
+<td>549</td>
+<td>375.0</td>
+<td>17.4</td>
+<td>251.5</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>564</td>
-<td>546.6</td>
-<td>9.8</td>
-<td>176.4</td>
+<td>557</td>
+<td>538.9</td>
+<td>9.7</td>
+<td>174.5</td>
 </tr>
 </tbody>
 </table>
@@ -1001,12 +1033,12 @@ dtype: int64</code></pre>
 <h2 class="anchored" data-anchor-id="k-means-clustering">K-means clustering</h2>
 <section id="data-preprocessing" class="level3">
 <h3 class="anchored" data-anchor-id="data-preprocessing">Data preprocessing</h3>
-<div class="cell" data-execution_count="111">
+<div class="cell" data-execution_count="42">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>datamart.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>datamart.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="111">
+<div class="cell-output cell-output-display" data-execution_count="42">
 <div>
 
 
@@ -1024,66 +1056,66 @@ dtype: int64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">count</td>
-<td>5878.000000</td>
-<td>5878.000000</td>
-<td>5878.000000</td>
-<td>5878.000000</td>
-<td>5878.000000</td>
+<td>5850.000000</td>
+<td>5850.000000</td>
+<td>5850.000000</td>
+<td>5850.000000</td>
+<td>5850.000000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">mean</td>
-<td>15315.313542</td>
-<td>201.331916</td>
-<td>137.044743</td>
-<td>3018.616737</td>
-<td>7.498469</td>
+<td>15318.082906</td>
+<td>199.620855</td>
+<td>134.742564</td>
+<td>2944.481776</td>
+<td>7.483932</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">std</td>
-<td>1715.572666</td>
-<td>209.338707</td>
-<td>353.818629</td>
-<td>14737.731040</td>
-<td>2.853030</td>
+<td>1714.109840</td>
+<td>206.500760</td>
+<td>344.738694</td>
+<td>14342.237062</td>
+<td>2.841905</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">min</td>
 <td>12346.000000</td>
 <td>1.000000</td>
 <td>1.000000</td>
-<td>2.950000</td>
+<td>2.900000</td>
 <td>3.000000</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">25%</td>
-<td>13833.250000</td>
-<td>26.000000</td>
+<td>13839.250000</td>
+<td>24.000000</td>
 <td>21.000000</td>
-<td>348.762500</td>
+<td>344.000000</td>
 <td>5.000000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">50%</td>
-<td>15314.500000</td>
-<td>96.000000</td>
+<td>15316.500000</td>
+<td>100.500000</td>
 <td>53.000000</td>
-<td>898.915000</td>
+<td>877.165000</td>
 <td>7.000000</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">75%</td>
-<td>16797.750000</td>
-<td>380.000000</td>
-<td>142.000000</td>
-<td>2307.090000</td>
+<td>16800.750000</td>
+<td>373.000000</td>
+<td>140.000000</td>
+<td>2264.665000</td>
 <td>10.000000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">max</td>
 <td>18287.000000</td>
-<td>739.000000</td>
-<td>12890.000000</td>
-<td>608821.650000</td>
+<td>730.000000</td>
+<td>12419.000000</td>
+<td>597336.110000</td>
 <td>12.000000</td>
 </tr>
 </tbody>
@@ -1092,126 +1124,74 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="112">
+<div class="cell" data-execution_count="43">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cols_data <span class="op">=</span> [<span class="st">'Recency'</span>, <span class="st">'Frequency'</span>, <span class="st">'MonetaryValue'</span>]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>datamart_rfm <span class="op">=</span> datamart[cols_data].copy()</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>datamart_log <span class="op">=</span> np.log(datamart_rfm) <span class="co"># log transform</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># centering and scaling</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>datamart_normalized <span class="op">=</span> StandardScaler().fit_transform(datamart_log)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>datamart_normalized_df <span class="op">=</span> pd.DataFrame(datamart_normalized, columns<span class="op">=</span>cols_data)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>display(pd.DataFrame(datamart_normalized, columns<span class="op">=</span>cols_data).describe().<span class="bu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>sns.displot(pd.DataFrame(datamart_normalized, columns<span class="op">=</span>cols_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cols_data <span class="op">=</span> [<span class="st">'Recency'</span>, <span class="st">'Frequency'</span>, <span class="st">'MonetaryValue'</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>datamart_rfm <span class="op">=</span> datamart[cols_data].copy()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>datamart_log <span class="op">=</span> np.log(datamart_rfm) <span class="co"># log transform</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># centering and scaling</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>datamart_normalized <span class="op">=</span> StandardScaler().fit_transform(datamart_log)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>datamart_normalized_df <span class="op">=</span> pd.DataFrame(datamart_normalized, columns<span class="op">=</span>cols_data)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># display(pd.DataFrame(datamart_normalized, columns=cols_data).describe().round(2))</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># fig = plt.figure(figsize=(15, 5), dpi=300)</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># sns.displot(pd.DataFrame(datamart_normalized, columns=cols_data))</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Recency</th>
-<th data-quarto-table-cell-role="th">Frequency</th>
-<th data-quarto-table-cell-role="th">MonetaryValue</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
-<td>5878.00</td>
-<td>5878.00</td>
-<td>5878.00</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">mean</td>
-<td>0.00</td>
-<td>-0.00</td>
-<td>0.00</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">std</td>
-<td>1.00</td>
-<td>1.00</td>
-<td>1.00</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">min</td>
-<td>-2.69</td>
-<td>-2.74</td>
-<td>-4.13</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">25%</td>
-<td>-0.70</td>
-<td>-0.63</td>
-<td>-0.70</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">50%</td>
-<td>0.10</td>
-<td>0.01</td>
-<td>-0.02</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">75%</td>
-<td>0.94</td>
-<td>0.70</td>
-<td>0.65</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">max</td>
-<td>1.34</td>
-<td>3.82</td>
-<td>4.66</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
-</div>
 </div>
 </section>
 <section id="model-development" class="level3">
 <h3 class="anchored" data-anchor-id="model-development">Model development</h3>
-<div class="cell" data-execution_count="113">
+<div class="cell" data-execution_count="44">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sse <span class="op">=</span> {}</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>):</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k, random_state<span class="op">=</span><span class="dv">1</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    kmeans.fit(datamart_normalized)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    sse[k] <span class="op">=</span> kmeans.inertia_</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Elbow criterion"</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'k'</span>)<span class="op">;</span> plt.ylabel(<span class="st">'SSE'</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>sns.pointplot(x<span class="op">=</span><span class="bu">list</span>(sse.keys()), y<span class="op">=</span><span class="bu">list</span>(sse.values()))</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sil_scores <span class="op">=</span> {}</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sse <span class="op">=</span> {}</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">11</span>):</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k, random_state<span class="op">=</span><span class="dv">1</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    kmeans.fit(datamart_normalized)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> kmeans.labels_</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    sse[k] <span class="op">=</span> kmeans.inertia_</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    sil_scores[k] <span class="op">=</span> silhouette_score(datamart_normalized, labels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The elbow criterion is a heuristic method used to determine the optimal number of clusters in k-means clustering based on the within-cluster sum of squared errors (SSE). It involves plotting the SSE values against different numbers of clusters and identifying the “elbow” point, which represents the point of diminishing returns in terms of SSE reduction.</p>
+<p>The silhouette score is a measure of how well each data point fits into its assigned cluster in a k-means clustering algorithm. It provides an indication of the compactness and separation of the clusters. The silhouette score ranges from -1 to 1, with a higher score indicating better-defined clusters.</p>
+<div class="cell" data-execution_count="45">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sns.pointplot(x<span class="op">=</span><span class="bu">list</span>(sse.keys()), y<span class="op">=</span><span class="bu">list</span>(sse.values()), ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Elbow criterion"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'k'</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">'SSE'</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>sns.pointplot(x<span class="op">=</span><span class="bu">list</span>(sil_scores.keys()), y<span class="op">=</span><span class="bu">list</span>(sil_scores.values()), ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Silhouette scores"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'k'</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Silhouette score'</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"KMeans – selection of n. of clusters (k)"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="114">
+</section>
+<section id="model-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="model-interpretation">Model interpretation</h3>
+<div class="cell" data-execution_count="46">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">1</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>kmeans.fit(datamart_normalized)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>labels_k2 <span class="op">=</span> kmeans.labels_</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k <span class="op">=</span> datamart_rfm.assign(Cluster <span class="op">=</span> labels_k2)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k.groupby(<span class="st">'Cluster'</span>).mean().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">1</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>kmeans.fit(datamart_normalized)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>labels_k2 <span class="op">=</span> kmeans.labels_</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k <span class="op">=</span> datamart_rfm.assign(Cluster <span class="op">=</span> labels_k2)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k.groupby(<span class="st">'Cluster'</span>).mean().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="114">
+<div class="cell-output cell-output-display" data-execution_count="46">
 <div>
 
 
@@ -1233,15 +1213,15 @@ dtype: int64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>60.24</td>
-<td>267.13</td>
-<td>6063.04</td>
+<td>311.12</td>
+<td>32.09</td>
+<td>559.88</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>315.03</td>
-<td>32.22</td>
-<td>565.30</td>
+<td>60.73</td>
+<td>262.62</td>
+<td>5914.93</td>
 </tr>
 </tbody>
 </table>
@@ -1249,17 +1229,17 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="115">
+<div class="cell" data-execution_count="47">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">1</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>kmeans.fit(datamart_normalized)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>labels_k3 <span class="op">=</span> kmeans.labels_</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k <span class="op">=</span> datamart_rfm.assign(Cluster <span class="op">=</span> labels_k3)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k.groupby(<span class="st">'Cluster'</span>).mean().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">1</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>kmeans.fit(datamart_normalized)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>labels_k4 <span class="op">=</span> kmeans.labels_</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k <span class="op">=</span> datamart_rfm.assign(Cluster <span class="op">=</span> labels_k4)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>datamart_rfm_k.groupby(<span class="st">'Cluster'</span>).mean().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="115">
+<div class="cell-output cell-output-display" data-execution_count="47">
 <div>
 
 
@@ -1281,97 +1261,530 @@ dtype: int64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>24.61</td>
-<td>371.60</td>
-<td>8764.18</td>
+<td>26.70</td>
+<td>58.04</td>
+<td>896.77</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>365.82</td>
-<td>16.24</td>
-<td>298.88</td>
+<td>270.50</td>
+<td>92.31</td>
+<td>1704.16</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>185.68</td>
-<td>82.04</td>
-<td>1485.09</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div class="cell" data-execution_count="116">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>datamart_normalized_df <span class="op">=</span> datamart_normalized_df.assign(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    k2 <span class="op">=</span> labels_k2,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    k3 <span class="op">=</span> labels_k3</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="117">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>datamart_normalized_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="117">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Recency</th>
-<th data-quarto-table-cell-role="th">Frequency</th>
-<th data-quarto-table-cell-role="th">MonetaryValue</th>
-<th data-quarto-table-cell-role="th">k2</th>
-<th data-quarto-table-cell-role="th">k3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>0.843417</td>
-<td>-0.292567</td>
-<td>3.180080</td>
-<td>0</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>-2.269860</td>
-<td>1.097708</td>
-<td>1.295493</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>-0.054680</td>
-<td>-0.011700</td>
-<td>0.558205</td>
-<td>0</td>
-<td>2</td>
+<td>381.87</td>
+<td>15.20</td>
+<td>281.72</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>-0.893881</td>
-<td>0.842375</td>
-<td>1.122583</td>
-<td>0</td>
-<td>0</td>
+<td>28.28</td>
+<td>421.30</td>
+<td>10046.31</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>We assign cluster labels to original dataframe.</p>
+<div class="cell" data-execution_count="48">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>datamart_k <span class="op">=</span> datamart.assign(k2 <span class="op">=</span> labels_k2, k4 <span class="op">=</span> labels_k4)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>datamart_normalized_k <span class="op">=</span> datamart_normalized_df.assign(CustomerID <span class="op">=</span> datamart_k[<span class="st">'CustomerID'</span>], k2 <span class="op">=</span> labels_k2, k4 <span class="op">=</span> labels_k4)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>datamart_k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">R</th>
+<th data-quarto-table-cell-role="th">F</th>
+<th data-quarto-table-cell-role="th">M</th>
+<th data-quarto-table-cell-role="th">RFM_Segment</th>
+<th data-quarto-table-cell-role="th">RFM_Score</th>
+<th data-quarto-table-cell-role="th">k2</th>
+<th data-quarto-table-cell-role="th">k4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>12346.0</td>
+<td>317</td>
+<td>34</td>
+<td>77556.46</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>224</td>
+<td>8</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>12347.0</td>
+<td>31</td>
+<td>242</td>
+<td>5408.50</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>344</td>
+<td>11</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>12348.0</td>
+<td>67</td>
+<td>51</td>
+<td>2019.40</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>323</td>
+<td>8</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>12349.0</td>
+<td>10</td>
+<td>175</td>
+<td>4428.69</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>444</td>
+<td>12</td>
+<td>1</td>
+<td>3</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>0.812658</td>
-<td>-0.772712</td>
-<td>-0.734129</td>
+<td>12350.0</td>
+<td>302</td>
+<td>17</td>
+<td>334.40</td>
+<td>2</td>
 <td>1</td>
 <td>1</td>
+<td>211</td>
+<td>4</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5845</td>
+<td>18283.0</td>
+<td>1</td>
+<td>936</td>
+<td>2528.65</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>444</td>
+<td>12</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5846</td>
+<td>18284.0</td>
+<td>423</td>
+<td>28</td>
+<td>461.68</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>122</td>
+<td>5</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5847</td>
+<td>18285.0</td>
+<td>652</td>
+<td>12</td>
+<td>427.00</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>112</td>
+<td>4</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5848</td>
+<td>18286.0</td>
+<td>468</td>
+<td>67</td>
+<td>1296.43</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+<td>133</td>
+<td>7</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5849</td>
+<td>18287.0</td>
+<td>34</td>
+<td>155</td>
+<td>4182.99</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>344</td>
+<td>11</td>
+<td>1</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<p>5850 rows × 11 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="49">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>k2 <span class="op">=</span> datamart_k.groupby(<span class="st">'k2'</span>).agg(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    Size<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    Recency<span class="op">=</span>(<span class="st">'Recency'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    Frequency<span class="op">=</span>(<span class="st">'Frequency'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    MonetaryValue<span class="op">=</span>(<span class="st">'MonetaryValue'</span>, <span class="st">'mean'</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span> display(k2.<span class="bu">round</span>())</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>k4 <span class="op">=</span> datamart_k.groupby(<span class="st">'k4'</span>).agg(</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    Size<span class="op">=</span>(<span class="st">'CustomerID'</span>, <span class="st">'count'</span>),</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    Recency<span class="op">=</span>(<span class="st">'Recency'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    Frequency<span class="op">=</span>(<span class="st">'Frequency'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    MonetaryValue<span class="op">=</span>(<span class="st">'MonetaryValue'</span>, <span class="st">'mean'</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span> display(k4.<span class="bu">round</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Size</th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">k2</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>3245</td>
+<td>311.0</td>
+<td>32.0</td>
+<td>560.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2605</td>
+<td>61.0</td>
+<td>263.0</td>
+<td>5915.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Size</th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">k4</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1200</td>
+<td>27.0</td>
+<td>58.0</td>
+<td>897.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1714</td>
+<td>270.0</td>
+<td>92.0</td>
+<td>1704.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1666</td>
+<td>382.0</td>
+<td>15.0</td>
+<td>282.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1270</td>
+<td>28.0</td>
+<td>421.0</td>
+<td>10046.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="50">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>datamart_normalized_k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th">k2</th>
+<th data-quarto-table-cell-role="th">k4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.830871</td>
+<td>-0.285081</td>
+<td>3.195948</td>
+<td>12346.0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>-0.592041</td>
+<td>1.078302</td>
+<td>1.278958</td>
+<td>12347.0</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>-0.120348</td>
+<td>-0.003408</td>
+<td>0.569780</td>
+<td>12348.0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>-1.284490</td>
+<td>0.853117</td>
+<td>1.135082</td>
+<td>12349.0</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.801204</td>
+<td>-0.766603</td>
+<td>-0.724671</td>
+<td>12350.0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5845</td>
+<td>-2.693736</td>
+<td>2.017994</td>
+<td>0.731664</td>
+<td>18283.0</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5846</td>
+<td>1.007423</td>
+<td>-0.419959</td>
+<td>-0.492494</td>
+<td>18284.0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5847</td>
+<td>1.272231</td>
+<td>-1.008569</td>
+<td>-0.548706</td>
+<td>18285.0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5848</td>
+<td>1.069297</td>
+<td>0.186150</td>
+<td>0.250751</td>
+<td>18286.0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5849</td>
+<td>-0.535506</td>
+<td>0.768809</td>
+<td>1.093995</td>
+<td>18287.0</td>
+<td>1</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<p>5850 rows × 6 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="51">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>datamart_normalized_melt <span class="op">=</span> pd.melt(datamart_normalized_k, id_vars<span class="op">=</span>[<span class="st">'CustomerID'</span>, <span class="st">'k2'</span>, <span class="st">'k4'</span>], value_vars<span class="op">=</span>[<span class="st">'Recency'</span>, <span class="st">'Frequency'</span>, <span class="st">'MonetaryValue'</span>], var_name<span class="op">=</span><span class="st">'Attribute'</span>, value_name<span class="op">=</span><span class="st">'Value'</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>datamart_normalized_melt[[<span class="st">'k2'</span>, <span class="st">'k4'</span>]] <span class="op">=</span> datamart_normalized_melt[[<span class="st">'k2'</span>, <span class="st">'k4'</span>]].astype(<span class="st">'string'</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>datamart_normalized_melt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th">k2</th>
+<th data-quarto-table-cell-role="th">k4</th>
+<th data-quarto-table-cell-role="th">Attribute</th>
+<th data-quarto-table-cell-role="th">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>12346.0</td>
+<td>1</td>
+<td>1</td>
+<td>Recency</td>
+<td>0.830871</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>12347.0</td>
+<td>1</td>
+<td>3</td>
+<td>Recency</td>
+<td>-0.592041</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>12348.0</td>
+<td>1</td>
+<td>1</td>
+<td>Recency</td>
+<td>-0.120348</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>12349.0</td>
+<td>1</td>
+<td>3</td>
+<td>Recency</td>
+<td>-1.284490</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>12350.0</td>
+<td>0</td>
+<td>2</td>
+<td>Recency</td>
+<td>0.801204</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -1382,50 +1795,195 @@ dtype: int64</code></pre>
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">5873</td>
-<td>-1.846211</td>
-<td>2.039969</td>
-<td>0.776635</td>
-<td>0</td>
-<td>0</td>
+<td data-quarto-table-cell-role="th">17545</td>
+<td>18283.0</td>
+<td>1</td>
+<td>3</td>
+<td>MonetaryValue</td>
+<td>0.731664</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">5874</td>
-<td>1.015485</td>
-<td>-0.427059</td>
-<td>-0.502332</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">5875</td>
-<td>1.275444</td>
-<td>-1.013985</td>
-<td>-0.558452</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5876</td>
-<td>1.076049</td>
-<td>0.177316</td>
-<td>0.239699</td>
-<td>1</td>
+<td data-quarto-table-cell-role="th">17546</td>
+<td>18284.0</td>
+<td>0</td>
 <td>2</td>
+<td>MonetaryValue</td>
+<td>-0.492494</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">5877</td>
-<td>-0.394680</td>
-<td>0.758308</td>
-<td>1.081563</td>
+<td data-quarto-table-cell-role="th">17547</td>
+<td>18285.0</td>
 <td>0</td>
+<td>2</td>
+<td>MonetaryValue</td>
+<td>-0.548706</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17548</td>
+<td>18286.0</td>
 <td>0</td>
+<td>1</td>
+<td>MonetaryValue</td>
+<td>0.250751</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">17549</td>
+<td>18287.0</td>
+<td>1</td>
+<td>3</td>
+<td>MonetaryValue</td>
+<td>1.093995</td>
 </tr>
 </tbody>
 </table>
 
-<p>5878 rows × 5 columns</p>
+<p>17550 rows × 5 columns</p>
 </div>
+</div>
+</div>
+<div class="cell" data-execution_count="52">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(datamart_normalized_melt, x<span class="op">=</span><span class="st">'Attribute'</span>, y<span class="op">=</span><span class="st">'Value'</span>, hue<span class="op">=</span><span class="st">'k2'</span>, ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_xlabel(<span class="st">''</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_title(<span class="st">"k2 clustering"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(datamart_normalized_melt, x<span class="op">=</span><span class="st">'Attribute'</span>, y<span class="op">=</span><span class="st">'Value'</span>, hue<span class="op">=</span><span class="st">'k4'</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_xlabel(<span class="st">''</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_title(<span class="st">"k4 clustering"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Snakeplot"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="53">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pop_avg <span class="op">=</span> datamart_k[[<span class="st">'Recency'</span>, <span class="st">'Frequency'</span>, <span class="st">'MonetaryValue'</span>]].mean()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>pop_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>Recency           199.620855
+Frequency         134.742564
+MonetaryValue    2944.481776
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="54">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>cluster_avg_k2 <span class="op">=</span> datamart_k.groupby(<span class="st">'k2'</span>)[[<span class="st">'Recency'</span>, <span class="st">'Frequency'</span>, <span class="st">'MonetaryValue'</span>]].mean()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>rel_imp_k2 <span class="op">=</span> cluster_avg_k2 <span class="op">/</span> pop_avg <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>display(cluster_avg_k2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">k2</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>311.122650</td>
+<td>32.088444</td>
+<td>559.882913</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>60.725144</td>
+<td>262.616891</td>
+<td>5914.932182</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="55">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>cluster_avg_k4 <span class="op">=</span> datamart_k.groupby(<span class="st">'k4'</span>)[[<span class="st">'Recency'</span>, <span class="st">'Frequency'</span>, <span class="st">'MonetaryValue'</span>]].mean()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>rel_imp_k4 <span class="op">=</span> cluster_avg_k4 <span class="op">/</span> pop_avg <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>display(cluster_avg_k4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">k4</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>26.700000</td>
+<td>58.045000</td>
+<td>896.768044</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>270.496499</td>
+<td>92.312135</td>
+<td>1704.160891</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>381.868547</td>
+<td>15.198079</td>
+<td>281.721933</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>28.281890</td>
+<td>421.296850</td>
+<td>10046.311990</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="56">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(rel_imp_k2, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'RdYlGn'</span>, ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">'k2 clustering'</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>sns.heatmap(rel_imp_k4, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'RdYlGn'</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">'k4 clustering'</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Relative importance"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-29-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
