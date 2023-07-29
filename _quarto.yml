@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "[ <b>Data</b> & <b>Business Analytics</b> ]"
+  title: "[ <b>Business Analytics</b> & <b>Data Science</b> ]"
   # description: "Analytics & Data Science for Businesses"
   navbar:
     right:
