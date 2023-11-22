@@ -19,3 +19,4 @@ format:
     #   light: lumen
     #   dark: darkly
 
+freeze: true
