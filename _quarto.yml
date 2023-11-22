@@ -18,5 +18,3 @@ format:
     # theme:
     #   light: lumen
     #   dark: darkly
-
-freeze: true
