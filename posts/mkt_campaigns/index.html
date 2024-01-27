@@ -190,11 +190,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-processing" id="toc-data-processing" class="nav-link active" data-scroll-target="#data-processing">Data processing</a>
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link active" data-scroll-target="#preprocessing">Preprocessing</a>
   <ul class="collapse">
-  <li><a href="#model-development" id="toc-model-development" class="nav-link" data-scroll-target="#model-development">Model development</a></li>
+  <li><a href="#education" id="toc-education" class="nav-link" data-scroll-target="#education">Education</a></li>
+  <li><a href="#marital-status" id="toc-marital-status" class="nav-link" data-scroll-target="#marital-status">Marital status</a></li>
   </ul></li>
-  <li><a href="#conversion-prediction-model-development" id="toc-conversion-prediction-model-development" class="nav-link" data-scroll-target="#conversion-prediction-model-development">Conversion prediction : model development</a></li>
   </ul>
 </nav>
     </div>
@@ -204,219 +204,115 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="57">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.api.types <span class="im">import</span> CategoricalDtype</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="58">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/marketing_campaign.csv'</span>, sep<span class="op">=</span><span class="st">';'</span>)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/marketing_campaign.csv'</span>, sep<span class="op">=</span><span class="st">';'</span>, parse_dates<span class="op">=</span>[<span class="st">'Dt_Customer'</span>])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 2240 entries, 0 to 2239
 Data columns (total 29 columns):
- #   Column               Non-Null Count  Dtype  
----  ------               --------------  -----  
- 0   ID                   2240 non-null   int64  
- 1   Year_Birth           2240 non-null   int64  
- 2   Education            2240 non-null   object 
- 3   Marital_Status       2240 non-null   object 
- 4   Income               2216 non-null   float64
- 5   Kidhome              2240 non-null   int64  
- 6   Teenhome             2240 non-null   int64  
- 7   Dt_Customer          2240 non-null   object 
- 8   Recency              2240 non-null   int64  
- 9   MntWines             2240 non-null   int64  
- 10  MntFruits            2240 non-null   int64  
- 11  MntMeatProducts      2240 non-null   int64  
- 12  MntFishProducts      2240 non-null   int64  
- 13  MntSweetProducts     2240 non-null   int64  
- 14  MntGoldProds         2240 non-null   int64  
- 15  NumDealsPurchases    2240 non-null   int64  
- 16  NumWebPurchases      2240 non-null   int64  
- 17  NumCatalogPurchases  2240 non-null   int64  
- 18  NumStorePurchases    2240 non-null   int64  
- 19  NumWebVisitsMonth    2240 non-null   int64  
- 20  AcceptedCmp3         2240 non-null   int64  
- 21  AcceptedCmp4         2240 non-null   int64  
- 22  AcceptedCmp5         2240 non-null   int64  
- 23  AcceptedCmp1         2240 non-null   int64  
- 24  AcceptedCmp2         2240 non-null   int64  
- 25  Complain             2240 non-null   int64  
- 26  Z_CostContact        2240 non-null   int64  
- 27  Z_Revenue            2240 non-null   int64  
- 28  Response             2240 non-null   int64  
-dtypes: float64(1), int64(25), object(3)
+ #   Column               Non-Null Count  Dtype         
+---  ------               --------------  -----         
+ 0   ID                   2240 non-null   int64         
+ 1   Year_Birth           2240 non-null   int64         
+ 2   Education            2240 non-null   object        
+ 3   Marital_Status       2240 non-null   object        
+ 4   Income               2216 non-null   float64       
+ 5   Kidhome              2240 non-null   int64         
+ 6   Teenhome             2240 non-null   int64         
+ 7   Dt_Customer          2240 non-null   datetime64[ns]
+ 8   Recency              2240 non-null   int64         
+ 9   MntWines             2240 non-null   int64         
+ 10  MntFruits            2240 non-null   int64         
+ 11  MntMeatProducts      2240 non-null   int64         
+ 12  MntFishProducts      2240 non-null   int64         
+ 13  MntSweetProducts     2240 non-null   int64         
+ 14  MntGoldProds         2240 non-null   int64         
+ 15  NumDealsPurchases    2240 non-null   int64         
+ 16  NumWebPurchases      2240 non-null   int64         
+ 17  NumCatalogPurchases  2240 non-null   int64         
+ 18  NumStorePurchases    2240 non-null   int64         
+ 19  NumWebVisitsMonth    2240 non-null   int64         
+ 20  AcceptedCmp3         2240 non-null   int64         
+ 21  AcceptedCmp4         2240 non-null   int64         
+ 22  AcceptedCmp5         2240 non-null   int64         
+ 23  AcceptedCmp1         2240 non-null   int64         
+ 24  AcceptedCmp2         2240 non-null   int64         
+ 25  Complain             2240 non-null   int64         
+ 26  Z_CostContact        2240 non-null   int64         
+ 27  Z_Revenue            2240 non-null   int64         
+ 28  Response             2240 non-null   int64         
+dtypes: datetime64[ns](1), float64(1), int64(25), object(2)
 memory usage: 507.6+ KB</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="59">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Dt_Customer'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'Dt_Customer'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(df.isnull().<span class="bu">sum</span>() <span class="op">/</span> df.shape[<span class="dv">0</span>]).sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-</div>
-<div class="cell" data-execution_count="4">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>() <span class="op">/</span> df.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>ID                     0.000000
-Year_Birth             0.000000
-Education              0.000000
-Marital_Status         0.000000
-Income                 0.010714
-Kidhome                0.000000
-Teenhome               0.000000
-Dt_Customer            0.000000
-Recency                0.000000
-MntWines               0.000000
-MntFruits              0.000000
-MntMeatProducts        0.000000
-MntFishProducts        0.000000
-MntSweetProducts       0.000000
-MntGoldProds           0.000000
+<div class="cell-output cell-output-display" data-execution_count="59">
+<pre><code>Income                 0.010714
+ID                     0.000000
 NumDealsPurchases      0.000000
-NumWebPurchases        0.000000
-NumCatalogPurchases    0.000000
-NumStorePurchases      0.000000
-NumWebVisitsMonth      0.000000
-AcceptedCmp3           0.000000
-AcceptedCmp4           0.000000
-AcceptedCmp5           0.000000
-AcceptedCmp1           0.000000
-AcceptedCmp2           0.000000
-Complain               0.000000
-Z_CostContact          0.000000
 Z_Revenue              0.000000
+Z_CostContact          0.000000
+Complain               0.000000
+AcceptedCmp2           0.000000
+AcceptedCmp1           0.000000
+AcceptedCmp5           0.000000
+AcceptedCmp4           0.000000
+AcceptedCmp3           0.000000
+NumWebVisitsMonth      0.000000
+NumStorePurchases      0.000000
+NumCatalogPurchases    0.000000
+NumWebPurchases        0.000000
+MntGoldProds           0.000000
+Year_Birth             0.000000
+MntSweetProducts       0.000000
+MntFishProducts        0.000000
+MntMeatProducts        0.000000
+MntFruits              0.000000
+MntWines               0.000000
+Recency                0.000000
+Dt_Customer            0.000000
+Teenhome               0.000000
+Kidhome                0.000000
+Marital_Status         0.000000
+Education              0.000000
 Response               0.000000
 dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="60">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="60">
 <pre><code>(2216, 29)</code></pre>
 </div>
 </div>
-<section id="data-processing" class="level1">
-<h1>Data processing</h1>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="61">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Z_CostContact'</span>].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>count    2216.0
-mean        3.0
-std         0.0
-min         3.0
-25%         3.0
-50%         3.0
-75%         3.0
-max         3.0
-Name: Z_CostContact, dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="7">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Z_Revenue'</span>].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>count    2216.0
-mean       11.0
-std         0.0
-min        11.0
-25%        11.0
-50%        11.0
-75%        11.0
-max        11.0
-Name: Z_Revenue, dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="8">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> df.select_dtypes(<span class="st">'object'</span>).columns:</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    display(df[col].value_counts(normalize<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<pre><code>Graduation    0.503610
-PhD           0.217058
-Master        0.164711
-2n Cycle      0.090253
-Basic         0.024368
-Name: Education, dtype: float64</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre><code>Married     0.386733
-Together    0.258574
-Single      0.212545
-Divorced    0.104693
-Widow       0.034296
-Alone       0.001354
-Absurd      0.000903
-YOLO        0.000903
-Name: Marital_Status, dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="9">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Education'</span>] <span class="op">=</span> df[<span class="st">'Education'</span>].<span class="bu">map</span>({</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Basic'</span>: <span class="dv">0</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'2n Cycle'</span>: <span class="dv">1</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Graduation'</span>: <span class="dv">2</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Master'</span>: <span class="dv">3</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'PhD'</span>: <span class="dv">4</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="10">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_model <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>[<span class="st">'Marital_Status'</span>], drop_first<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_model <span class="op">=</span> df_model.drop(columns<span class="op">=</span>[</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Marital_Status_Alone'</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Z_CostContact'</span>, <span class="st">'Z_Revenue'</span>])</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> MinMaxScaler()</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>df_model[<span class="st">'Dt_Customer'</span>] <span class="op">=</span> scaler.fit_transform(df_model[<span class="st">'Dt_Customer'</span>].astype(<span class="bu">int</span>).values.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="11">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Reconvert dates</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pd.to_datetime(</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     scaler.inverse_transform(</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         df_model['Dt_Customer'].astype(float).values.reshape(-1, 1)</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#         )[:, 0].astype(int)</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="12">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="61">
 <div>
 
 
@@ -426,7 +322,6 @@ Name: Marital_Status, dtype: float64</code></pre>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">ID</th>
 <th data-quarto-table-cell-role="th">Year_Birth</th>
-<th data-quarto-table-cell-role="th">Education</th>
 <th data-quarto-table-cell-role="th">Income</th>
 <th data-quarto-table-cell-role="th">Kidhome</th>
 <th data-quarto-table-cell-role="th">Teenhome</th>
@@ -434,621 +329,336 @@ Name: Marital_Status, dtype: float64</code></pre>
 <th data-quarto-table-cell-role="th">Recency</th>
 <th data-quarto-table-cell-role="th">MntWines</th>
 <th data-quarto-table-cell-role="th">MntFruits</th>
+<th data-quarto-table-cell-role="th">MntMeatProducts</th>
 <th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">NumWebVisitsMonth</th>
+<th data-quarto-table-cell-role="th">AcceptedCmp3</th>
+<th data-quarto-table-cell-role="th">AcceptedCmp4</th>
+<th data-quarto-table-cell-role="th">AcceptedCmp5</th>
+<th data-quarto-table-cell-role="th">AcceptedCmp1</th>
 <th data-quarto-table-cell-role="th">AcceptedCmp2</th>
 <th data-quarto-table-cell-role="th">Complain</th>
+<th data-quarto-table-cell-role="th">Z_CostContact</th>
+<th data-quarto-table-cell-role="th">Z_Revenue</th>
 <th data-quarto-table-cell-role="th">Response</th>
-<th data-quarto-table-cell-role="th">Marital_Status_Absurd</th>
-<th data-quarto-table-cell-role="th">Marital_Status_Divorced</th>
-<th data-quarto-table-cell-role="th">Marital_Status_Married</th>
-<th data-quarto-table-cell-role="th">Marital_Status_Single</th>
-<th data-quarto-table-cell-role="th">Marital_Status_Together</th>
-<th data-quarto-table-cell-role="th">Marital_Status_Widow</th>
-<th data-quarto-table-cell-role="th">Marital_Status_YOLO</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>5524</td>
-<td>1957</td>
-<td>2</td>
-<td>58138.0</td>
-<td>0</td>
-<td>0</td>
-<td>0.051502</td>
-<td>58</td>
-<td>635</td>
-<td>88</td>
+<td data-quarto-table-cell-role="th">count</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
 <td>...</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.000000</td>
+<td>2216.0</td>
+<td>2216.0</td>
+<td>2216.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2174</td>
-<td>1954</td>
-<td>2</td>
-<td>46344.0</td>
-<td>1</td>
-<td>1</td>
-<td>0.838340</td>
-<td>38</td>
-<td>11</td>
-<td>1</td>
+<td data-quarto-table-cell-role="th">mean</td>
+<td>5588.353339</td>
+<td>1968.820397</td>
+<td>52247.251354</td>
+<td>0.441787</td>
+<td>0.505415</td>
+<td>2013-07-10 11:29:27.509025280</td>
+<td>49.012635</td>
+<td>305.091606</td>
+<td>26.356047</td>
+<td>166.995939</td>
 <td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>5.319043</td>
+<td>0.073556</td>
+<td>0.074007</td>
+<td>0.073105</td>
+<td>0.064079</td>
+<td>0.013538</td>
+<td>0.009477</td>
+<td>3.0</td>
+<td>11.0</td>
+<td>0.150271</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>4141</td>
-<td>1965</td>
-<td>2</td>
-<td>71613.0</td>
-<td>0</td>
-<td>0</td>
-<td>0.553648</td>
-<td>26</td>
-<td>426</td>
-<td>49</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td>0.000000</td>
+<td>1893.000000</td>
+<td>1730.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>2012-07-30 00:00:00</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
 <td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>3.0</td>
+<td>11.0</td>
+<td>0.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>6182</td>
-<td>1984</td>
-<td>2</td>
-<td>26646.0</td>
-<td>1</td>
-<td>0</td>
-<td>0.801144</td>
-<td>26</td>
-<td>11</td>
-<td>4</td>
+<td data-quarto-table-cell-role="th">25%</td>
+<td>2814.750000</td>
+<td>1959.000000</td>
+<td>35303.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>2013-01-16 00:00:00</td>
+<td>24.000000</td>
+<td>24.000000</td>
+<td>2.000000</td>
+<td>16.000000</td>
 <td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
+<td>3.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>3.0</td>
+<td>11.0</td>
+<td>0.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>5324</td>
-<td>1981</td>
-<td>4</td>
-<td>58293.0</td>
-<td>1</td>
-<td>0</td>
-<td>0.769671</td>
-<td>94</td>
-<td>173</td>
-<td>43</td>
+<td data-quarto-table-cell-role="th">50%</td>
+<td>5458.500000</td>
+<td>1970.000000</td>
+<td>51381.500000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>2013-07-08 12:00:00</td>
+<td>49.000000</td>
+<td>174.500000</td>
+<td>8.000000</td>
+<td>68.000000</td>
 <td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>6.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>3.0</td>
+<td>11.0</td>
+<td>0.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
+<td data-quarto-table-cell-role="th">75%</td>
+<td>8421.750000</td>
+<td>1977.000000</td>
+<td>68522.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>2013-12-31 00:00:00</td>
+<td>74.000000</td>
+<td>505.000000</td>
+<td>33.000000</td>
+<td>232.250000</td>
 <td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
+<td>7.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>3.0</td>
+<td>11.0</td>
+<td>0.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2235</td>
-<td>10870</td>
-<td>1967</td>
-<td>2</td>
-<td>61223.0</td>
-<td>0</td>
-<td>1</td>
-<td>0.454936</td>
-<td>46</td>
-<td>709</td>
-<td>43</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td>11191.000000</td>
+<td>1996.000000</td>
+<td>666666.000000</td>
+<td>2.000000</td>
+<td>2.000000</td>
+<td>2014-06-29 00:00:00</td>
+<td>99.000000</td>
+<td>1493.000000</td>
+<td>199.000000</td>
+<td>1725.000000</td>
 <td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>20.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>3.0</td>
+<td>11.0</td>
+<td>1.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2236</td>
-<td>4001</td>
-<td>1946</td>
-<td>4</td>
-<td>64014.0</td>
-<td>2</td>
-<td>1</td>
-<td>0.972818</td>
-<td>56</td>
-<td>406</td>
-<td>0</td>
+<td data-quarto-table-cell-role="th">std</td>
+<td>3249.376275</td>
+<td>11.985554</td>
+<td>25173.076661</td>
+<td>0.536896</td>
+<td>0.544181</td>
+<td>NaN</td>
+<td>28.948352</td>
+<td>337.327920</td>
+<td>39.793917</td>
+<td>224.283273</td>
 <td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2237</td>
-<td>7270</td>
-<td>1981</td>
-<td>2</td>
-<td>56981.0</td>
-<td>0</td>
-<td>0</td>
-<td>0.778255</td>
-<td>91</td>
-<td>908</td>
-<td>48</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2238</td>
-<td>8235</td>
-<td>1956</td>
-<td>3</td>
-<td>69245.0</td>
-<td>0</td>
-<td>1</td>
-<td>0.776824</td>
-<td>8</td>
-<td>428</td>
-<td>30</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2239</td>
-<td>9405</td>
-<td>1954</td>
-<td>4</td>
-<td>52869.0</td>
-<td>1</td>
-<td>1</td>
-<td>0.110157</td>
-<td>40</td>
-<td>84</td>
-<td>3</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>2.425359</td>
+<td>0.261106</td>
+<td>0.261842</td>
+<td>0.260367</td>
+<td>0.244950</td>
+<td>0.115588</td>
+<td>0.096907</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.357417</td>
 </tr>
 </tbody>
 </table>
 
-<p>2216 rows × 33 columns</p>
+<p>8 rows × 27 columns</p>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="13">
+<div class="cell" data-execution_count="62">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_model[<span class="st">'Response'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>0    0.849729
-1    0.150271
-Name: Response, dtype: float64</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="62">
+<pre><code>Index(['ID', 'Year_Birth', 'Education', 'Marital_Status', 'Income', 'Kidhome',
+       'Teenhome', 'Dt_Customer', 'Recency', 'MntWines', 'MntFruits',
+       'MntMeatProducts', 'MntFishProducts', 'MntSweetProducts',
+       'MntGoldProds', 'NumDealsPurchases', 'NumWebPurchases',
+       'NumCatalogPurchases', 'NumStorePurchases', 'NumWebVisitsMonth',
+       'AcceptedCmp3', 'AcceptedCmp4', 'AcceptedCmp5', 'AcceptedCmp1',
+       'AcceptedCmp2', 'Complain', 'Z_CostContact', 'Z_Revenue', 'Response'],
+      dtype='object')</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="63">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, StratifiedKFold</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mkt_campaign_cols <span class="op">=</span> [<span class="st">'AcceptedCmp3'</span>, <span class="st">'AcceptedCmp4'</span>, <span class="st">'AcceptedCmp5'</span>, <span class="st">'AcceptedCmp1'</span>, <span class="st">'AcceptedCmp2'</span>, <span class="st">'Complain'</span>, <span class="st">'Z_CostContact'</span>, <span class="st">'Z_Revenue'</span>, <span class="st">'Response'</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>mkt_campaign_cols)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display" data-execution_count="63">
+<pre><code>Index(['ID', 'Year_Birth', 'Education', 'Marital_Status', 'Income', 'Kidhome',
+       'Teenhome', 'Dt_Customer', 'Recency', 'MntWines', 'MntFruits',
+       'MntMeatProducts', 'MntFishProducts', 'MntSweetProducts',
+       'MntGoldProds', 'NumDealsPurchases', 'NumWebPurchases',
+       'NumCatalogPurchases', 'NumStorePurchases', 'NumWebVisitsMonth'],
+      dtype='object')</code></pre>
 </div>
-<div class="cell" data-execution_count="15">
+</div>
+<section id="preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
+<section id="education" class="level3">
+<h3 class="anchored" data-anchor-id="education">Education</h3>
+<div class="cell" data-execution_count="64">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_model.drop(columns<span class="op">=</span>[<span class="st">'Response'</span>])</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_model[<span class="st">'Response'</span>]</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>skf <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Education'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>array(['Graduation', 'PhD', 'Master', 'Basic', '2n Cycle'], dtype=object)</code></pre>
 </div>
-<div class="cell" data-execution_count="16">
+</div>
+<div class="cell" data-execution_count="65">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>y_train.value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>education_order <span class="op">=</span> [<span class="st">'Basic'</span>, <span class="st">'2n Cycle'</span>, <span class="st">'Graduation'</span>, <span class="st">'Master'</span>, <span class="st">'PhD'</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cat_type <span class="op">=</span> CategoricalDtype(categories<span class="op">=</span>education_order, ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Education'</span>] <span class="op">=</span> df[<span class="st">'Education'</span>].astype(cat_type)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Education'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>0    0.849774
-1    0.150226
-Name: Response, dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="17">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>y_test.value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="17">
-<pre><code>0    0.849624
-1    0.150376
-Name: Response, dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="18">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from imblearn.over_sampling import SMOTE</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># smote = SMOTE(random_state=42)</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># X_train, y_train = smote.fit_resample(X_train, y_train)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<section id="model-development" class="level2">
-<h2 class="anchored" data-anchor-id="model-development">Model development</h2>
-<div class="cell" data-execution_count="19">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier, BaggingClassifier, ExtraTreesClassifier, GradientBoostingClassifier</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xgboost <span class="im">import</span> XGBClassifier</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report, classification_report</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="20">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>class_weights <span class="op">=</span> <span class="st">'balanced'</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> (</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    (KNeighborsClassifier(), <span class="st">'KNN'</span>),</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    (RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>, class_weight<span class="op">=</span>class_weights), <span class="st">'Random Forest'</span>),</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    (BaggingClassifier(random_state<span class="op">=</span><span class="dv">42</span>), <span class="st">'Bagging'</span>),</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    (ExtraTreesClassifier(random_state<span class="op">=</span><span class="dv">42</span>, class_weight<span class="op">=</span>class_weights), <span class="st">'Extra Trees'</span>),</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    (XGBClassifier(random_state<span class="op">=</span><span class="dv">42</span>), <span class="st">'XGBoost'</span>),</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>model_names <span class="op">=</span> []</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>accuracies <span class="op">=</span> []</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>precisions <span class="op">=</span> []</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>recalls <span class="op">=</span> []</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>f1s <span class="op">=</span> []</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>aucs <span class="op">=</span> []</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> models:</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    clf <span class="op">=</span> model[<span class="dv">0</span>]</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    clf.fit(X_train, y_train)</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> clf.predict(X_test)</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    model_names.append(model[<span class="dv">1</span>])</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>    accuracies.append(accuracy_score(y_test, y_pred))</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>    precisions.append(precision_score(y_test, y_pred))</span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>    recalls.append(recall_score(y_test, y_pred))</span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    f1s.append(f1_score(y_test, y_pred))</span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    aucs.append(roc_auc_score(y_test, y_pred))</span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>model_comp <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'Model'</span>: model_names, <span class="st">'Accuracy'</span>: accuracies, <span class="st">'Precision'</span>: precisions, <span class="st">'Recall'</span>: recalls, <span class="st">'F1'</span>: f1s, <span class="st">'AUROC'</span>: aucs})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="21">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model_comp.sort_values(<span class="st">'F1'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="21">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Model</th>
-<th data-quarto-table-cell-role="th">Accuracy</th>
-<th data-quarto-table-cell-role="th">Precision</th>
-<th data-quarto-table-cell-role="th">Recall</th>
-<th data-quarto-table-cell-role="th">F1</th>
-<th data-quarto-table-cell-role="th">AUROC</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>XGBoost</td>
-<td>0.878195</td>
-<td>0.633803</td>
-<td>0.45</td>
-<td>0.526316</td>
-<td>0.701991</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2</td>
-<td>Bagging</td>
-<td>0.885714</td>
-<td>0.730769</td>
-<td>0.38</td>
-<td>0.500000</td>
-<td>0.677611</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">3</td>
-<td>Extra Trees</td>
-<td>0.887218</td>
-<td>0.837838</td>
-<td>0.31</td>
-<td>0.452555</td>
-<td>0.649690</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>Random Forest</td>
-<td>0.885714</td>
-<td>0.928571</td>
-<td>0.26</td>
-<td>0.406250</td>
-<td>0.628230</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>KNN</td>
-<td>0.839098</td>
-<td>0.370370</td>
-<td>0.10</td>
-<td>0.157480</td>
-<td>0.534956</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div class="cell" data-execution_count="29">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>rfc <span class="op">=</span> XGBClassifier(</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># n_estimators=50,</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># class_weight='balanced',</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span> : [<span class="dv">50</span>, <span class="dv">100</span>,<span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>, <span class="dv">600</span>, <span class="dv">700</span>, <span class="dv">800</span>],</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span> : np.append(np.arange(<span class="dv">1</span>, <span class="dv">31</span>, <span class="dv">1</span>), <span class="va">None</span>),</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>gs <span class="op">=</span> GridSearchCV(rfc, param_grid<span class="op">=</span>param_grid, n_jobs<span class="op">=-</span><span class="dv">1</span>, cv<span class="op">=</span>skf, scoring<span class="op">=</span><span class="st">'f1'</span>)</span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>gs.fit(X_train, y_train)</span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gs.best_estimator_, gs.best_params_, gs.best_score_)</span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> gs.predict(X_test)</span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>f1_score(y_test, y_pred)</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>pickle.dump(gs.best_estimator_, <span class="bu">open</span>(<span class="st">'XGBC_best_estimator.pkl'</span>, <span class="st">'wb'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>XGBClassifier(base_score=None, booster=None, callbacks=None,
-              colsample_bylevel=None, colsample_bynode=None,
-              colsample_bytree=None, early_stopping_rounds=None,
-              enable_categorical=False, eval_metric=None, feature_types=None,
-              gamma=None, gpu_id=None, grow_policy=None, importance_type=None,
-              interaction_constraints=None, learning_rate=None, max_bin=None,
-              max_cat_threshold=None, max_cat_to_onehot=None,
-              max_delta_step=None, max_depth=4, max_leaves=None,
-              min_child_weight=None, missing=nan, monotone_constraints=None,
-              n_estimators=300, n_jobs=-1, num_parallel_tree=None,
-              predictor=None, random_state=42, ...) {'max_depth': 4, 'n_estimators': 300} 0.6002749719416386</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="29">
-<pre><code>0.5212121212121211</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="35">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>XGBC_best_estimator <span class="op">=</span> pickle.load(<span class="bu">open</span>(<span class="st">'XGBC_best_estimator.pkl'</span>, <span class="st">'rb'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="37">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>XGBC_best_estimator.predict(X_test)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>f1_score(y_test, y_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="37">
-<pre><code>0.5212121212121211</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<pre><code>0       Graduation
+1       Graduation
+2       Graduation
+3       Graduation
+4              PhD
+           ...    
+2235    Graduation
+2236           PhD
+2237    Graduation
+2238        Master
+2239           PhD
+Name: Education, Length: 2216, dtype: category
+Categories (5, object): ['Basic' &lt; '2n Cycle' &lt; 'Graduation' &lt; 'Master' &lt; 'PhD']</code></pre>
 </div>
 </div>
 </section>
+<section id="marital-status" class="level3">
+<h3 class="anchored" data-anchor-id="marital-status">Marital status</h3>
+<p>To explain and categorize these marital status unique values, we first need to understand what each term generally means in the context of marital or relationship status. Then, we can categorize them based on their characteristics.</p>
+<ul>
+<li>Single: This typically refers to someone who is not currently married or in a romantic relationship.</li>
+<li>Together: This is a bit less formal and might indicate a serious relationship but not married. It could mean living together or being in a long-term partnership.</li>
+<li>Married: This is a formal and legal union between two people.</li>
+<li>Divorced: This refers to someone who was previously married but is now legally divorced.</li>
+<li>Widow: This term is used for someone whose spouse has died and who has not remarried.</li>
+<li>Alone: This term is ambiguous. It could mean single or living alone. It doesn’t necessarily indicate the person’s relationship status.</li>
+<li>Absurd: This does not describe a marital status. It might be used in a survey or data collection to identify nonsensical or joke responses.</li>
+<li>YOLO (You Only Live Once): Similar to “Absurd”, this is not a marital status and is likely a non-serious response.</li>
+</ul>
+<div class="cell" data-execution_count="66">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Marital_Status'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<pre><code>array(['Single', 'Together', 'Married', 'Divorced', 'Widow', 'Alone',
+       'Absurd', 'YOLO'], dtype=object)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="67">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Formal_Marital_Status'</span>] <span class="op">=</span> np.where(df[<span class="st">'Marital_Status'</span>].isin([<span class="st">'Married'</span>, <span class="st">'Divorced'</span>, <span class="st">'Widow'</span>]), <span class="va">True</span>, <span class="va">False</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Ambiguous_Relationship_Status'</span>] <span class="op">=</span> np.where(df[<span class="st">'Marital_Status'</span>].isin([<span class="st">'YOLO'</span>, <span class="st">'Absurd'</span>]), <span class="va">True</span>, <span class="va">False</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Currently_In_Relationship'</span>] <span class="op">=</span> np.where(df[<span class="st">'Marital_Status'</span>].isin([<span class="st">'Together'</span>, <span class="st">'Married'</span>]), <span class="va">False</span>, <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="68">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Currently_In_Relationship'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="68">
+<pre><code>Currently_In_Relationship
+False    1430
+True      786
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+
+
 </section>
-<section id="conversion-prediction-model-development" class="level1">
-<h1>Conversion prediction : model development</h1>
-<div class="cell" data-execution_count="24">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df['conversion'].value_counts(normalize=True)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="25">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.linear_model import LogisticRegression, LogisticRegressionCV</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.svm import SVC</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.neighbors import KNeighborsClassifier</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.tree import DecisionTreeClassifier</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.ensemble import RandomForestClassifier, BaggingClassifier, ExtraTreesClassifier, GradientBoostingClassifier</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># from xgboost import XGBClassifier, XGBRFClassifier</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report, classification_report</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="26">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># class_weights = 'balanced'</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># models = (</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     # (LogisticRegression(random_state=42, class_weight=class_weights), 'Logistic Regression'),</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     # (LogisticRegressionCV(random_state=42, class_weight=class_weights), 'Logistic Regression CV'),</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     (SVC(random_state=42, class_weight=class_weights), 'SVC'),</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     (KNeighborsClassifier(), 'KNN'),</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     # (DecisionTreeClassifier(random_state=42, class_weight=class_weights), 'Decision Tree'),</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     (RandomForestClassifier(random_state=42, class_weight=class_weights), 'Random Forest'),</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     (BaggingClassifier(random_state=42), 'Bagging'),</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     (ExtraTreesClassifier(random_state=42, class_weight=class_weights), 'Extra Trees'),</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     # (GradientBoostingClassifier(random_state=42), 'Gradient Boosting'),</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     (XGBClassifier(random_state=42), 'XGBoost'),</span></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     # (XGBRFClassifier(random_state=42), 'XGBoost RF')</span></span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="co"># model_names = []</span></span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a><span class="co"># accuracies = []</span></span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="co"># precisions = []</span></span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a><span class="co"># recalls = []</span></span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a><span class="co"># f1s = []</span></span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a><span class="co"># aucs = []</span></span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a><span class="co"># for model in models:</span></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     clf = model[0]</span></span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a><span class="co">#     clf.fit(X_smo, y_smo)</span></span>
-<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_pred = clf.predict(X_test)</span></span>
-<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     model_names.append(model[1])</span></span>
-<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     accuracies.append(accuracy_score(y_test, y_pred))</span></span>
-<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     precisions.append(precision_score(y_test, y_pred))</span></span>
-<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     recalls.append(recall_score(y_test, y_pred))</span></span>
-<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     f1s.append(f1_score(y_test, y_pred))</span></span>
-<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a><span class="co">#     aucs.append(roc_auc_score(y_test, y_pred))</span></span>
-<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a><span class="co"># model_comp = pd.DataFrame(</span></span>
-<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     {'Model': model_names, 'Accuracy': accuracies, 'Precision': precisions, 'Recall': recalls, 'F1': f1s, 'AUC': aucs})</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="27">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_comp.sort_values('F1', ascending=False)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="28">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.model_selection import GridSearchCV</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># rfc = RandomForestClassifier(</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     # n_estimators=50,</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     class_weight='balanced',</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     random_state=42,</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     n_jobs=-1)</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co"># param_grid = {</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     'n_estimators' : [50, 100, 150, 200, 250, 300],</span></span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     'max_depth' : [None, 5, 10]</span></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co"># gs = GridSearchCV(rfc, param_grid=param_grid, n_jobs=-1, cv=skf, scoring='f1')</span></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="co"># gs.fit(X_smo, y_smo)</span></span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="co"># print(gs.best_estimator_, gs.best_params_, gs.best_score_)</span></span>
-<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred = gs.predict(X_test)</span></span>
-<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a><span class="co"># f1_score(y_test, y_pred)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-
-
 </section>
 
 </main> <!-- /main -->

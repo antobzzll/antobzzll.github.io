@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Antonio Buzzelli">
+<meta name="dcterms.date" content="2024-01-27">
+
+<title>[ Business Analytics &amp; Data Science ] - 👥 Data-driven Customer Segmentation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">[ <b>Business Analytics</b> &amp; <b>Data Science</b> ]</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">Antonio Buzzelli</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/antobzzll" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page-left">
+      <h1 class="title">👥 Data-driven Customer Segmentation</h1>
+            <p class="subtitle lead">RFMT Clustering to Decode Customer Behaviors and Define Business Personas</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Online Retail</div>
+                <div class="quarto-category">Marketing</div>
+                <div class="quarto-category">Customer Segmentation</div>
+                <div class="quarto-category">Business Personas</div>
+                <div class="quarto-category">Unsupervised Learning</div>
+                <div class="quarto-category">Python</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Antonio Buzzelli </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 27, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  <div>
+    <div class="abstract">
+      <div class="abstract-title">Abstract</div>
+      In-depth analysis of customer segmentation using the RFMT model (Recency, Frequency, Monetary Value, Tenure). Employing KMeans clustering, we identify distinct customer personas and propose tailored strategic actions for each group. The study aims to enhance customer engagement, retention, and value generation through precise, data-driven marketing strategies.
+    </div>
+  </div>
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-findings-and-achievements" id="toc-key-findings-and-achievements" class="nav-link active" data-scroll-target="#key-findings-and-achievements">Key findings and achievements</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#loading-the-data" id="toc-loading-the-data" class="nav-link" data-scroll-target="#loading-the-data">Loading the data</a></li>
+  <li><a href="#computing-recency-frequency-monetary-value-and-tenure" id="toc-computing-recency-frequency-monetary-value-and-tenure" class="nav-link" data-scroll-target="#computing-recency-frequency-monetary-value-and-tenure">Computing Recency, Frequency, Monetary Value, and Tenure</a></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a>
+  <ul class="collapse">
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a></li>
+  <li><a href="#selection-of-optimal-k" id="toc-selection-of-optimal-k" class="nav-link" data-scroll-target="#selection-of-optimal-k">Selection of optimal <em>k</em></a></li>
+  <li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions">Predictions</a></li>
+  <li><a href="#model-comparison-and-interpretation-of-the-clusters" id="toc-model-comparison-and-interpretation-of-the-clusters" class="nav-link" data-scroll-target="#model-comparison-and-interpretation-of-the-clusters">Model comparison and interpretation of the clusters</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+
+
+
+
+<section id="key-findings-and-achievements" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
+<blockquote class="blockquote">
+<ul>
+<li>Computed RFMT features from a retail purchase dataset, for customer segmentation analysis.</li>
+<li>Preprocessed and normalized the dataset to enable optimal clustering, and determined the most suitable number of clusters (k) using the Elbow Method.</li>
+<li>Executed a comparative analysis of two KMeans clustering solutions, providing a clear distinction between the customer groups for k=n and k=n+1.</li>
+<li>Interpreted each cluster to define distinct business personas, leading to the identification of strategic, customized actions aimed at enhancing customer engagement and business growth.</li>
+</ul>
+</blockquote>
+<hr>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In today’s competitive marketplace, leveraging data to understand and predict customer behavior is paramount for sustaining growth and securing a strategic advantage. Customer clustering analysis stands at the forefront of this endeavor, offering a powerful suite of techniques for unraveling the complexities of customer data. By partitioning customers into distinct groups, or clusters, based on shared attributes, businesses can tailor their marketing strategies, optimize resource allocation, and ultimately drive a more personalized customer experience.</p>
+<p>The core aim of this analytical notebook is to perform an in-depth clustering analysis of retail customers, with a focus on RFMT attributes. By dissecting the nuanced behaviors captured within these features, we aspire to unearth distinct customer segments that can reveal targeted opportunities for enhanced marketing engagement, optimized product placement, and improved customer lifetime value.</p>
+</section>
+<section id="loading-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-the-data">Loading the data</h2>
+<p>The dataset we are utilizing for this exercise is a classic example of transactional data commonly encountered across various business sectors. It represents purchase data from an online retail business based in the UK. Each record in this dataset corresponds to a single purchase transaction made by a customer. This type of dataset is ubiquitous in the business world, providing invaluable insights into customer behavior.</p>
+<p>Our dataset is structured as follows:</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.395971Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.395787Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:12.761864Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:12.761454Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.395963Z&quot;}" data-execution_count="19">
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+Index: 1041671 entries, 0 to 1067370
+Data columns (total 10 columns):
+ #   Column       Non-Null Count    Dtype         
+---  ------       --------------    -----         
+ 0   Invoice      1041671 non-null  string        
+ 1   StockCode    1041671 non-null  string        
+ 2   Description  1041671 non-null  string        
+ 3   Quantity     1041671 non-null  int64         
+ 4   InvoiceDate  1041671 non-null  datetime64[us]
+ 5   Price        1041671 non-null  float64       
+ 6   CustomerID   805549 non-null   float64       
+ 7   Country      1041671 non-null  string        
+ 8   Year         1041671 non-null  int64         
+ 9   Amount       1041671 non-null  float64       
+dtypes: datetime64[us](1), float64(3), int64(2), string(4)
+memory usage: 87.4 MB</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Quantity</th>
+<th data-quarto-table-cell-role="th">InvoiceDate</th>
+<th data-quarto-table-cell-role="th">Price</th>
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>1.041671e+06</td>
+<td>1041671</td>
+<td>1.041671e+06</td>
+<td>805549.000000</td>
+<td>1.041671e+06</td>
+<td>1.041671e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>1.096345e+01</td>
+<td>2011-01-03 16:31:26.403269</td>
+<td>4.077038e+00</td>
+<td>15331.954970</td>
+<td>1.508899e+00</td>
+<td>2.013397e+01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">min</td>
+<td>1.000000e+00</td>
+<td>2009-12-01 07:45:00</td>
+<td>1.000000e-03</td>
+<td>12346.000000</td>
+<td>1.000000e+00</td>
+<td>1.000000e-03</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>1.000000e+00</td>
+<td>2010-07-12 10:26:00</td>
+<td>1.250000e+00</td>
+<td>13982.000000</td>
+<td>1.000000e+00</td>
+<td>3.900000e+00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>3.000000e+00</td>
+<td>2010-12-07 15:33:00</td>
+<td>2.100000e+00</td>
+<td>15271.000000</td>
+<td>2.000000e+00</td>
+<td>9.960000e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>1.000000e+01</td>
+<td>2011-07-24 12:05:00</td>
+<td>4.130000e+00</td>
+<td>16805.000000</td>
+<td>2.000000e+00</td>
+<td>1.770000e+01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">max</td>
+<td>8.099500e+04</td>
+<td>2011-12-09 12:50:00</td>
+<td>2.511109e+04</td>
+<td>18287.000000</td>
+<td>2.000000e+00</td>
+<td>1.684696e+05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">std</td>
+<td>1.265149e+02</td>
+<td>NaN</td>
+<td>5.144898e+01</td>
+<td>1696.737039</td>
+<td>4.999210e-01</td>
+<td>2.031167e+02</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The columns include basic transactional elements like Invoice number, StockCode, product Description, Quantity, and Amount of items purchased, InvoiceDate, Price of the items, CustomerID, Country of purchase, and the Year of the transaction.</p>
+</section>
+<section id="computing-recency-frequency-monetary-value-and-tenure" class="level2">
+<h2 class="anchored" data-anchor-id="computing-recency-frequency-monetary-value-and-tenure">Computing Recency, Frequency, Monetary Value, and Tenure</h2>
+<p>The RFMT model is a cornerstone of customer value analysis, providing a multifaceted framework to quantify and understand customer behavior. In this phase of our analysis, we will compute the four key metrics that comprise the RFMT model:</p>
+<ul>
+<li><p><strong>Recency</strong> (R): The freshness of customer engagement, measured by the time since the last transaction. This metric helps us understand which customers have interacted with the business recently, indicating an ongoing relationship.</p></li>
+<li><p><strong>Frequency</strong> (F): The rate of transactions, determined by the number of purchases made within a specific period. This dimension allows us to identify the most engaged customers who transact with the business regularly.</p></li>
+<li><p><strong>Monetary Value</strong> (M): The total spend of a customer, calculated by summing up the value of all purchases. This metric highlights the customers who contribute the most to revenue and can indicate potential for future profitability.</p></li>
+<li><p><strong>Tenure</strong> (T): The length of time a customer has been with the business, defined from their first purchase to the present. Tenure provides insight into customer loyalty and the long-term value of customer relationships.</p></li>
+</ul>
+<p>By computing these RFMT metrics, we will transform our raw transactional data into actionable insights, segmenting customers into groups that reflect varying levels of engagement and value to the organization. This stratification enables targeted marketing efforts, efficient allocation of resources, and the development of tailored customer retention strategies. In practice, we will calculate these metrics by aggregating transaction data at the customer level, ensuring that each customer’s profile is accurately represented by their shopping habits and interactions with the business.</p>
+<p>The recency and tenure calculations will require us to establish a reference point — typically the date of analysis or the latest date in the dataset — to gauge the time elapsed since the last transaction and the duration of the customer relationship, respectively. Frequency will be assessed by counting the number of transactions per customer, and monetary value will be ascertained by summing the total spend per customer. The process will involve data manipulation and the use of aggregate functions to ensure precise and meaningful calculations.</p>
+<p>Ultimately, the RFMT analysis will not only differentiate customers by their transactional behavior but also serve as the basis for applying clustering algorithms. The outcome will be a set of clearly defined customer segments, each with its own distinct characteristics based on these four critical dimensions. These segments will then inform a range of strategic initiatives designed to enhance customer engagement and optimize business outcomes.</p>
+<p>First, we define a snapshot date – a simulated point in time when we run the analysis. In our case it will be represented by the last date available in the dataset.</p>
+<p>Then we group the data by customer ID and aggregate by:</p>
+<ul>
+<li><p><strong>Recency</strong> as the number of days since the last purchase for each customer.</p></li>
+<li><p><strong>Frequency</strong> as the number of purchases made by each customer.</p></li>
+<li><p><strong>MonetaryValue</strong> as the total amount spent by each customer.</p></li>
+<li><p><strong>Tenure</strong> as the number of days each customer has been active.</p></li>
+</ul>
+<p>Here below a preview of the transformed dataset:</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.859756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.859692Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.262748Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.262342Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.859750Z&quot;}" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rfmt <span class="op">=</span> df.groupby(<span class="st">'CustomerID'</span>).agg(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    Recency <span class="op">=</span> (<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (snapshot_date <span class="op">-</span> x.<span class="bu">max</span>()).days),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Frequency <span class="op">=</span> (<span class="st">'Amount'</span>, <span class="st">'count'</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    MonetaryValue <span class="op">=</span> (<span class="st">'Amount'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    Tenure <span class="op">=</span> (<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (x.<span class="bu">max</span>() <span class="op">-</span> x.<span class="bu">min</span>()).days)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>rfmt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12346.0</td>
+<td>325</td>
+<td>34</td>
+<td>77556.46</td>
+<td>400</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12347.0</td>
+<td>1</td>
+<td>253</td>
+<td>5633.32</td>
+<td>402</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12348.0</td>
+<td>74</td>
+<td>51</td>
+<td>2019.40</td>
+<td>362</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12349.0</td>
+<td>18</td>
+<td>175</td>
+<td>4428.69</td>
+<td>570</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12350.0</td>
+<td>309</td>
+<td>17</td>
+<td>334.40</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18283.0</td>
+<td>3</td>
+<td>986</td>
+<td>2736.65</td>
+<td>654</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18284.0</td>
+<td>431</td>
+<td>28</td>
+<td>461.68</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18285.0</td>
+<td>660</td>
+<td>12</td>
+<td>427.00</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18286.0</td>
+<td>476</td>
+<td>67</td>
+<td>1296.43</td>
+<td>247</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18287.0</td>
+<td>42</td>
+<td>155</td>
+<td>4182.99</td>
+<td>528</td>
+</tr>
+</tbody>
+</table>
+
+<p>5878 rows × 4 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>5878.000000</td>
+<td>5878.000000</td>
+<td>5878.000000</td>
+<td>5878.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>200.331916</td>
+<td>137.044743</td>
+<td>3018.616737</td>
+<td>273.022457</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>209.338707</td>
+<td>353.818629</td>
+<td>14737.731040</td>
+<td>258.807591</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>0.000000</td>
+<td>1.000000</td>
+<td>2.950000</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>25.000000</td>
+<td>21.000000</td>
+<td>348.762500</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>95.000000</td>
+<td>53.000000</td>
+<td>898.915000</td>
+<td>220.500000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>379.000000</td>
+<td>142.000000</td>
+<td>2307.090000</td>
+<td>511.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>738.000000</td>
+<td>12890.000000</td>
+<td>608821.650000</td>
+<td>738.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>A quick analysis of the resulting features shows us that:</p>
+<ul>
+<li><p>The average time since the last purchase across all customers is roughly 200 days, suggesting a moderate level of recent engagement. The standard deviation is substantial at approximately 209 days, indicating variability in customer engagement. The quickest repeat purchase occurred on the same day, while the longest time since a previous purchase extends to 738 days.</p></li>
+<li><p>Customers have made an average of 137 transactions, which is quite diverse as reflected by a high standard deviation of around 354. The frequency of purchases ranges from a single transaction to a high of 12,890, showing that there are both one-time and extremely frequent shoppers in the dataset.</p></li>
+<li><p>The mean monetary value spent by customers is $3,018.62, but with a very high standard deviation of $14,737.73, this suggests a significant spread in the total spend per customer. The minimum spend is $2.95, indicating at least one very low-value purchase, and the maximum spend is an outlier at $608,821.65, which points to high spending customers.</p></li>
+<li><p>The average length of the relationship between the customers and the company is 273 days, with a standard deviation of about 259 days, reflecting a wide range in the duration of customer relationships. The tenure ranges from new customers (0 days) to those with relationships as long as the oldest transaction in the dataset (738 days).</p></li>
+<li><p>The first quartile (25%) indicates that 25% of customers have interacted with the company within the last 25 days, have a transaction count of 21 or fewer, have spent no more than $348.76, and at least 25% are either new customers or have no recorded tenure.</p></li>
+<li><p>The median (50%) shows that half of the customers have made a purchase within the last 95 days, have a transaction count of 53 or less, and have spent no more than $898.91, with a tenure of up to 220.5 days.</p></li>
+<li><p>By the third quartile (75%), 75% of customers have recency scores as high as 379 days, have made up to 142 transactions, have spent as much as $2,307.09, and have a tenure of up to 511 days.</p></li>
+</ul>
+<p>The high standard deviations for Monetary Value and Frequency suggest a significant variance in customer spending and engagement, which could indicate a diverse customer base with varying levels of loyalty and value to the company.</p>
+</section>
+<section id="clustering" class="level2">
+<h2 class="anchored" data-anchor-id="clustering">Clustering</h2>
+<p>With the RFMT metrics serving as a multi-dimensional profile for each customer, we are now equipped to apply clustering algorithms to segment our customer base into meaningful groups. This subsequent clustering is pivotal, as it aims to reveal the intrinsic patterns and similarities between customers that are not immediately apparent.</p>
+<p>The clustering process will employ the K-means algorithm, a widely recognized method for its simplicity and effectiveness in partitioning data into k distinct clusters. The algorithm iterates through the dataset, optimizing the positions of the centroids and assigning each data point to the nearest cluster, based on the minimum distance principle. The selection of the optimal number of clusters, k, is of paramount importance and will be informed by the Elbow Method and the Silhouette Score. These metrics will guide us to a value of k that balances within-cluster homogeneity and between-cluster separation, ensuring that our clusters are both statistically significant and practically interpretable.</p>
+<section id="preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
+<p>In preparation for clustering, our dataset requires preprocessing to shape the data into a form amenable to the algorithms we intend to use. Two critical steps in this preprocessing pipeline are log transformation and standardization, particularly relevant when dealing with RFMT data, which often contains skewed distributions and features of varying scales (as we see here below).</p>
+<div class="cell" data-execution_count="24">
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Log Transformation</strong> The RFMT metrics—especially monetary value and frequency—can exhibit right-skewed distributions, where a small number of high-value customers distort the overall picture. To mitigate this and to normalize the distribution of these attributes, we apply a log transformation. Log transformation dampens the impact of outliers and reduces skewness, making the underlying patterns more apparent and suitable for clustering.</p>
+<p>Before applying the log transformation, we must ensure that there are no zero or negative values in the dataset, as the log function is not defined for these numbers. In such cases, we can add a constant (like 1) to all values to make the transformation feasible.</p>
+<p><strong>Standardization</strong> Post log transformation, we perform standardization of the features. Standardization involves rescaling the data so that it has a mean of zero and a standard deviation of one. This is particularly important for distance-based clustering algorithms like K-means, which are sensitive to the scale of the data. If the features are on different scales, one feature might dominate the distance metric, leading to biased clusters.</p>
+<p>By standardizing the features, we give each one equal weight in the clustering process. For RFMT data, this ensures that recency, which might be on the scale of days, is just as important as monetary value, which could be several orders of magnitude larger in raw units.</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:13.634598Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:13.634522Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.686078Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.685782Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:13.634591Z&quot;}" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>log_rfmt <span class="op">=</span> np.log1p(rfmt)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>scaled_rfmt <span class="op">=</span> pd.DataFrame(scaler.fit_transform(log_rfmt), columns<span class="op">=</span>rfmt.columns, index<span class="op">=</span>rfmt.index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="selection-of-optimal-k" class="level3">
+<h3 class="anchored" data-anchor-id="selection-of-optimal-k">Selection of optimal <em>k</em></h3>
+<p>To identify the optimal k – meaning the number of clusters in which we want to group our customers –, we use two primary methods: the Elbow Method with inertia as the metric, and Silhouette Scores.</p>
+<p><strong>Elbow Method</strong>: In this approach, we plot the inertia against the number of clusters. Inertia, which is a measure of the total distance of points from their respective cluster centroids, typically decreases as we increase the number of clusters. However, the rate of decrease sharply changes at a certain point, forming an ‘elbow’ in the plot. The optimal number of clusters is often considered to be at this ‘elbow’ point, where adding more clusters doesn’t give much better modeling of the data. This method is intuitive and helps in visualizing the trade-off between the number of clusters and the compactness of the clusters.</p>
+<p><strong>Silhouette Scores</strong>: To complement the Elbow Method, we also use Silhouette Scores, which provide a quantitative measure of how well each object lies within its cluster. A high Silhouette Score suggests that the object is well matched to its own cluster and poorly matched to neighboring clusters. By evaluating the average Silhouette Score for different values of k, we can more accurately determine the number of clusters that optimally represents our data.</p>
+<p>The combination of the Elbow Method using inertia and Silhouette Scores allows for a more comprehensive and reliable determination of the optimal number of clusters in our RFM customer segmentation. This dual approach ensures that we achieve a balance in our clustering model, avoiding both over-segmentation and under-segmentation.</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.035800Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.034693Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.342321Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.341813Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.035786Z&quot;}" data-execution_count="28">
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>From the Elbow criterion graph, the optimal number of clusters k is typically chosen at the point where the inertia (sum of squared distances within clusters) begins to decrease more slowly, indicating diminishing returns on the distinctness of additional clusters. In the graph, there is no pronounced ‘elbow,’ but there seems to be a slight leveling off after k=4, suggesting that increasing the number of clusters beyond 4 yields smaller gains in compactness.</p>
+<p>The Silhouette score provides a measure of how similar an object is to its own cluster compared to other clusters, with higher values indicating better-defined clusters. From the Silhouette scores graph, the score tends to decrease as k increases, which is expected as more clusters can lead to less cohesion within clusters. There is a noticeable uptick at k=5, but the score is still lower than for k=2, k=3, and k=4.</p>
+<p>Combining insights from both the Elbow method and the Silhouette scores, <strong>k=4 seems to be a reasonable choice for the optimal number of clusters</strong>. At this point, the inertia has not yet flattened out completely, and the Silhouette score, while not the highest, is relatively strong compared to higher k values. Therefore, k=4 could be considered a good balance between cluster distinctness and cohesion for this dataset.</p>
+<p>But for the purpose of thorough analysis, we will conduct a <strong>comparison between k=4 and k=3</strong>. This comparison will help us to critically evaluate both statistical and practical aspects of the clustering results. By thoroughly investigating these two potential solutions, we will be able to determine which clustering solution is more appropriate for our customer segmentation.</p>
+</section>
+<section id="predictions" class="level3">
+<h3 class="anchored" data-anchor-id="predictions">Predictions</h3>
+<p>We are going now to fit the KMeans algorithm with k=3 and k=4, and append the cluster predictions both to the original and scaled rfmt datasets.</p>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.342863Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.342778Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.615084Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.609156Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.342856Z&quot;}" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rfmt_k <span class="op">=</span> rfmt.copy()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>k_cols <span class="op">=</span> []</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> [<span class="dv">3</span>, <span class="dv">4</span>]:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k, random_state<span class="op">=</span><span class="dv">1</span>,  n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    col_name <span class="op">=</span> <span class="ss">f'k</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    rfmt_k[<span class="ss">f'k</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">'</span>] <span class="op">=</span> model.fit_predict(scaled_rfmt)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    k_cols.append(col_name)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>scaled_rfmt_k <span class="op">=</span> pd.concat([scaled_rfmt, rfmt_k.iloc[:, <span class="dv">4</span>:]], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>rfmt_k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+<th data-quarto-table-cell-role="th">k3</th>
+<th data-quarto-table-cell-role="th">k4</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12346.0</td>
+<td>325</td>
+<td>34</td>
+<td>77556.46</td>
+<td>400</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12347.0</td>
+<td>1</td>
+<td>253</td>
+<td>5633.32</td>
+<td>402</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12348.0</td>
+<td>74</td>
+<td>51</td>
+<td>2019.40</td>
+<td>362</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12349.0</td>
+<td>18</td>
+<td>175</td>
+<td>4428.69</td>
+<td>570</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12350.0</td>
+<td>309</td>
+<td>17</td>
+<td>334.40</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18283.0</td>
+<td>3</td>
+<td>986</td>
+<td>2736.65</td>
+<td>654</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18284.0</td>
+<td>431</td>
+<td>28</td>
+<td>461.68</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18285.0</td>
+<td>660</td>
+<td>12</td>
+<td>427.00</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18286.0</td>
+<td>476</td>
+<td>67</td>
+<td>1296.43</td>
+<td>247</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18287.0</td>
+<td>42</td>
+<td>155</td>
+<td>4182.99</td>
+<td>528</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>5878 rows × 6 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="model-comparison-and-interpretation-of-the-clusters" class="level3">
+<h3 class="anchored" data-anchor-id="model-comparison-and-interpretation-of-the-clusters">Model comparison and interpretation of the clusters</h3>
+<p>In the subsequent analysis, we will delve into the interpretation of customer clusters as delineated by the KMeans clustering algorithm for k=3 and k=4, leveraging both heatmap and snakeplot visualizations. These visual tools are instrumental in uncovering the nuances of customer behavior across different segments. The heatmaps provide a clear, immediate visual representation of the mean values of the RFM (Recency, Frequency, Monetary value) metrics and Tenure for each cluster, highlighting patterns through color intensity — darker shades indicate higher mean values within a cluster relative to others. In contrast, the snakeplots will allow us to understand the relative positioning of each cluster along the RFM and Tenure dimensions through a line plot, offering a more detailed and comparative view of the clusters’ profiles. This juxtaposition of visual techniques will enable us to draw a comprehensive picture of the clusters, identify key characteristics that define each segment, and infer the strategic implications for targeted marketing actions.</p>
+<section id="model-comparison" class="level4">
+<h4 class="anchored" data-anchor-id="model-comparison">Model comparison</h4>
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.615894Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.615808Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.918081Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.917653Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.615887Z&quot;}" data-execution_count="31">
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="33">
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>When comparing the clusters between k=3 and k=4, it’s evident that the introduction of a fourth cluster (the red cluster in k=4) provides a finer segmentation of the customer base, specifically related to the green cluster (of k=3).</p>
+</section>
+<section id="interpretation-of-clusters" class="level4">
+<h4 class="anchored" data-anchor-id="interpretation-of-clusters">Interpretation of clusters</h4>
+<p>Having established that the k=4 model offers a more granular and insightful segmentation of the customer base, let’s proceed with a detailed interpretation of each cluster and propose targeted actions for each.</p>
+<div class="cell" data-execution_count="34">
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>The following table summarizes the clusters’ features and proposes related business personas.</p>
+<table class="table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 19%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cluster</th>
+<th>Recency</th>
+<th>Frequency</th>
+<th>MonetaryValue</th>
+<th>Tenure</th>
+<th>Size</th>
+<th>Business Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>High</td>
+<td>Low</td>
+<td>Low</td>
+<td>Low</td>
+<td>Large</td>
+<td>New Potential Customers</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Low</td>
+<td>High</td>
+<td>High</td>
+<td>High</td>
+<td>Medium</td>
+<td>Loyal High-Value/Engagement Customers</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>High</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Large</td>
+<td>At-Risk Medium-Value/Engagement Customers</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>Low</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Loyal Medium-Value/Engagement Customers</td>
+</tr>
+</tbody>
+</table>
+<p><strong>New Potential Customers (Cluster 0)</strong></p>
+<ul>
+<li><em>Description</em>: This large cluster consists of recently acquired customers with low frequency and monetary value, and with no recent interactions.</li>
+<li><em>Actions</em>: Implement a nurturing strategy to foster these new relationships. Introduce onboarding programs, provide educational content, and send tailored promotions to encourage repeat purchases and increase monetary value.</li>
+</ul>
+<p><strong>Loyal High-Value/Engagement Customers (Cluster 1)</strong></p>
+<ul>
+<li><em>Description</em>: A medium-sized group of customers with high frequency, monetary value, and tenure, showing strong loyalty and engagement.</li>
+<li><em>Actions</em>: Develop retention programs with exclusive rewards, recognize loyalty milestones, and offer referral incentives. Engage them with personalized communication and consider involving them in product development feedback loops to maintain their high engagement.</li>
+</ul>
+<p><strong>At-Risk Medium-Value/Engagement Customers (Cluster 2)</strong></p>
+<ul>
+<li><em>Description</em>: Another large cluster, these customers have medium values for frequency, monetary value, and tenure but have engaged less recently. They might be at-risk of churn.</li>
+<li><em>Actions</em>: Reactivate these customers with “we miss you” messages, offering updates on what they’ve missed. Provide incentives that encourage them to revisit and transact, such as limited-time offers or exclusive previews of new products.</li>
+</ul>
+<p><strong>Loyal Medium-Value/Engagement Customers (Cluster 3)</strong></p>
+<ul>
+<li><em>Description</em>: A medium-sized cluster with low recency but medium frequency, monetary value, and tenure, indicating constant engagement.</li>
+<li><em>Actions</em>: Design engagement campaigns highlighting new offerings or loyalty rewards. Conduct surveys to understand their recent interaction and potential risks. Offer incentives for increased frequency and spending.</li>
+</ul>
+<p>Each cluster requires a tailored approach that aligns with the behavior patterns identified through the RFM and Tenure analysis. The goal is to enhance customer value across all segments, whether by nurturing new relationships, retaining valuable customers, or re-engaging those showing signs of decreasing engagement. By taking these specific, data-driven actions, the business can optimize its marketing efforts and improve the overall customer lifecycle value.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
