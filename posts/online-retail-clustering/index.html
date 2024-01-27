@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="loading-the-data">Loading the data</h2>
 <p>The dataset we are utilizing for this exercise is a classic example of transactional data commonly encountered across various business sectors. It represents purchase data from an online retail business based in the UK. Each record in this dataset corresponds to a single purchase transaction made by a customer. This type of dataset is ubiquitous in the business world, providing invaluable insights into customer behavior.</p>
 <p>Our dataset is structured as follows:</p>
-<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.395971Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.395787Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:12.761864Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:12.761454Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.395963Z&quot;}" data-execution_count="19">
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.395971Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.395787Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:12.761864Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:12.761454Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.395963Z&quot;}" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 Index: 1041671 entries, 0 to 1067370
@@ -256,7 +256,7 @@ memory usage: 87.4 MB</code></pre>
 <div class="cell-output cell-output-display">
 <pre><code>None</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -374,7 +374,7 @@ memory usage: 87.4 MB</code></pre>
 <li><p><strong>Tenure</strong> as the number of days each customer has been active.</p></li>
 </ul>
 <p>Here below a preview of the transformed dataset:</p>
-<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.859756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.859692Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.262748Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.262342Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.859750Z&quot;}" data-execution_count="21">
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.859756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.859692Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.262748Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.262342Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.859750Z&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rfmt <span class="op">=</span> df.groupby(<span class="st">'CustomerID'</span>).agg(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    Recency <span class="op">=</span> (<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (snapshot_date <span class="op">-</span> x.<span class="bu">max</span>()).days),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Frequency <span class="op">=</span> (<span class="st">'Amount'</span>, <span class="st">'count'</span>),</span>
@@ -382,7 +382,7 @@ memory usage: 87.4 MB</code></pre>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    Tenure <span class="op">=</span> (<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (x.<span class="bu">max</span>() <span class="op">-</span> x.<span class="bu">min</span>()).days)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>rfmt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -488,8 +488,8 @@ memory usage: 87.4 MB</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="22">
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -585,7 +585,7 @@ memory usage: 87.4 MB</code></pre>
 <section id="preprocessing" class="level3">
 <h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
 <p>In preparation for clustering, our dataset requires preprocessing to shape the data into a form amenable to the algorithms we intend to use. Two critical steps in this preprocessing pipeline are log transformation and standardization, particularly relevant when dealing with RFMT data, which often contains skewed distributions and features of varying scales (as we see here below).</p>
-<div class="cell" data-execution_count="24">
+<div class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
@@ -594,13 +594,13 @@ memory usage: 87.4 MB</code></pre>
 <p>Before applying the log transformation, we must ensure that there are no zero or negative values in the dataset, as the log function is not defined for these numbers. In such cases, we can add a constant (like 1) to all values to make the transformation feasible.</p>
 <p><strong>Standardization</strong> Post log transformation, we perform standardization of the features. Standardization involves rescaling the data so that it has a mean of zero and a standard deviation of one. This is particularly important for distance-based clustering algorithms like K-means, which are sensitive to the scale of the data. If the features are on different scales, one feature might dominate the distance metric, leading to biased clusters.</p>
 <p>By standardizing the features, we give each one equal weight in the clustering process. For RFMT data, this ensures that recency, which might be on the scale of days, is just as important as monetary value, which could be several orders of magnitude larger in raw units.</p>
-<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:13.634598Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:13.634522Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.686078Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.685782Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:13.634591Z&quot;}" data-execution_count="25">
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:13.634598Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:13.634522Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.686078Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.685782Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:13.634591Z&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>log_rfmt <span class="op">=</span> np.log1p(rfmt)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>scaled_rfmt <span class="op">=</span> pd.DataFrame(scaler.fit_transform(log_rfmt), columns<span class="op">=</span>rfmt.columns, index<span class="op">=</span>rfmt.index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="26">
+<div class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
@@ -612,7 +612,7 @@ memory usage: 87.4 MB</code></pre>
 <p><strong>Elbow Method</strong>: In this approach, we plot the inertia against the number of clusters. Inertia, which is a measure of the total distance of points from their respective cluster centroids, typically decreases as we increase the number of clusters. However, the rate of decrease sharply changes at a certain point, forming an ‘elbow’ in the plot. The optimal number of clusters is often considered to be at this ‘elbow’ point, where adding more clusters doesn’t give much better modeling of the data. This method is intuitive and helps in visualizing the trade-off between the number of clusters and the compactness of the clusters.</p>
 <p><strong>Silhouette Scores</strong>: To complement the Elbow Method, we also use Silhouette Scores, which provide a quantitative measure of how well each object lies within its cluster. A high Silhouette Score suggests that the object is well matched to its own cluster and poorly matched to neighboring clusters. By evaluating the average Silhouette Score for different values of k, we can more accurately determine the number of clusters that optimally represents our data.</p>
 <p>The combination of the Elbow Method using inertia and Silhouette Scores allows for a more comprehensive and reliable determination of the optimal number of clusters in our RFM customer segmentation. This dual approach ensures that we achieve a balance in our clustering model, avoiding both over-segmentation and under-segmentation.</p>
-<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.035800Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.034693Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.342321Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.341813Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.035786Z&quot;}" data-execution_count="28">
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.035800Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.034693Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.342321Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.341813Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.035786Z&quot;}" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
@@ -625,7 +625,7 @@ memory usage: 87.4 MB</code></pre>
 <section id="predictions" class="level3">
 <h3 class="anchored" data-anchor-id="predictions">Predictions</h3>
 <p>We are going now to fit the KMeans algorithm with k=3 and k=4, and append the cluster predictions both to the original and scaled rfmt datasets.</p>
-<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.342863Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.342778Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.615084Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.609156Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.342856Z&quot;}" data-execution_count="29">
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.342863Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.342778Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.615084Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.609156Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.342856Z&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rfmt_k <span class="op">=</span> rfmt.copy()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>k_cols <span class="op">=</span> []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> [<span class="dv">3</span>, <span class="dv">4</span>]:</span>
@@ -635,7 +635,7 @@ memory usage: 87.4 MB</code></pre>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    k_cols.append(col_name)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>scaled_rfmt_k <span class="op">=</span> pd.concat([scaled_rfmt, rfmt_k.iloc[:, <span class="dv">4</span>:]], axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>rfmt_k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -773,12 +773,12 @@ memory usage: 87.4 MB</code></pre>
 <p>In the subsequent analysis, we will delve into the interpretation of customer clusters as delineated by the KMeans clustering algorithm for k=3 and k=4, leveraging both heatmap and snakeplot visualizations. These visual tools are instrumental in uncovering the nuances of customer behavior across different segments. The heatmaps provide a clear, immediate visual representation of the mean values of the RFM (Recency, Frequency, Monetary value) metrics and Tenure for each cluster, highlighting patterns through color intensity — darker shades indicate higher mean values within a cluster relative to others. In contrast, the snakeplots will allow us to understand the relative positioning of each cluster along the RFM and Tenure dimensions through a line plot, offering a more detailed and comparative view of the clusters’ profiles. This juxtaposition of visual techniques will enable us to draw a comprehensive picture of the clusters, identify key characteristics that define each segment, and infer the strategic implications for targeted marketing actions.</p>
 <section id="model-comparison" class="level4">
 <h4 class="anchored" data-anchor-id="model-comparison">Model comparison</h4>
-<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.615894Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.615808Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.918081Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.917653Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.615887Z&quot;}" data-execution_count="31">
+<div class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.615894Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.615808Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.918081Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.917653Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.615887Z&quot;}" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="33">
+<div class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
@@ -788,7 +788,7 @@ memory usage: 87.4 MB</code></pre>
 <section id="interpretation-of-clusters" class="level4">
 <h4 class="anchored" data-anchor-id="interpretation-of-clusters">Interpretation of clusters</h4>
 <p>Having established that the k=4 model offers a more granular and insightful segmentation of the customer base, let’s proceed with a detailed interpretation of each cluster and propose targeted actions for each.</p>
-<div class="cell" data-execution_count="34">
+<div class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
