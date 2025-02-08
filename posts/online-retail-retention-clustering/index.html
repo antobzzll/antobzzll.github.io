@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.543">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>[ Business Analytics &amp; Data Science ] - Loading the data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">[ <b>Business Analytics</b> &amp; <b>Data Science</b> ]</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Antonio Buzzelli</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/antobzzll"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page-left">
+      <h1 class="title">Loading the data</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta column-page-left">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#loading-the-data" id="toc-loading-the-data" class="nav-link active" data-scroll-target="#loading-the-data">Loading the data</a></li>
+  <li><a href="#computing-recency-frequency-monetary-value-and-tenure" id="toc-computing-recency-frequency-monetary-value-and-tenure" class="nav-link" data-scroll-target="#computing-recency-frequency-monetary-value-and-tenure">Computing Recency, Frequency, Monetary Value, and Tenure</a></li>
+  <li><a href="#segmentation" id="toc-segmentation" class="nav-link" data-scroll-target="#segmentation">Segmentation</a></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a>
+  <ul class="collapse">
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a></li>
+  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model selection</a></li>
+  <li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions">Predictions</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+
+
+
+
+
+<div id="ba69d31e-fb97-43f9-891b-c01f58943d6f" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:11.613565Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:11.613372Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:12.394632Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:12.394335Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:11.613547Z&quot;}" data-execution_count="319">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="loading-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-the-data">Loading the data</h2>
+<div id="db262610-2743-4ed7-acb2-de458d2bf67c" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.395971Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.395787Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:12.761864Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:12.761454Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.395963Z&quot;}" data-execution_count="320">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_parquet(<span class="st">'../../data/concatenated_online_retail_II.parquet'</span>) <span class="op">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    .rename(columns<span class="op">=</span>{<span class="st">'Customer ID'</span>: <span class="st">'CustomerID'</span>})</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 1067371 entries, 0 to 1067370
+Data columns (total 9 columns):
+ #   Column       Non-Null Count    Dtype         
+---  ------       --------------    -----         
+ 0   Invoice      1067371 non-null  string        
+ 1   StockCode    1067371 non-null  string        
+ 2   Description  1062989 non-null  string        
+ 3   Quantity     1067371 non-null  int64         
+ 4   InvoiceDate  1067371 non-null  datetime64[us]
+ 5   Price        1067371 non-null  float64       
+ 6   CustomerID   824364 non-null   float64       
+ 7   Country      1067371 non-null  string        
+ 8   Year         1067371 non-null  int64         
+dtypes: datetime64[us](1), float64(2), int64(2), string(4)
+memory usage: 73.3 MB</code></pre>
+</div>
+</div>
+<div id="cdec6fb8-dbd4-4647-9a6d-3f806345834a" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.762480Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.762406Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:12.855648Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:12.855285Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.762473Z&quot;}" data-execution_count="321">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="321">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Quantity</th>
+<th data-quarto-table-cell-role="th">InvoiceDate</th>
+<th data-quarto-table-cell-role="th">Price</th>
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th">Year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>1.067371e+06</td>
+<td>1067371</td>
+<td>1.067371e+06</td>
+<td>824364.000000</td>
+<td>1.067371e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>9.938898e+00</td>
+<td>2011-01-02 21:13:55.394029</td>
+<td>4.649388e+00</td>
+<td>15324.638504</td>
+<td>1.507705e+00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">min</td>
+<td>-8.099500e+04</td>
+<td>2009-12-01 07:45:00</td>
+<td>-5.359436e+04</td>
+<td>12346.000000</td>
+<td>1.000000e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>1.000000e+00</td>
+<td>2010-07-09 09:46:00</td>
+<td>1.250000e+00</td>
+<td>13975.000000</td>
+<td>1.000000e+00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>3.000000e+00</td>
+<td>2010-12-07 15:28:00</td>
+<td>2.100000e+00</td>
+<td>15255.000000</td>
+<td>2.000000e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>1.000000e+01</td>
+<td>2011-07-22 10:23:00</td>
+<td>4.150000e+00</td>
+<td>16797.000000</td>
+<td>2.000000e+00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">max</td>
+<td>8.099500e+04</td>
+<td>2011-12-09 12:50:00</td>
+<td>3.897000e+04</td>
+<td>18287.000000</td>
+<td>2.000000e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">std</td>
+<td>1.727058e+02</td>
+<td>NaN</td>
+<td>1.235531e+02</td>
+<td>1697.464450</td>
+<td>4.999409e-01</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="computing-recency-frequency-monetary-value-and-tenure" class="level2">
+<h2 class="anchored" data-anchor-id="computing-recency-frequency-monetary-value-and-tenure">Computing Recency, Frequency, Monetary Value, and Tenure</h2>
+<p>First, we define a snapshot date – a simulated point in time when we run the analysis.</p>
+<div id="d2ce4d40-b191-4b51-ac66-4ff863b88782" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.856316Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.856195Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:12.859361Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:12.859090Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.856302Z&quot;}" data-execution_count="322">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>days_passed <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>snapshot_date <span class="op">=</span> df[<span class="st">'InvoiceDate'</span>].<span class="bu">max</span>() <span class="op">+</span> datetime.timedelta(days<span class="op">=</span>days_passed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we group by customer ID and calculate the RMF-T metrics. * <strong>Recency</strong>: Number of days since the last purchase for each customer. * <strong>Frequency</strong>: Number of purchases made by each customer. * <strong>MonetaryValue</strong>: Total amount spent by each customer. * <strong>Tenure</strong>: Number of days each customer has been active.</p>
+<div id="b59d23c7-3c6a-441b-95b2-ac48535e0add" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:12.859756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:12.859692Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.262748Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.262342Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:12.859750Z&quot;}" data-execution_count="323">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rmft <span class="op">=</span> df.groupby(<span class="st">'CustomerID'</span>).agg(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    Recency <span class="op">=</span> (<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (snapshot_date <span class="op">-</span> x.<span class="bu">max</span>()).days),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    Frequency <span class="op">=</span> (<span class="st">'Invoice'</span>, <span class="st">'count'</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    MonetaryValue <span class="op">=</span> (<span class="st">'Price'</span>, <span class="st">'sum'</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    Tenure <span class="op">=</span> (<span class="st">'InvoiceDate'</span>, <span class="kw">lambda</span> x: (x.<span class="bu">max</span>() <span class="op">-</span> x.<span class="bu">min</span>()).days)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>rmft</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="323">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12346.0</td>
+<td>326</td>
+<td>48</td>
+<td>580.44</td>
+<td>400</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12347.0</td>
+<td>2</td>
+<td>253</td>
+<td>644.16</td>
+<td>402</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12348.0</td>
+<td>75</td>
+<td>51</td>
+<td>193.10</td>
+<td>362</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12349.0</td>
+<td>19</td>
+<td>180</td>
+<td>1504.59</td>
+<td>716</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12350.0</td>
+<td>310</td>
+<td>17</td>
+<td>65.30</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18283.0</td>
+<td>4</td>
+<td>986</td>
+<td>1719.75</td>
+<td>654</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18284.0</td>
+<td>430</td>
+<td>29</td>
+<td>116.09</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18285.0</td>
+<td>661</td>
+<td>12</td>
+<td>100.20</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18286.0</td>
+<td>477</td>
+<td>70</td>
+<td>306.55</td>
+<td>247</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18287.0</td>
+<td>43</td>
+<td>156</td>
+<td>348.89</td>
+<td>695</td>
+</tr>
+</tbody>
+</table>
+
+<p>5942 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="segmentation">Segmentation</h2>
+<p>The next step is to segment these values, typically by assigning a score from 1 to 4 (or 1 to 5) for each RFM parameter. The segmentation can be done based on quartiles or using other statistical methods. Customers with the lowest recency, highest frequency, and highest monetary values are considered the best.</p>
+<div id="78c6d682-75cd-4018-a0c8-62108d5e3af8" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:13.263342Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:13.263272Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.633037Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.632670Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:13.263336Z&quot;}" data-execution_count="324">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>rmft_scores <span class="op">=</span> rmft.<span class="bu">apply</span>(<span class="kw">lambda</span> col: pd.qcut(col, q<span class="op">=</span>quantiles, labels<span class="op">=</span><span class="va">False</span>, duplicates<span class="op">=</span><span class="st">'drop'</span>), axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rmft_scores <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rmft_scores[<span class="st">'Recency'</span>] <span class="op">=</span> rmft_scores[<span class="st">'Recency'</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span> <span class="op">-</span> rmft_scores[<span class="st">'Recency'</span>] <span class="co"># inverting recency scores</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>rmft_scores[<span class="st">'Score'</span>] <span class="op">=</span> rmft_scores.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>rmft_scores[<span class="st">'Segment'</span>] <span class="op">=</span> rmft_scores.<span class="bu">apply</span>(<span class="kw">lambda</span> row: <span class="st">''</span>.join(row.drop(<span class="st">'Score'</span>).astype(<span class="bu">str</span>)), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>display(rmft_scores.describe())</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>rmft_scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+<th data-quarto-table-cell-role="th">Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>5942.000000</td>
+<td>5942.000000</td>
+<td>5942.000000</td>
+<td>5942.000000</td>
+<td>5942.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>2.507573</td>
+<td>2.483676</td>
+<td>2.500000</td>
+<td>1.748065</td>
+<td>9.239313</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>1.122909</td>
+<td>1.127454</td>
+<td>1.118279</td>
+<td>0.828488</td>
+<td>3.488257</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>4.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>2.000000</td>
+<td>1.000000</td>
+<td>1.250000</td>
+<td>1.000000</td>
+<td>6.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>3.000000</td>
+<td>2.000000</td>
+<td>2.500000</td>
+<td>1.000000</td>
+<td>9.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>4.000000</td>
+<td>3.000000</td>
+<td>3.750000</td>
+<td>2.000000</td>
+<td>12.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>4.000000</td>
+<td>4.000000</td>
+<td>4.000000</td>
+<td>3.000000</td>
+<td>15.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="324">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+<th data-quarto-table-cell-role="th">Score</th>
+<th data-quarto-table-cell-role="th">Segment</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12346.0</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>2</td>
+<td>10</td>
+<td>2242</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12347.0</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>2</td>
+<td>14</td>
+<td>4442</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12348.0</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>10</td>
+<td>3232</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12349.0</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>15</td>
+<td>4443</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12350.0</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>2111</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18283.0</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>15</td>
+<td>4443</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18284.0</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>6</td>
+<td>1221</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18285.0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+<td>1121</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18286.0</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>9</td>
+<td>1332</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18287.0</td>
+<td>3</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>13</td>
+<td>3433</td>
+</tr>
+</tbody>
+</table>
+
+<p>5942 rows × 6 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="clustering" class="level2">
+<h2 class="anchored" data-anchor-id="clustering">Clustering</h2>
+<section id="preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
+<div id="bad1d0bb-83b5-4ac6-b855-8f91f2fa276f" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:13.634598Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:13.634522Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:13.686078Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:13.685782Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:13.634591Z&quot;}" data-execution_count="325">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>log_rmft <span class="op">=</span> np.log1p(rmft)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>scaled_rmft <span class="op">=</span> pd.DataFrame(scaler.fit_transform(log_rmft), columns<span class="op">=</span>rmft.columns, index<span class="op">=</span>rmft.index)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>scaled_rmft.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="325">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>5.942000e+03</td>
+<td>5.942000e+03</td>
+<td>5.942000e+03</td>
+<td>5.942000e+03</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>-3.121031e-16</td>
+<td>5.234603e-16</td>
+<td>2.774250e-16</td>
+<td>-2.391595e-17</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>1.000084e+00</td>
+<td>1.000084e+00</td>
+<td>1.000084e+00</td>
+<td>1.000084e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>-2.357189e+00</td>
+<td>-2.368299e+00</td>
+<td>-3.445497e+00</td>
+<td>-1.551241e+00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>-7.427957e-01</td>
+<td>-6.485059e-01</td>
+<td>-6.144773e-01</td>
+<td>-1.551241e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>8.588894e-02</td>
+<td>-4.493552e-03</td>
+<td>2.582970e-02</td>
+<td>5.130351e-01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>9.486214e-01</td>
+<td>7.039300e-01</td>
+<td>6.831079e-01</td>
+<td>8.289068e-01</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>1.364803e+00</td>
+<td>3.933870e+00</td>
+<td>4.064607e+00</td>
+<td>9.642227e-01</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="model-selection" class="level3">
+<h3 class="anchored" data-anchor-id="model-selection">Model selection</h3>
+<div id="57fa6afd-7a38-4241-b87b-de73bb9797f8" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:13.686929Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:13.686593Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.030335Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.024036Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:13.686913Z&quot;}" data-execution_count="326">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>n_clusters <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">11</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>sil_scores <span class="op">=</span> []</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>sse <span class="op">=</span> []</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> n_clusters:</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k, random_state<span class="op">=</span><span class="dv">1</span>, n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    kmeans.fit(scaled_rmft)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    sse.append(kmeans.inertia_)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    sil_scores.append(silhouette_score(scaled_rmft, kmeans.labels_))</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>k_sel_df <span class="op">=</span> pd.DataFrame({<span class="st">'silhouette_score'</span>: sil_scores, <span class="st">'sse'</span>: sse}, index<span class="op">=</span>n_clusters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1fe706e2-4d72-48e1-bd49-e9d82629d857" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.035800Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.034693Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.342321Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.341813Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.035786Z&quot;}" data-execution_count="327">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">5</span>),</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                        <span class="co">#  dpi=300</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                         )</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>sns.pointplot(k_sel_df, x<span class="op">=</span>k_sel_df.index, y<span class="op">=</span><span class="st">'sse'</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Elbow criterion"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'k'</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">'SSE'</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>sns.pointplot(k_sel_df, x<span class="op">=</span>k_sel_df.index, y<span class="op">=</span><span class="st">'silhouette_score'</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Silhouette scores"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'k'</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Silhouette score'</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"KMeans – selection of n. of clusters (k)"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="predictions" class="level3">
+<h3 class="anchored" data-anchor-id="predictions">Predictions</h3>
+<div id="6bc755d5-f119-4430-82d1-b7c07307dcce" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-01-14T22:28:18.342863Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-01-14T22:28:18.342778Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-01-14T22:28:18.615084Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-01-14T22:28:18.609156Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2024-01-14T22:28:18.342856Z&quot;}" data-execution_count="328">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rmft_k <span class="op">=</span> rmft.copy()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>k_cols <span class="op">=</span> []</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">4</span>):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k,random_state<span class="op">=</span><span class="dv">1</span>,  n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    col_name <span class="op">=</span> <span class="ss">f'k</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    rmft_k[<span class="ss">f'k</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">'</span>] <span class="op">=</span> model.fit_predict(scaled_rmft)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    k_cols.append(col_name)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>rmft_k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="328">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+<th data-quarto-table-cell-role="th">k2</th>
+<th data-quarto-table-cell-role="th">k3</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">CustomerID</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12346.0</td>
+<td>326</td>
+<td>48</td>
+<td>580.44</td>
+<td>400</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12347.0</td>
+<td>2</td>
+<td>253</td>
+<td>644.16</td>
+<td>402</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12348.0</td>
+<td>75</td>
+<td>51</td>
+<td>193.10</td>
+<td>362</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12349.0</td>
+<td>19</td>
+<td>180</td>
+<td>1504.59</td>
+<td>716</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12350.0</td>
+<td>310</td>
+<td>17</td>
+<td>65.30</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18283.0</td>
+<td>4</td>
+<td>986</td>
+<td>1719.75</td>
+<td>654</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18284.0</td>
+<td>430</td>
+<td>29</td>
+<td>116.09</td>
+<td>2</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18285.0</td>
+<td>661</td>
+<td>12</td>
+<td>100.20</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18286.0</td>
+<td>477</td>
+<td>70</td>
+<td>306.55</td>
+<td>247</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18287.0</td>
+<td>43</td>
+<td>156</td>
+<td>348.89</td>
+<td>695</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>5942 rows × 6 columns</p>
+</div>
+</div>
+</div>
+<div id="a95b3fe9" class="cell" data-execution_count="329">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>k_summaries <span class="op">=</span> [</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    rmft_k.groupby(col).median().iloc[:, :<span class="op">-</span><span class="dv">1</span>].reset_index().rename(columns<span class="op">=</span>{col: <span class="st">'k'</span>}).assign(kn<span class="op">=</span>col)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> rmft_k.columns <span class="cf">if</span> <span class="st">'k'</span> <span class="kw">in</span> col</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>k_df <span class="op">=</span> pd.concat(k_summaries, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>k_df[<span class="st">'knk'</span>] <span class="op">=</span> k_df[<span class="st">'kn'</span>] <span class="op">+</span> k_df[<span class="st">'k'</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>k_df.drop(columns<span class="op">=</span>[<span class="st">'k'</span>, <span class="st">'kn'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>k_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="329">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Recency</th>
+<th data-quarto-table-cell-role="th">Frequency</th>
+<th data-quarto-table-cell-role="th">MonetaryValue</th>
+<th data-quarto-table-cell-role="th">Tenure</th>
+<th data-quarto-table-cell-role="th">knk</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>383.0</td>
+<td>18.0</td>
+<td>56.300</td>
+<td>0.0</td>
+<td>k20</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>40.0</td>
+<td>118.0</td>
+<td>369.420</td>
+<td>449.0</td>
+<td>k21</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>166.5</td>
+<td>50.0</td>
+<td>161.270</td>
+<td>274.0</td>
+<td>k30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>18.0</td>
+<td>222.0</td>
+<td>679.090</td>
+<td>584.5</td>
+<td>k31</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>395.0</td>
+<td>15.0</td>
+<td>46.975</td>
+<td>0.0</td>
+<td>k32</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="2e501ea4" class="cell" data-execution_count="330">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>k_df_pivoted <span class="op">=</span> k_df.melt(id_vars<span class="op">=</span>[<span class="st">'knk'</span>], value_vars<span class="op">=</span>[<span class="st">'Recency'</span>, <span class="st">'Frequency'</span>, <span class="st">'MonetaryValue'</span>, <span class="st">'Tenure'</span>], </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                  var_name<span class="op">=</span><span class="st">'Feature'</span>, value_name<span class="op">=</span><span class="st">'Cluster'</span>) <span class="op">\</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                      .pivot(index<span class="op">=</span><span class="st">'Feature'</span>, columns<span class="op">=</span><span class="st">'knk'</span>).droplevel(<span class="dv">0</span>, axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">round</span>()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>k_df_pivoted_labels <span class="op">=</span> k_df_pivoted.<span class="bu">apply</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: pd.qcut(row, <span class="dv">3</span>, labels<span class="op">=</span>[<span class="st">'low'</span>, <span class="st">'medium'</span>, <span class="st">'high'</span>]), </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>k_df_pivoted_labels_int <span class="op">=</span> k_df_pivoted_labels.replace({<span class="st">'low'</span>:<span class="dv">1</span>, <span class="st">'medium'</span>:<span class="dv">2</span>, <span class="st">'high'</span>:<span class="dv">3</span>}).astype(<span class="bu">int</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="ss">f'</span><span class="sc">{</span><span class="bu">str</span>(value)<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> value, label <span class="kw">in</span> <span class="bu">zip</span>(k_df_pivoted.values.flatten(), k_df_pivoted_labels.values.flatten())]).reshape(<span class="op">-</span><span class="dv">1</span>).reshape(<span class="dv">4</span>,<span class="dv">5</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#ff9999"</span>,<span class="st">"#ffff99"</span>,<span class="st">"#99ff99"</span>]  <span class="co"># Red for low, yellow for medium, green for high</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> sns.color_palette(colors)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>sns.heatmap(k_df_pivoted_labels_int, annot<span class="op">=</span>labels, fmt<span class="op">=</span><span class="st">''</span>, cmap<span class="op">=</span>cmap, cbar<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="0bae66e6" class="cell" data-execution_count="331">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>labels.reshape(<span class="dv">4</span>,<span class="dv">5</span>).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="331">
+<pre><code>(4, 5)</code></pre>
+</div>
+</div>
+<div id="0323ecc7" class="cell" data-execution_count="332">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>k_df_pivoted_labels.values.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="332">
+<pre><code>(4, 5)</code></pre>
+</div>
+</div>
+<p>K2 Clustering (2 Clusters): * <strong>Cluster 0 (High Tenure and Spend)</strong>: Customers with moderate Recency, meaning their last purchase was relatively recent. They don’t purchase very frequently, but when they do, they tend to spend a lot. Their Tenure is high, indicating they have been customers for a long time.</p>
+<ul>
+<li><strong>Cluster 1 (Newer, Less Engaged)</strong>: These customers have been engaged more recently, but their overall Frequency and MonetaryValue are low. They have zero Tenure, which could mean they are new customers.</li>
+</ul>
+<p>K3 Clustering (3 Clusters): * <strong>Cluster 0 (Occasional Big Spenders)</strong>: This cluster’s customers have a moderately recent last purchase, they buy infrequently, but they tend to spend more. Their Tenure is moderate, suggesting they are neither new nor long-time customers.</p>
+<ul>
+<li><p><strong>Cluster 1 (New, Growing Relationship)</strong>: Customers here have the most recent engagement, moderate purchase frequency, and have spent a moderate amount. They are likely relatively new, as indicated by the lower Tenure.</p></li>
+<li><p><strong>Cluster 2 (Loyal and Frequent Customers)</strong>: These customers have less recent engagement compared to the others but have the highest purchase frequency and spend the most, with the longest Tenure. They represent well-established, loyal customers who are valuable to the business.</p></li>
+</ul>
+<p>Customer Profiles Based on Clustering: * <strong>K2 Cluster 0 (Established Valuable Customers)</strong>: These customers are valuable due to their high spend per purchase. Since they’re established with high tenure, retention strategies should focus on increasing purchase frequency.</p>
+<ul>
+<li><p><strong>K2 Cluster 1 (New or Inactive Customers)</strong>: They need nurturing to develop into more valuable customers. Welcome campaigns, educational content about products, and incentives to make the second purchase could be effective.</p></li>
+<li><p><strong>K3 Cluster 0 (Mid-Tier Customers)</strong>: They may need encouragement to purchase more frequently or to continue their pattern of high spending. Membership programs or tiered rewards could motivate more frequent engagement.</p></li>
+<li><p><strong>K3 Cluster 1 (Emerging Customers)</strong>: These customers are in the early stages of their lifecycle but show promise with moderate frequency and spending. Onboarding strategies, first-purchase thank-you discounts, and product recommendations could build their engagement.</p></li>
+<li><p><strong>K3 Cluster 2 (Core Customers)</strong>: This group is likely responsible for a significant portion of revenue due to their frequent purchases and high spending over a long period. Retention is critical, and personalized experiences or rewards for their loyalty can be very effective.</p></li>
+</ul>
+<p>Strategies for Each Cluster: For Established Valuable Customers (K2 Cluster 0): Since their purchase frequency is low, targeted offers based on past purchase behavior, reminders for repurchase, and cross-selling strategies can be applied.</p>
+<p>For New or Inactive Customers (K2 Cluster 1): Engagement campaigns that educate about the brand and provide incentives for increased interaction and purchasing can help move them along the customer journey.</p>
+<p>For Mid-Tier Customers (K3 Cluster 0): Consider creating personalized marketing campaigns that reward their spending habits and encourage more frequent purchases.</p>
+<p>For Emerging Customers (K3 Cluster 1): Develop nurture campaigns with incentives for repeat purchases and personalized recommendations based on their initial purchases.</p>
+<p>For Core Customers (K3 Cluster 2): Implement VIP programs, exclusive access to products, and personalized services that acknowledge their loyalty and high value to the brand.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
