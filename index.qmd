@@ -1,5 +1,5 @@
 ---
-title: "Portfolio & Blog"
+title: "Antonio's Portfolio & Blog"
 listing:
   contents: posts
   sort: "date desc"
