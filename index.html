@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.313">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>[ Business Analytics &amp; Data Science ] - Portfolio &amp; Blog</title>
+<title>Portfolio &amp; Blog – [ Business Analytics &amp; Data Science ]</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -37,17 +37,23 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,8 +62,10 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -90,8 +98,35 @@ ul.task-list li input[type="checkbox"] {
   })
   </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -100,37 +135,37 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">[ <b>Business Analytics</b> &amp; <b>Data Science</b> ]</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">Antonio Buzzelli</span></a>
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Antonio Buzzelli</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/antobzzll" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/antobzzll"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -140,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="Business Personas">Business Personas <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Classification">Classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Customer Segmentation">Customer Segmentation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Finance">Finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Machine Learning">Machine Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Market Basket Analysis">Market Basket Analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Marketing">Marketing <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Motorsports">Motorsports <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Online Retail">Online Retail <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Public Data">Public Data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Python">Python <span class="quarto-category-count">(5)</span></div><div class="category" data-category="Supervised Learning">Supervised Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Unsupervised Learning">Unsupervised Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="motogpdata">motogpdata <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="QnVzaW5lc3MlMjBQZXJzb25hcw==">Business Personas <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Q2xhc3NpZmljYXRpb24=">Classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Q3VzdG9tZXIlMjBTZWdtZW50YXRpb24=">Customer Segmentation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RmluYW5jZQ==">Finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWFjaGluZSUyMExlYXJuaW5n">Machine Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWFya2V0JTIwQmFza2V0JTIwQW5hbHlzaXM=">Market Basket Analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWFya2V0aW5n">Marketing <span class="quarto-category-count">(2)</span></div><div class="category" data-category="TW90b3JzcG9ydHM=">Motorsports <span class="quarto-category-count">(1)</span></div><div class="category" data-category="T25saW5lJTIwUmV0YWls">Online Retail <span class="quarto-category-count">(2)</span></div><div class="category" data-category="UHVibGljJTIwRGF0YQ==">Public Data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(5)</span></div><div class="category" data-category="U3VwZXJ2aXNlZCUyMExlYXJuaW5n">Supervised Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VW5zdXBlcnZpc2VkJTIwTGVhcm5pbmc=">Unsupervised Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bW90b2dwZGF0YQ==">motogpdata <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -151,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -159,7 +194,9 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
+
 </header>
+
 
 <p>Welcome to my personal repository of data science notebooks.</p>
 <p>Here, you will find a collection of studies and analyses in which I make use of data visualization, statistical analysis, data mining, and machine learning to extract important insights from data and solve common case studies on various topics such as business management &amp; marketing, social sciences, sports, and more.</p>
@@ -170,47 +207,45 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Online Retail,Marketing,Customer Segmentation,Business Personas,Unsupervised Learning,Python" data-listing-date-sort="1706310000000" data-listing-file-modified-sort="1739048058877" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14">
+<div class="quarto-post image-right" data-index="0" data-categories="T25saW5lJTIwUmV0YWlsJTJDTWFya2V0aW5nJTJDQ3VzdG9tZXIlMjBTZWdtZW50YXRpb24lMkNCdXNpbmVzcyUyMFBlcnNvbmFzJTJDVW5zdXBlcnZpc2VkJTIwTGVhcm5pbmclMkNQeXRob24=" data-listing-date-sort="1706310000000" data-listing-file-modified-sort="1739177475210" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2724">
 <div class="thumbnail">
-<p><a href="./posts/online-retail-clustering/index.html"> <p class="card-img-top"><img src="posts/online-retail-clustering/index_files/figure-html/cell-8-output-1.png"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/online-retail-clustering/index.html" class="no-external"></a></p><a href="./posts/online-retail-clustering/index.html" class="no-external">
+<p class="card-img-top"><img src="posts/online-retail-clustering/index_files/figure-html/cell-8-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/online-retail-clustering/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/online-retail-clustering/index.html">
 <h3 class="no-anchor listing-title">
-👥 Data-driven Customer Segmentation
+<a href="./posts/online-retail-clustering/index.html" class="no-external">👥 Data-driven Customer Segmentation</a>
 </h3>
 <div class="listing-subtitle">
-RFMT Clustering to Decode Customer Behaviors and Define Business Personas
+<a href="./posts/online-retail-clustering/index.html" class="no-external">RFMT Clustering to Decode Customer Behaviors and Define Business Personas</a>
 </div>
-</a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Online Retail'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('T25saW5lJTIwUmV0YWls'); return false;">
 Online Retail
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Marketing'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('TWFya2V0aW5n'); return false;">
 Marketing
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Customer Segmentation'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('Q3VzdG9tZXIlMjBTZWdtZW50YXRpb24='); return false;">
 Customer Segmentation
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Business Personas'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('QnVzaW5lc3MlMjBQZXJzb25hcw=='); return false;">
 Business Personas
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Unsupervised Learning'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('VW5zdXBlcnZpc2VkJTIwTGVhcm5pbmc='); return false;">
 Unsupervised Learning
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">
 Python
 </div>
 </div>
-<a href="./posts/online-retail-clustering/index.html">
 <div class="listing-description">
-<p>In-depth analysis of customer segmentation using the RFMT model (Recency, Frequency, Monetary Value, Tenure). Employing KMeans clustering, we identify distinct customer personas and propose tailored strategic actions for each group. The study aims to enhance customer engagement, retention, and value generation through precise, data-driven marketing strategies.</p>
+<a href="./posts/online-retail-clustering/index.html" class="no-external">In-depth analysis of customer segmentation using the <strong>RFMT model</strong> (Recency, Frequency, Monetary Value, Tenure). Employing <strong>KMeans clustering</strong>, we identify distinct <strong>customer personas</strong> and propose <strong>tailored strategic actions</strong> for each group. The study aims to enhance customer engagement, retention, and value generation through precise, data-driven marketing strategies.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/online-retail-clustering/index.html">
+<a href="./posts/online-retail-clustering/index.html" class="no-external">
 <div class="listing-date">
 Jan 27, 2024
 </div>
@@ -220,41 +255,39 @@ Antonio Buzzelli
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="Finance,Classification,Supervised Learning,Python" data-listing-date-sort="1696284000000" data-listing-file-modified-sort="1706348627483" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="1" data-categories="RmluYW5jZSUyQ0NsYXNzaWZpY2F0aW9uJTJDU3VwZXJ2aXNlZCUyMExlYXJuaW5nJTJDUHl0aG9u" data-listing-date-sort="1696284000000" data-listing-file-modified-sort="1739177416947" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1173">
 <div class="thumbnail">
-<p><a href="./posts/loan_approval/index.html"> <p class="card-img-top"><img src="posts/loan_approval/index_files/figure-html/cell-6-output-2.png"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/loan_approval/index.html" class="no-external"></a></p><a href="./posts/loan_approval/index.html" class="no-external">
+<p class="card-img-top"><img src="posts/loan_approval/index_files/figure-html/cell-6-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/loan_approval/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/loan_approval/index.html">
 <h3 class="no-anchor listing-title">
-🙏 Predicting loan approval
+<a href="./posts/loan_approval/index.html" class="no-external">🙏 Predicting loan approval</a>
 </h3>
 <div class="listing-subtitle">
-Classification model selection and prediction
+<a href="./posts/loan_approval/index.html" class="no-external">Classification model selection and prediction</a>
 </div>
-</a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Finance'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('RmluYW5jZQ=='); return false;">
 Finance
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Classification'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('Q2xhc3NpZmljYXRpb24='); return false;">
 Classification
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Supervised Learning'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('U3VwZXJ2aXNlZCUyMExlYXJuaW5n'); return false;">
 Supervised Learning
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">
 Python
 </div>
 </div>
-<a href="./posts/loan_approval/index.html">
 <div class="listing-description">
-<p>Using a dataset containing demographic and financial attributes of loan applicants, I make use of a classification model to predict loan approval probability.</p>
+<a href="./posts/loan_approval/index.html" class="no-external">Using a dataset containing demographic and financial attributes of loan applicants, I make use of a <strong>classification model</strong> to predict loan approval probability.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/loan_approval/index.html">
+<a href="./posts/loan_approval/index.html" class="no-external">
 <div class="listing-date">
 Oct 3, 2023
 </div>
@@ -264,41 +297,39 @@ Antonio Buzzelli
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="motogpdata,Motorsports,Public Data,Python" data-listing-date-sort="1682892000000" data-listing-file-modified-sort="1690644272655" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
+<div class="quarto-post image-right" data-index="2" data-categories="bW90b2dwZGF0YSUyQ01vdG9yc3BvcnRzJTJDUHVibGljJTIwRGF0YSUyQ1B5dGhvbg==" data-listing-date-sort="1682892000000" data-listing-file-modified-sort="1690644272655" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1841">
 <div class="thumbnail">
-<p><a href="./posts/motogp-performance/index.html"> <img src="./_freeze/posts/motogp-performance/performance/figure-html/cell-16-output-1.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/motogp-performance/index.html" class="no-external"></a></p><a href="./posts/motogp-performance/index.html" class="no-external">
+<p><img loading="lazy" src="./_freeze/posts/motogp-performance/performance/figure-html/cell-16-output-1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/motogp-performance/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/motogp-performance/index.html">
 <h3 class="no-anchor listing-title">
-🏍️ Modelling Riders Performance
+<a href="./posts/motogp-performance/index.html" class="no-external">🏍️ Modelling Riders Performance</a>
 </h3>
 <div class="listing-subtitle">
-Leveraging public race data to boost fans interest in motorsports
+<a href="./posts/motogp-performance/index.html" class="no-external">Leveraging public race data to boost fans interest in motorsports</a>
 </div>
-</a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('motogpdata'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('bW90b2dwZGF0YQ=='); return false;">
 motogpdata
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Motorsports'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('TW90b3JzcG9ydHM='); return false;">
 Motorsports
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Public Data'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('UHVibGljJTIwRGF0YQ=='); return false;">
 Public Data
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">
 Python
 </div>
 </div>
-<a href="./posts/motogp-performance/index.html">
 <div class="listing-description">
-<p>Delving in the world of MotoGP racing, I illustrate how making use of public race data can provide fans with a more structured and comprehensive understanding of <strong>the objective performance of race competitors</strong>.</p>
+<a href="./posts/motogp-performance/index.html" class="no-external">Delving in the world of MotoGP racing, I illustrate how making use of public race data can provide fans with a more structured and comprehensive understanding of <strong>the objective performance of race competitors</strong>.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/motogp-performance/index.html">
+<a href="./posts/motogp-performance/index.html" class="no-external">
 <div class="listing-date">
 May 1, 2023
 </div>
@@ -308,41 +339,39 @@ Antonio Buzzelli
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="Online Retail,Marketing,Market Basket Analysis,Python" data-listing-date-sort="1680386400000" data-listing-file-modified-sort="1683485145324" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
+<div class="quarto-post image-right" data-index="3" data-categories="T25saW5lJTIwUmV0YWlsJTJDTWFya2V0aW5nJTJDTWFya2V0JTIwQmFza2V0JTIwQW5hbHlzaXMlMkNQeXRob24=" data-listing-date-sort="1680386400000" data-listing-file-modified-sort="1683485145324" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1845">
 <div class="thumbnail">
-<p><a href="./posts/online-retail-mba/index.html"> <img src="./_freeze/posts/online-retail-mba/index/figure-html/cell-30-output-1.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/online-retail-mba/index.html" class="no-external"></a></p><a href="./posts/online-retail-mba/index.html" class="no-external">
+<p><img loading="lazy" src="./_freeze/posts/online-retail-mba/index/figure-html/cell-30-output-1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/online-retail-mba/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/online-retail-mba/index.html">
 <h3 class="no-anchor listing-title">
-🛒 Using Market Basket Analysis to penetrate an untapped regional market
+<a href="./posts/online-retail-mba/index.html" class="no-external">🛒 Using Market Basket Analysis to penetrate an untapped regional market</a>
 </h3>
 <div class="listing-subtitle">
-Customer-centric bundle deals with Apriori and association rules
+<a href="./posts/online-retail-mba/index.html" class="no-external">Customer-centric bundle deals with Apriori and association rules</a>
 </div>
-</a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Online Retail'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('T25saW5lJTIwUmV0YWls'); return false;">
 Online Retail
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Marketing'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('TWFya2V0aW5n'); return false;">
 Marketing
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Market Basket Analysis'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('TWFya2V0JTIwQmFza2V0JTIwQW5hbHlzaXM='); return false;">
 Market Basket Analysis
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">
 Python
 </div>
 </div>
-<a href="./posts/online-retail-mba/index.html">
 <div class="listing-description">
-<p>Through the analysis of one year of sales data from an e-commerce website, I was able to <strong>identify for the firm a promising regional market with untapped potential</strong>, and implement a marketing strategy to target it using <strong>bundle deals tailored to the specific preferences of its consumers</strong>.</p>
+<a href="./posts/online-retail-mba/index.html" class="no-external">Through the analysis of one year of sales data from an e-commerce website, I was able to <strong>identify for the firm a promising regional market with untapped potential</strong>, and implement a marketing strategy to target it using <strong>bundle deals tailored to the specific preferences of its consumers</strong>.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/online-retail-mba/index.html">
+<a href="./posts/online-retail-mba/index.html" class="no-external">
 <div class="listing-date">
 Apr 2, 2023
 </div>
@@ -352,38 +381,36 @@ Antonio Buzzelli
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="Business Personas,Machine Learning,Python" data-listing-date-sort="1678834800000" data-listing-file-modified-sort="1682621424018" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="quarto-post image-right" data-index="4" data-categories="QnVzaW5lc3MlMjBQZXJzb25hcyUyQ01hY2hpbmUlMjBMZWFybmluZyUyQ1B5dGhvbg==" data-listing-date-sort="1678834800000" data-listing-file-modified-sort="1682621424018" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1338">
 <div class="thumbnail">
-<p><a href="./posts/titanic/index.html"> <img src="./_freeze/posts/titanic/titanic/figure-html/cell-24-output-2.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/titanic/index.html" class="no-external"></a></p><a href="./posts/titanic/index.html" class="no-external">
+<p><img loading="lazy" src="./_freeze/posts/titanic/titanic/figure-html/cell-24-output-2.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/titanic/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/titanic/index.html">
 <h3 class="no-anchor listing-title">
-🚢 Understanding Survival on the Titanic
+<a href="./posts/titanic/index.html" class="no-external">🚢 Understanding Survival on the Titanic</a>
 </h3>
 <div class="listing-subtitle">
-Using machine learning to explain phenomena and define business personas
+<a href="./posts/titanic/index.html" class="no-external">Using machine learning to explain phenomena and define business personas</a>
 </div>
-</a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Business Personas'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('QnVzaW5lc3MlMjBQZXJzb25hcw=='); return false;">
 Business Personas
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Machine Learning'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('TWFjaGluZSUyMExlYXJuaW5n'); return false;">
 Machine Learning
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">
 Python
 </div>
 </div>
-<a href="./posts/titanic/index.html">
 <div class="listing-description">
-<p>Businesses can utilize machine learning not only to make predictions but also to unveil valuable insights that are deeply embedded in their data. Using one of the most commonly used datasets in the study of data science – the Titanic dataset –, I demonstrate how <strong>supervised learning can serve as a data mining technique to achieve a deep understanding of phenomena and generate Personas</strong>.</p>
+<a href="./posts/titanic/index.html" class="no-external">Businesses can utilize machine learning not only to make predictions but also to unveil valuable insights that are deeply embedded in their data. Using one of the most commonly used datasets in the study of data science – the Titanic dataset –, I demonstrate how <strong>supervised learning can serve as a data mining technique to achieve a deep understanding of phenomena and generate Personas</strong>.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/titanic/index.html">
+<a href="./posts/titanic/index.html" class="no-external">
 <div class="listing-date">
 Mar 15, 2023
 </div>
@@ -433,18 +460,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -476,11 +492,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/antobzzll\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -490,8 +543,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -503,7 +565,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -547,6 +731,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -572,6 +757,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -632,6 +843,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

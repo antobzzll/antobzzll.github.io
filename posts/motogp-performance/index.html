@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.313">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Antonio Buzzelli">
 <meta name="dcterms.date" content="2023-05-01">
 
-<title>[ Business Analytics &amp; Data Science ] - 🏍️ Modelling Riders Performance</title>
+<title>🏍️ Modelling Riders Performance – [ Business Analytics &amp; Data Science ]</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,7 +24,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -71,17 +71,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,16 +96,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -107,38 +142,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">[ <b>Business Analytics</b> &amp; <b>Data Science</b> ]</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Antonio Buzzelli</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Antonio Buzzelli</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/antobzzll" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/antobzzll"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -158,7 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       <div>
       <div class="quarto-title-meta-heading">Author</div>
@@ -179,7 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
   <div>
     <div class="abstract">
-      <div class="abstract-title">Abstract</div>
+      <div class="block-title">Abstract</div>
       Delving in the world of MotoGP racing, I illustrate how making use of public race data can provide fans with a more structured and comprehensive understanding of <strong>the objective performance of race competitors</strong>.
     </div>
   </div>
@@ -214,6 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+
 <section id="key-findings-and-achievements" class="level2">
 <h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
 <blockquote class="blockquote">
@@ -231,8 +267,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><em>Data is provided thanks to the <a href="https://github.com/antobzzll/motogpdata">motogpdata</a> project.</em></p>
 </blockquote>
-<div class="cell" data-execution_count="1">
-<details>
+<div id="cell-2" class="cell" data-execution_count="1">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> motogpdata.handler <span class="im">as</span> mgphandler</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -245,8 +281,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="race-results">Race Results</h2>
 <p>For the scope of this study, we will take into account and examine two races from the 2022 MotoGP season, namely the Qatar Grand Prix and the Italian Grand Prix. Let’s first refresh our memory of the results of these races.</p>
 <p>For the Qatar Grand Prix:</p>
-<div class="cell" data-execution_count="2">
-<details>
+<div id="cell-4" class="cell" data-execution_count="2">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>season <span class="op">=</span> mgphandler.Season(<span class="dv">2022</span>, <span class="st">'MotoGP'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>qat2022 <span class="op">=</span> mgphandler.Event(season, <span class="st">'QAT'</span>)</span>
@@ -259,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -269,7 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">time</th>
 <th data-quarto-table-cell-role="th">points</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">rider.full_name</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -478,8 +514,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>For the Italian Grand Prix:</p>
-<div class="cell" data-execution_count="3">
-<details>
+<div id="cell-6" class="cell" data-execution_count="3">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ita2022.results()[results_subset].set_index(<span class="st">'rider.full_name'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -487,7 +523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -497,7 +533,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">time</th>
 <th data-quarto-table-cell-role="th">points</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">rider.full_name</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -727,8 +763,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="laptime-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="laptime-analysis">Laptime analysis</h2>
 <p>A statistical assessment of race performance is required to address these inquiries, which entails an evaluation based on factual data rather than subjective sentiments or judgments. To accomplish this, the data on lap times must be taken into account, scrutinizing the race’s overall progress. An illustration of such data for the Qatar race is presented below.</p>
-<div class="cell" data-execution_count="4">
-<details>
+<div id="cell-8" class="cell" data-execution_count="4">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract race analysis data for the Qatar Grand Prix</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>timesheetQAT, laptimes_ridersQAT, laptimes_teamsQAT, laptimes_constructorsQAT, performanceQAT <span class="op">=</span> qat2022.race_analysis(save_pdf<span class="op">=</span><span class="va">False</span>, performance<span class="op">=</span><span class="va">True</span>)</span>
@@ -740,7 +776,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">rider</th>
@@ -766,7 +802,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">avg_laptime</th>
 <th data-quarto-table-cell-role="th">lap</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">lap</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -920,8 +956,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The above table (in its comprehensive form) shows the lap times of each rider (expressed in seconds), and provides already a good starting point for deepening the understanding of the time trends and the general race progression. From such data, it is possible to generate some of the following visualizations.</p>
-<div class="cell" data-execution_count="5">
-<details>
+<div id="cell-10" class="cell" data-execution_count="5">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>laptimes_ridersQAT_melted[laptimes_ridersQAT_melted[<span class="st">'rider'</span>].isin(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'avg_laptime'</span>, <span class="st">'Enea Bastianini'</span>, <span class="st">'Aleix Espargaro'</span>, <span class="st">'Raul Fernandez'</span>])], </span>
@@ -934,13 +970,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>By projecting the <em>average lap time</em> (gray line), we can appreciate the general trend of the race. For example, in the case of Qatar, there is a decline in overall performance starting from the seventeenth lap. Similarly, there is a significant performance drop in the Italian Grand Prix race starting from the sixteenth lap. <strong>This analysis helps to evaluate tire performance</strong>.</p>
 <p>Regarding the personal lap times of the riders, we can notice that both Enea Bastianini (who arrived in 1st place) and Aleix Espargaro (who arrived in 4th place) performed well below the average (gray line), unlike Raul Fernandez, for example (orange line), who consistently raced above the general average of the competition. Similar considerations can also be applied to the Italian Grand Prix, as shown below.</p>
-<div class="cell" data-execution_count="6">
-<details>
+<div id="cell-12" class="cell" data-execution_count="6">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>timesheetITA, laptimes_ridersITA, laptimes_teamsITA, laptimes_constructorsITA, performanceITA <span class="op">=</span> ita2022.race_analysis(save_pdf<span class="op">=</span><span class="va">False</span>, performance<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>laptimes_ridersITA_melted <span class="op">=</span> laptimes_ridersITA.melt(id_vars<span class="op">=</span><span class="st">'lap'</span>, var_name<span class="op">=</span><span class="st">'rider'</span>, value_name<span class="op">=</span><span class="st">'laptime'</span>)</span>
@@ -956,12 +996,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>These graphs provide a visual and intuitive way to determine if a particular rider, team, or manufacturer has performed above, below, or at an average level. (It’s important to note that the more a rider’s lap times are below the average race’s lap time, the faster they’ve gone). Using the same visualization concept for the constructors, we can see how Yamaha and KTM consistently performed above average in the Qatar 2022 race, thus indicating that they “underperformed” compared to the other manufacturers.</p>
-<div class="cell" data-execution_count="7">
-<details>
+<div id="cell-14" class="cell" data-execution_count="7">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>laptimes_constructorsQAT_melted <span class="op">=</span> laptimes_constructorsQAT.melt(id_vars<span class="op">=</span><span class="st">'lap'</span>, var_name<span class="op">=</span><span class="st">'constructor'</span>, value_name<span class="op">=</span><span class="st">'laptime'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -976,14 +1020,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="sector-times" class="level3">
 <h3 class="anchored" data-anchor-id="sector-times">Sector times</h3>
 <p>In an aggregate manner, it is also possible to determine variation indicators for each sector of the circuit, thereby appreciating the overall level of consistency of the riders in the various sections of the track. For example, we can observe that in the case of the Qatar Grand Prix, the consistency of lap times in different sectors is almost identical, while at Mugello, the sector in which the riders were on average more consistent is T2.</p>
-<div class="cell" data-execution_count="8">
-<details>
+<div id="cell-16" class="cell" data-execution_count="8">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> pd.DataFrame(timesheetQAT[timesheetQAT[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>][[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].std())</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> std_race.pivot_table(columns<span class="op">=</span>std_race.index).<span class="bu">round</span>(<span class="dv">2</span>)</span>
@@ -999,7 +1047,7 @@ Sector Pace:</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1023,8 +1071,8 @@ Sector Pace:</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="9">
-<details>
+<div id="cell-17" class="cell" data-execution_count="9">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> pd.DataFrame(timesheetITA[timesheetITA[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>][[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].std())</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>std_race <span class="op">=</span> std_race.pivot_table(columns<span class="op">=</span>std_race.index).<span class="bu">round</span>(<span class="dv">2</span>)</span>
@@ -1040,7 +1088,7 @@ Sector pace:</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1065,8 +1113,8 @@ Sector pace:</code></pre>
 </div>
 </div>
 <p>The same principle of analysis can be applied to the fastest times set by riders in the different sectors of the track. At the Mugello Grand Prix, we can see, for example, how Yamaha, with Fabio Quartararo, was the fastest in T2 and T3. In contrast, the Ducatis of Bagnaia and Bastianini expressed the best times in the sectors with higher top speeds (T1 and T4) due to the long straights.</p>
-<div class="cell" data-execution_count="10">
-<details>
+<div id="cell-19" class="cell" data-execution_count="10">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>by_rider <span class="op">=</span> timesheetITA[timesheetITA[<span class="st">'lap'</span>] <span class="op">!=</span> <span class="dv">1</span>].groupby([<span class="st">'constructor'</span>, <span class="st">'rider'</span>])[[<span class="st">'t1'</span>, <span class="st">'t2'</span>, <span class="st">'t3'</span>, <span class="st">'t4'</span>]].<span class="bu">min</span>().<span class="bu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>rider_with_min <span class="op">=</span> by_rider.idxmin()</span>
@@ -1098,8 +1146,8 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <h3 class="anchored" data-anchor-id="the-performance-matrix">The Performance Matrix</h3>
 <p>Motorsports performance, can be defined as “<em>how consistently fast a rider/driver has been</em>” - relative to the number of laps completed. Therefore, at a conceptual level, the so-called “pace” can be theorized as the aggregation of two fundamental variables: consistency and speed. To achieve high positions in the rankings, a rider must in fact be both fast and consistent.</p>
 <p>Visually, the relationship between these two variables can be demonstrated with the help of a matrix - shown below - which we will call “performance matrix”. The graph represents the ratio between the two indicators (<em>relative speed</em> on the y-axis and <em>relative consistency</em> on the x-axis) for each participant in the race, in relation to the average located at the axes <span class="math inline">\(x,y=0\)</span> (black lines). This means that the performance of the riders located in the upper-right quadrant of the graph are above average, both in terms of speed and consistency. Conversely, those located in the lower-left quadrant have “underperformed” below average (for both variables).</p>
-<div class="cell" data-execution_count="11">
-<details>
+<div id="cell-21" class="cell" data-execution_count="11">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>perf_cols <span class="op">=</span> [<span class="st">'rider'</span>, <span class="st">'constructor'</span>, <span class="st">'grid'</span>, <span class="st">'position'</span>, <span class="st">'pos_delta'</span>, <span class="st">'points'</span>, <span class="st">'avg_laptime'</span>, <span class="st">'avg_speed'</span>, <span class="st">'delta_avg_laptime'</span>, <span class="st">'pace_speed_index'</span>, <span class="st">'delta_std_laptime'</span>, <span class="st">'pace_consistency_index'</span>, <span class="st">'performance_index'</span>]</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>performanceQAT <span class="op">=</span> performanceQAT[perf_cols].set_index(<span class="st">'rider'</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
@@ -1125,12 +1173,16 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>In the case of Qatar, we can see how this graph helps us clearly visualize the struggle of the Ducati teams in having a consistent pace (with the exception of the winner, Bastianini). The Suzuki team had a good overall performance, both in terms of speed and consistency.</p>
-<div class="cell" data-execution_count="12">
-<details>
+<div id="cell-23" class="cell" data-execution_count="12">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sns.relplot(data<span class="op">=</span>performanceITA[performanceITA[<span class="st">'performance_index'</span>] <span class="op">&gt;</span> <span class="op">-</span><span class="dv">3</span>], </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'pace_consistency_index'</span>, </span>
@@ -1151,7 +1203,11 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>At Mugello, it’s interesting to note how the riders who scored points are all grouped in the upper-right quadrant, which means their values for speed and consistency were above average (confirming the demonstrated relationship between the two variables). Only Quartararo (who finished second) demonstrated both consistency and speed among the Yamaha riders, while the other three Yamahas suffered from a noticeable lack of speed that prevented them from scoring points. The Ducati team had a good overall performance, with most of their riders largely confirming their high performance usually demonstrated at their home circuit.</p>
@@ -1160,8 +1216,8 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <h3 class="anchored" data-anchor-id="a-performance-based-ranking">A performance-based ranking</h3>
 <p>The two variables quantifying the race pace can be combined to create an index that summarizes a rider’s performance in a single value. We will call this a “performance indicator”: an aggregation of the speed and consistency values of a competitor.</p>
 <p>The following table shows the results of the Qatar race along with these indicators. Specifically, from left to right, it includes the starting position, finishing position, difference in positions at the finish, points earned, speed indicator, consistency indicator, and the aggregated performance indicator. This results table, ordered by the latter variable, presents a “revisited” ranking based on the performance demonstrated by the riders regardless of the final result and events of the race.</p>
-<div class="cell" data-execution_count="13">
-<details>
+<div id="cell-25" class="cell" data-execution_count="13">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>perfQAT <span class="op">=</span> performanceQAT.drop(columns<span class="op">=</span>[</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'avg_speed'</span>, <span class="st">'avg_laptime'</span>, <span class="st">'delta_avg_laptime'</span>,</span>
@@ -1173,7 +1229,7 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1460,8 +1516,8 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 </div>
 <p>In this “new” ranking (sorted by the aggregated performance indicator), it is interesting to note that the winner (Enea Bastianini), who dominated the race from the first position since the beginning, is relegated to the third position behind Brad Binder and Pol Espargaro. This is due to the fact that these two riders have shown to have a greater speed and consistency than Enea, who, apart from the victory, has equalled the performance of Marc Marquez.</p>
 <p>The same concept is applied to the race performances of the constructors in the following table.</p>
-<div class="cell" data-execution_count="14">
-<details>
+<div id="cell-27" class="cell" data-execution_count="14">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>perfQAT_constr <span class="op">=</span> perfQAT.groupby(<span class="st">'constructor'</span>)[[<span class="st">'pace_speed_index'</span>, <span class="st">'pace_consistency_index'</span>, <span class="st">'performance_index'</span>]].mean().sort_values(<span class="st">'performance_index'</span>, ascending<span class="op">=</span><span class="va">False</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># perfQAT_constr = perfQAT_constr.sort_values('performance_index', ascending=False).reset_index()</span></span>
@@ -1490,7 +1546,7 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1498,7 +1554,7 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 <th data-quarto-table-cell-role="th">pace_consistency_index</th>
 <th data-quarto-table-cell-role="th">performance_index</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">constructor</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -1548,7 +1604,11 @@ t4      Ducati    Enea Bastianini        23.998</code></pre>
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>As we can see, thanks in part to the performance matrix applied to the constructors, Suzuki was the most “performant” motorcycle in Qatar 2022, along with Honda and Aprilia. Ducati, Yamaha, and KTM had inferior performances.</p>
@@ -1604,18 +1664,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1647,11 +1696,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/antobzzll\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1661,8 +1747,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1674,7 +1769,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1718,6 +1935,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1743,6 +1961,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1803,6 +2047,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

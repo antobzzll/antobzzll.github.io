@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.313">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Antonio Buzzelli">
 <meta name="dcterms.date" content="2023-04-02">
 
-<title>[ Business Analytics &amp; Data Science ] - 🛒 Using Market Basket Analysis to penetrate an untapped regional market</title>
+<title>🛒 Using Market Basket Analysis to penetrate an untapped regional market – [ Business Analytics &amp; Data Science ]</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,7 +24,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -71,17 +71,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,12 +96,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
@@ -105,38 +113,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">[ <b>Business Analytics</b> &amp; <b>Data Science</b> ]</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Antonio Buzzelli</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Antonio Buzzelli</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/antobzzll" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/antobzzll"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/antonio-buzzelli/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -156,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       <div>
       <div class="quarto-title-meta-heading">Author</div>
@@ -177,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
   <div>
     <div class="abstract">
-      <div class="abstract-title">Abstract</div>
+      <div class="block-title">Abstract</div>
       Through the analysis of one year of sales data from an e-commerce website, I was able to <strong>identify for the firm a promising regional market with untapped potential</strong>, and implement a marketing strategy to target it using <strong>bundle deals tailored to the specific preferences of its consumers</strong>.
     </div>
   </div>
@@ -212,6 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+
 <section id="key-findings-and-achievements" class="level2">
 <h2 class="anchored" data-anchor-id="key-findings-and-achievements">Key findings and achievements</h2>
 <blockquote class="blockquote">
@@ -227,8 +236,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The e-commerce industry has experienced significant growth in recent years, and online sales have become an increasingly important aspect of many businesses. Analyzing sales data can help businesses understand customer behavior and identify trends, which can then be used to improve their overall sales strategies and revenue. In this notebook, we will be analyzing a sales dataset from an e-commerce company to gain insights into their sales patterns and identify profitable opportunities.</p>
 <p>Firstly, we will delve into analyzing the regional distribution of sales to evaluate the existence of untapped markets. By assessing the sales data across different regions, we will determine the areas where our products are in high demand and identify potential opportunities for expanding our market presence.</p>
 <p>Secondly, we will conduct a market basket analysis to uncover correlations between products and provide recommendations for boosting sales. This will involve examining the patterns of product combinations that are frequently purchased together by customers. By identifying these relationships, we can optimize our marketing strategies to better meet the needs of our customers and ultimately increase revenue.</p>
-<div class="cell" data-execution_count="1">
-<details>
+<div id="dba569bc" class="cell" data-execution_count="1">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataframes</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -269,8 +278,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>CustomerNo</strong> (categorical): a five-digit unique number that defines each customer.</li>
 <li><strong>Country</strong> (categorical): name of the country where the customer resides.</li>
 </ul>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:35.128988Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:32.893242Z&quot;}" data-execution_count="2">
-<details>
+<div id="90e9fae9" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:35.128988Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:32.893242Z&quot;}" data-execution_count="2">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/sales.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -312,7 +321,7 @@ memory usage: 38.4+ MB</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -474,8 +483,8 @@ memory usage: 38.4+ MB</code></pre>
 <p>The analysis of the geographical spread of sales will be carried out at country level, national vs.&nbsp;international level, and finally regional level.</p>
 <section id="country-level" class="level3">
 <h3 class="anchored" data-anchor-id="country-level">Country level</h3>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:40.824045Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.088723Z&quot;}" data-execution_count="3">
-<details>
+<div id="02358e74" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:40.824045Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.088723Z&quot;}" data-execution_count="3">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bycountry <span class="op">=</span> df.groupby(<span class="st">'Country'</span>).agg(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    tot_amount<span class="op">=</span>(<span class="st">'Amount'</span>, <span class="st">'sum'</span>),</span>
@@ -503,14 +512,18 @@ memory usage: 38.4+ MB</code></pre>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="national-vs.-international-level" class="level3">
 <h3 class="anchored" data-anchor-id="national-vs.-international-level">National vs.&nbsp;international level</h3>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.180659Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089242Z&quot;}" data-execution_count="4">
-<details>
+<div id="70f386cf" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.180659Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089242Z&quot;}" data-execution_count="4">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a column to differentiation between national vs. international sales</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'UKvsRoW'</span>] <span class="op">=</span> np.where(df[<span class="st">'Country'</span>] <span class="op">==</span> <span class="st">'United Kingdom'</span>, <span class="st">'UK'</span>, <span class="st">'RoW'</span>)</span>
@@ -532,7 +545,7 @@ memory usage: 38.4+ MB</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -541,7 +554,7 @@ memory usage: 38.4+ MB</code></pre>
 <th data-quarto-table-cell-role="th">n_inv</th>
 <th data-quarto-table-cell-role="th">quantity</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">UKvsRoW</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -570,11 +583,15 @@ memory usage: 38.4+ MB</code></pre>
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.475006Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089420Z&quot;}" data-execution_count="5">
-<details>
+</div>
+<div id="49ff4a5f" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.475006Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.089420Z&quot;}" data-execution_count="5">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>row_rev <span class="op">=</span> df.loc[df[<span class="st">'UKvsRoW'</span>] <span class="op">==</span> <span class="st">'RoW'</span>, <span class="st">'Amount'</span>]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>uk_rev <span class="op">=</span> df.loc[df[<span class="st">'UKvsRoW'</span>] <span class="op">==</span> <span class="st">'UK'</span>, <span class="st">'Amount'</span>]</span>
@@ -592,8 +609,8 @@ memory usage: 38.4+ MB</code></pre>
 </section>
 <section id="regional-level" class="level3">
 <h3 class="anchored" data-anchor-id="regional-level">Regional level</h3>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.613739Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106391Z&quot;}" data-execution_count="6">
-<details>
+<div id="0c602914" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:42.613739Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106391Z&quot;}" data-execution_count="6">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping regions</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>regions <span class="op">=</span> {<span class="st">'Europe'</span>: [<span class="st">'Sweden'</span>, <span class="st">'Denmark'</span>, <span class="st">'Norway'</span>, <span class="st">'Finland'</span>, <span class="st">'Iceland'</span>, <span class="st">'Netherlands'</span>, <span class="st">'Belgium'</span>, <span class="st">'France'</span>, <span class="st">'Germany'</span>, <span class="st">'Switzerland'</span>, <span class="st">'Austria'</span>,</span>
@@ -633,7 +650,7 @@ memory usage: 38.4+ MB</code></pre>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -642,7 +659,7 @@ memory usage: 38.4+ MB</code></pre>
 <th data-quarto-table-cell-role="th">n_inv</th>
 <th data-quarto-table-cell-role="th">quantity</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">Region</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -699,11 +716,15 @@ memory usage: 38.4+ MB</code></pre>
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:44.456895Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106638Z&quot;}" data-execution_count="7">
-<details>
+</div>
+<div id="691e6eb7" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:30:44.456895Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.106638Z&quot;}" data-execution_count="7">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f_value, p_value <span class="op">=</span> f_oneway(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    df.loc[df[<span class="st">'Region'</span>] <span class="op">==</span> <span class="st">'Asia Pacific'</span>, <span class="st">'Amount'</span>],</span>
@@ -761,8 +782,8 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <li><p><strong>Leverage</strong>: This measures the difference between the observed frequency of the antecedent and consequent co-occurring and the frequency expected if they were independent. It is calculated as the support of the antecedent and consequent minus the product of the support of the antecedent and the support of the consequent. A positive leverage value indicates a positive association between the antecedent and consequent, while a negative value indicates a negative association.</p></li>
 <li><p><strong>Conviction</strong>: This measures the degree of implication of the rule. It is calculated as the ratio of the support of the antecedent to the complement of the confidence. Conviction can range from 0 to infinity, with higher values indicating stronger implications.</p></li>
 </ul>
-<div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:31:00.989793Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.170680Z&quot;}" data-tags="[]" data-execution_count="8">
-<details>
+<div id="88284c78" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-04-02T18:31:00.989793Z&quot;,&quot;start_time&quot;:&quot;2023-04-02T18:30:33.170680Z&quot;}" data-tags="[]" data-execution_count="8">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsetting for Asia/Pacific transactions</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>asian_market <span class="op">=</span> df[df[<span class="st">'Region'</span>] <span class="op">==</span> <span class="st">'Asia Pacific'</span>]</span>
@@ -796,7 +817,7 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1036,8 +1057,8 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <section id="bundle-offers" class="level3">
 <h3 class="anchored" data-anchor-id="bundle-offers">Bundle offers</h3>
 <p>Based on the observation that these items are frequently bought together, <strong>it could be advantageous to offer them as bundles to customers</strong>. The firm could offer convenience and value to customers while potentially increasing sales and revenue. For example, a bundle might include both the Blue Polkadot Bowl and the Pink Polkadot Bowl, or the Dolly Girl Lunch Box and the Spaceboy Lunch Box. This strategy can be an effective way to meet Asian customers needs while boosting profits for the retailer.</p>
-<div class="cell" data-tags="[]" data-execution_count="9">
-<details>
+<div id="e4bff329" class="cell" data-tags="[]" data-execution_count="9">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Since we want to create bundle offers for single products, we filter for single items</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>rules <span class="op">=</span> rules[(rules[<span class="st">'n_antecedents'</span>] <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (rules[<span class="st">'n_consequents'</span>] <span class="op">==</span> <span class="dv">1</span>)]</span>
@@ -1057,7 +1078,7 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1263,7 +1284,11 @@ North America   Unspecified  -81.7394 0.9386 -331.9414  168.4626  False
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -1318,18 +1343,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1361,11 +1375,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/antobzzll\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1375,8 +1426,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1388,7 +1448,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1432,6 +1614,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1457,6 +1640,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1517,6 +1726,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
