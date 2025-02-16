@@ -2,7 +2,7 @@
 title: "Antonio Buzzelli"
 image: profile.jpg
 about:
-  template: jolla
+  template: solana
   links:
     - icon: linkedin
       text: LinkedIn
@@ -12,4 +12,26 @@ about:
       href: https://github.com/antobzzll
 
 ---
-Combining extensive international experience in project and business management with advanced expertise in data science, my objective is to empower executive teams with data-driven insights that enhance strategic decision-making and business performance. By applying analytical rigor and innovative data solutions, I aim to drive efficiency, optimize operations, and support informed, strategic growth.
+# About me
+Combining extensive international experience in project and **business management** with advanced expertise in **data science**, my objective is to empower executive teams with data-driven insights that enhance **strategic decision-making** and **business performance**. 
+
+# Services
+* **Data modelling & visualization** for optimized decision-making and insightful reporting.
+* **Predictive analytics & machine learning** to forecast trends and drive strategic growth.
+* **Business & marketing analytics** for optimized business strategies and customer engagement.
+* **KPI tracking & impact evaluation** to assess performance and resource allocation.
+* **Financial analytics & forecasting**: budget tracking and predictive financial models for smarter planning.
+
+# Why Me
+## Business-First Approach
+✔ Business-First Approach – I translate complex data into clear, impactful insights that drive real-world results.
+
+✔ Executive-Level Thinking – I understand the challenges of leadership and provide data-driven solutions that support high-level decision-making.
+
+✔ Proven Track Record – Years of experience delivering measurable improvements in performance, revenue, and efficiency across industries.
+
+✔ Custom-Tailored Solutions – Every business is unique; I develop bespoke data strategies that align with your specific needs and objectives.
+
+✔ Hands-On Expertise – From data modeling to predictive analytics, I bring deep technical knowledge with practical business applications.
+
+By choosing to work with me, you gain not just a data expert, but a strategic partner committed to driving measurable business success. 🚀
